@@ -11,8 +11,9 @@ namespace BackMeow
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            //routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("Elmah"); /*不讓外使用者輸入Elmah到達指定位置*/
+            //routes.IgnoreRoute("elmah.axd");
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

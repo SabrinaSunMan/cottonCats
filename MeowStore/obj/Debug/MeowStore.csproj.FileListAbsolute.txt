@@ -119,7 +119,6 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.Fac
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.csprojResolveAssemblyReference.cache
 D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.pdb
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Elmah.dll
@@ -128,3 +127,4 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\log4net.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Data.SqlServerCe.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\log4net.xml
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-CHT\System.Data.SqlServerCe.resources.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.csprojResolveAssemblyReference.cache

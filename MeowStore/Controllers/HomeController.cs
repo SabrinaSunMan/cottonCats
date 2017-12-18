@@ -16,7 +16,7 @@ namespace MeowStore.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            string A = "TEST You Can ";
+           
             return View();
         }
 
