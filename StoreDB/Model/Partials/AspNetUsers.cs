@@ -18,12 +18,10 @@ namespace StoreDB.Model.Partials
         }
 
         [DisplayName("使用者ID")]
-        [Required(ErrorMessage = "使用者ID")]
         public string Id { get; set; }
 
         [StringLength(256)]
-        [DisplayName("E-mail")]
-        [Required(ErrorMessage = "請輸入使用者E-mail")]
+        [EmailAddress(ErrorMessage ="非E-Mail格式")]
         public string Email { get; set; }
 
         public bool EmailConfirmed { get; set; }

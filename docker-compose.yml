@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  backmeow:
+    image: backmeow
+    build:
+      context: .\BackMeow
+      dockerfile: Dockerfile

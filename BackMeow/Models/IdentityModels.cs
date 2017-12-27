@@ -21,7 +21,7 @@ namespace BackMeow.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("StoreEF", throwIfV1Schema: false)
         {
         }
 

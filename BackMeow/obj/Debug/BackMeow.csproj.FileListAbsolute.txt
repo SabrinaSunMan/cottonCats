@@ -131,3 +131,7 @@ D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\zh-CHT\System.Data.SqlServerCe.resou
 D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.csprojResolveAssemblyReference.cache
 D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.pdb
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\PagedList.dll
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\PagedList.Mvc.dll
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\PagedList.xml
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\PagedList.Mvc.xml

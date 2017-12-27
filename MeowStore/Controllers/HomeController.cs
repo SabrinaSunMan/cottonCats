@@ -1,4 +1,4 @@
-﻿using MeowStore.Filters;
+﻿//using MeowStore.Filters;
 using StoreDB.Model;
 using StoreDB.Model.Partials;
 using StoreDB.Repositories;
@@ -29,7 +29,7 @@ namespace MeowStore.Controllers
             return View();
         }
 
-        [CustomAuthorize]
+        //[CustomAuthorize]
         public ActionResult Test()
         {
             //StoreDbContext db = new StoreDbContext();

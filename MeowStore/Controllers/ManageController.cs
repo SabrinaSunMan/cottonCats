@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MeowStore.Models; 
+using MeowStore.Models;
+
 namespace MeowStore.Controllers
 {
     [Authorize]

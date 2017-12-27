@@ -1,0 +1,13 @@
+version: '2.1'
+
+services:
+  backmeow:
+    image: backmeow:dev
+    build:
+      args:
+        source: ${DOCKER_BUILD_SOURCE}
+    volumes:
+      - .\BackMeow:C:\inetpub\wwwroot
+      - ~\msvsmon:C:\msvsmon:ro
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=windows"

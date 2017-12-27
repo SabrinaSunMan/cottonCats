@@ -10,7 +10,7 @@ namespace StoreDB.Model.Partials
     {
         public int Id { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(128)]
         public string UserId { get; set; }
 
