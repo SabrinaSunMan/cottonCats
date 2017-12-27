@@ -57,6 +57,7 @@ D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\Microsoft.Owin.Security.Twitter.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\Microsoft.Web.Infrastructure.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\Newtonsoft.Json.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\Owin.dll
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\StoreDB.exe
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\System.Net.Http.Formatting.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\System.Web.Helpers.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\System.Web.Http.dll
@@ -69,6 +70,8 @@ D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\System.Web.WebPages.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\System.Web.WebPages.Razor.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\WebGrease.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\System.Data.SqlServerCe.dll
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\StoreDB.pdb
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\StoreDB.exe.config
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\log4net.xml
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\System.Web.Helpers.xml
@@ -125,6 +128,6 @@ D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\zh-Hant\Microsoft.Owin.Security.Goog
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\zh-CHT\System.Data.SqlServerCe.resources.dll
+D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.csprojResolveAssemblyReference.cache
 D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.pdb
-D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.csprojResolveAssemblyReference.cache

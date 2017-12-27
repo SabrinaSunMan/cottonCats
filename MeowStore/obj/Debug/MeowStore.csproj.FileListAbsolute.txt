@@ -29,8 +29,11 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\MeowStore.dll.config
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\MeowStore.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\MeowStore.pdb
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Antlr3.Runtime.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Elmah.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Elmah.Mvc.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\EntityFramework.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\EntityFramework.SqlServer.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\log4net.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Microsoft.AI.Agent.Intercept.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Microsoft.AI.DependencyCollector.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Microsoft.AI.PerfCounterCollector.dll
@@ -54,6 +57,7 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Microsoft.Owin.Security.Twitter.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Microsoft.Web.Infrastructure.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Newtonsoft.Json.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Owin.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.exe
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Net.Http.Formatting.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.Helpers.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.Http.dll
@@ -65,6 +69,10 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.WebPages.Deployment.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.WebPages.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.WebPages.Razor.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\WebGrease.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Data.SqlServerCe.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.pdb
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.exe.config
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\log4net.xml
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.Helpers.xml
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.Mvc.xml
@@ -119,12 +127,7 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.Fac
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.Google.resources.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.Twitter.resources.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.pdb
-D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Elmah.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Elmah.Mvc.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\log4net.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Data.SqlServerCe.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\log4net.xml
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\zh-CHT\System.Data.SqlServerCe.resources.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.csprojResolveAssemblyReference.cache
+D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.pdb
