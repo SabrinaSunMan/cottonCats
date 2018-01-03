@@ -53,6 +53,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -66,6 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\BackEnum.cs" />
+    <Compile Include="Enum\PublicEnum.cs" />
     <Compile Include="Migrations\201712250859289_Init.cs" />
     <Compile Include="Migrations\201712250859289_Init.Designer.cs">
       <DependentUpon>201712250859289_Init.cs</DependentUpon>
@@ -82,11 +87,17 @@
     <Compile Include="Model\Partials\Students.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\AspNetUsersRepository.cs" />
+    <Compile Include="Interface\IAspNetUsers.cs" />
+    <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NLog.config" />
+    <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
@@ -109,8 +120,8 @@
   <ItemGroup>
     <Folder Include="DisplayTemplates\" />
     <Folder Include="EditorTemplates\" />
-    <Folder Include="Enum\" />
     <Folder Include="Service\" />
+    <Folder Include="Strategy\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201712250859289_Init.resx">

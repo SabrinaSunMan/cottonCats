@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StoreDB.Model;
 using System.Data.Entity;
+using StoreDB.Interface;
 
 namespace StoreDB.Repositories
 {
@@ -37,10 +35,11 @@ namespace StoreDB.Repositories
             return Dbset.ToList();
         }
 
-        public T GetSingle(int id)
+        public T GetSingle(string id)
         {
             return Dbset.Find(id);
         }
+         
 
         public void Update(T entity)
         {

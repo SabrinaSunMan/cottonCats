@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BackMeow.Models;
+using Newtonsoft.Json;
+using System.Web;
+using System.Collections.Generic;
 
 namespace BackMeow.Controllers
 {
@@ -51,14 +54,55 @@ namespace BackMeow.Controllers
                 _userManager = value;
             }
         }
+        //public class JsonHelper
+        //{
+        //    public static string ToJsonString(object obj)
+        //    {
+        //        return JsonConvert.SerializeObject(obj);
+        //    }
 
+
+        //    public static T ToObject<T>(string jsonString)
+        //    {
+        //        return JsonConvert.DeserializeObject<T>(jsonString);
+        //    }
+        //}
         //
         // GET: /Account/Login
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
+        //public async<IActionResult> Login(string returnUrl)
         {
+            //LoginViewModel userinfo = JsonHelper.ToObject<LoginViewModel>(HttpContext.Current.User.Identity.Name);
+            //        string aa = System.Web.HttpContext.Current.Request
+            //.RequestContext.RouteData.Values["InterimIdentifier"].ToString();
+            //HttpContextBase httpContext;
+
+            //var ctx = HttpContext.GetOwinContext();
+            //ClaimsPrincipal user = ctx.Authentication.User;
+            //IEnumerable<Claim> claims = user.Claims;
+
+            //LoginViewModel lvm = new LoginViewModel();
+            //lvm.Email = System.Web.HttpContext.Current.User.Identity.Name;
+            //List<string> SessionList = new List<string>();
+            //foreach (var crntSession in Session)
+            //{
+            //    SessionList.Add(string.Concat(crntSession, "=", Session[crntSession.ToString()]) + "<br />");
+            //}
+            //string[] cookies = Request.Cookies.AllKeys;
+            //foreach (string cookie in cookies)
+            //{
+            //    Response.Cookies[cookie].Expires = DateTime.Now.AddDays(-1);
+            //}
+            LoginViewModel a = new LoginViewModel()
+            {
+                Email = "",
+                Password = ""
+            };
+            ModelState.Clear();
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(a);
         }
 
         //

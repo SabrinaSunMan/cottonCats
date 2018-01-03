@@ -1,8 +1,70 @@
-﻿
+﻿@using PagedList.Mvc;
+@model BackMeow.Models.ViewModel.SystemRolesListViewModel
+
 @{
-    ViewBag.Title = "SystemRoles";
+    ViewBag.Title = "SystemRolesList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>SystemRoles</h2>
-
+@Html.HiddenFor(model => model.page)
+<h2>系統使用者</h2>
+<div class="row">
+    <div class="col-md-12">
+        <!-- PANEL DEFAULT -->
+        <div class="panel">
+            <div class="panel-heading">
+                <h5 class="widget-title"></h5>
+                <button type="button" class="btn-toggle-collapse">
+                    <i class="lnr lnr-chevron-up"></i>
+                    @ViewBag.Title 查詢區
+                </button>
+                <div class="right">
+                    <button type="button" onclick=""> @*location.href='@Url.Action("MA_CCFMain", "Home", new { ActionType = Actions.Create })'*@
+                        <i class="fa fa-plus-square"></i>新增
+                    </button>
+                </div>
+            </div>
+            <div style="overflow: auto;">
+                <div class="panel-body">
+                    @Html.LabelFor(model => model.Header.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    @*<label class="col-md-2 control-label">
+                    @Html.DisplayName(Model.Header.Email)
+                    </label>*@
+                    <div class="col-md-3">
+                        <input class="form-control" name="Model.Header.Email" placeholder="請輸入 @Model.Header.Email"
+                               type="text" value="@Model.Header.Email"> 
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @Html.LabelFor(model => model.Header.UserName, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    
+                    <div class="col-md-3">
+                        <input class="form-control" name="Model.Header.UserName" placeholder="請輸入 @Model.Header.UserName"
+                               type="text" value="@Model.Header.UserName">
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                @*<button type="button" class="btn btn-default pull-right" onclick="location.href='@Url.Action("MA_CCFMain", "Home", new { ActionType = Data_Action.Create })'">
+                    <i class="fa fa-plus-square"></i> 新增 </button>*@
+                <button type="submit" class="btn btn-default pull-right">
+                    <i class="fa fa-search lg"></i>查詢
+                </button>
+            </div>
+        </div>
+        <!-- END PANEL DEFAULT -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @Html.Partial("_RolesList", Model.Content_List) 
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        @Html.PagedListPager(Model.Content_List, page => Url.Action("SystemRolesList", new { page }),
+            PagedListRenderOptions.ClassicPlusFirstAndLast)
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div> 

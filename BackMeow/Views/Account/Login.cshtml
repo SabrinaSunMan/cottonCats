@@ -2,62 +2,77 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "登入";
+    Layout = "";
 }
+<link href="~/Content/Loginstyle.css" rel="stylesheet" />
+ 
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>使用本機帳戶登入。</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="登入" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("註冊為新使用者", "Register")
-                </p>
-                @* 請在啟用密碼重設功能的帳戶確認之後啟用此項目
-                    <p>
-                        @Html.ActionLink("忘記密碼?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
+    <div class="group"> 
+        <input type="text" name="Email" id="Email" /> 
+        @*@Html.EditorFor(s=>s.Email)*@
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        <span class="highlight"></span><span class="bar">
+        </span>
+        <label>Email</label>
     </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
+    <div class="group">
+        @*@Html.EditorFor(s=>s.Email)*@
+        <input type="password" name="Password" id="Password" />  
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" }) 
+        <span class="highlight"></span><span class="bar">
+        </span> 
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
     </div>
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <div class="group">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe)
+            </div>
+        </div>
+    </div>
+        <button class="button buttonBlue">
+            Submit
+            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+        </button>
+        <input type="button" value="CLICKME" onclick="TEST();" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script src="~/Scripts/LoginJs.js"></script>
+        
+         <script>
+             $(document).ready(function () {
+                 document.getElementById("Email").value='';
+             });
+             function TEST() {
+                 alert('TEST' + document.getElementById("Email").value);
+             }
+         </script>
 }
+    <footer>
+        <a href="http://www.polymer-project.org/" target="_blank"><img src="https://www.polymer-project.org/images/logos/p-logo.svg"></a>
+        <p>You Gotta Love <a href="http://www.polymer-project.org/" target="_blank">Google</a></p>
+    </footer> 
+
+@*<script>
+    $(document).ready(function () {
+        //console.log("document loaded");
+        var element = $('#elementId')[0];
+        alert('your email read = ' + $("Email").val());
+    });
+    var test = $("Email").val();
+    alert();
+    $(window).on("load", function () {
+        //console.log("window loaded");
+        alert('loaded = ' + $("Email").val());//document.getElementById("Email").value);
+    });
+    function TEST()
+    {
+        alert('TEST' + $("Email").val());
+    }
+</script>*@
+
+ @*<script src="~/Scripts/LoginJs.js"></script>*@
