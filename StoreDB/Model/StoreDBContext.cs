@@ -20,6 +20,7 @@ namespace StoreDB.Model
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Students> Students { get; set; } 
+        public virtual DbSet<NLog_Error> Nlog_Error { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

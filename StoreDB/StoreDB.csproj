@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah, Version=1.2.13605.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.1.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -55,6 +58,15 @@
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Elmah, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Elmah.4.0\lib\net35\NLog.Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Slack, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Slack.1.0.2\lib\net45\NLog.Slack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.0.30.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.4.0.30\lib\net40\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -71,9 +83,9 @@
   <ItemGroup>
     <Compile Include="Enum\BackEnum.cs" />
     <Compile Include="Enum\PublicEnum.cs" />
-    <Compile Include="Migrations\201712250859289_Init.cs" />
-    <Compile Include="Migrations\201712250859289_Init.Designer.cs">
-      <DependentUpon>201712250859289_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201801040811590_Init.cs" />
+    <Compile Include="Migrations\201801040811590_Init.Designer.cs">
+      <DependentUpon>201801040811590_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -82,6 +94,7 @@
     <Compile Include="Model\Partials\AspNetUserLogins.cs" />
     <Compile Include="Model\Partials\AspNetUsers.cs" />
     <Compile Include="Model\Partials\C__MigrationHistory.cs" />
+    <Compile Include="Model\Partials\NLog_Error.cs" />
     <Compile Include="Model\Partials\Users.cs" />
     <Compile Include="Model\StoreDBContext.cs" />
     <Compile Include="Model\Partials\Students.cs" />
@@ -91,12 +104,15 @@
     <Compile Include="Interface\IAspNetUsers.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Service\LoggingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="NLog.config" />
+    <None Include="NLog.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -120,13 +136,16 @@
   <ItemGroup>
     <Folder Include="DisplayTemplates\" />
     <Folder Include="EditorTemplates\" />
-    <Folder Include="Service\" />
     <Folder Include="Strategy\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712250859289_Init.resx">
-      <DependentUpon>201712250859289_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801040811590_Init.resx">
+      <DependentUpon>201801040811590_Init.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Elmah.SqlServer.sql" />
+    <Content Include="App_Readme\Elmah.SqlServer.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

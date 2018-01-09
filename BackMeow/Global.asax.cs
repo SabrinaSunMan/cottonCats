@@ -18,6 +18,8 @@ namespace BackMeow
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //GlobalConfiguration.Configuration.Filters.Add(new Filters.WebExceptionFilterAttribute());
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,9 +6,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BackMeow.Models;
-using Newtonsoft.Json;
-using System.Web;
-using System.Collections.Generic;
 
 namespace BackMeow.Controllers
 {
@@ -95,14 +89,14 @@ namespace BackMeow.Controllers
             //{
             //    Response.Cookies[cookie].Expires = DateTime.Now.AddDays(-1);
             //}
-            LoginViewModel a = new LoginViewModel()
-            {
-                Email = "",
-                Password = ""
-            };
-            ModelState.Clear();
+            //LoginViewModel a = new LoginViewModel()
+            //{
+            //    Email = "",
+            //    Password = ""
+            //};
+            //ModelState.Clear();
             ViewBag.ReturnUrl = returnUrl;
-            return View(a);
+            return View();
         }
 
         //
@@ -123,6 +117,10 @@ namespace BackMeow.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //if(returnUrl.Contains("elmah"))
+                    //{
+                    //    return View(returnUrl.Replace("/",""));
+                    //}else
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

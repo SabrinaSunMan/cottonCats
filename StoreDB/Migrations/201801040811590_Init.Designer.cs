@@ -13,7 +13,7 @@ namespace StoreDB.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201712250859289_Init"; }
+            get { return "201801040811590_Init"; }
         }
         
         string IMigrationMetadata.Source
