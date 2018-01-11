@@ -5,13 +5,27 @@ using StoreDB.Enum;
 using StoreDB.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using StoreDB.Interface;
+using System;
+using AutoMapper;
 
 namespace BackMeow.Service
 {
     //取得使用者資料 
     public class AspNetUsersService
     {
-        Repository<AspNetUsers> AspNetUsersRepository = new Repository<AspNetUsers>();
+        private readonly IRepository<AspNetUsers> _AspNetUsersRep;
+        private readonly IRepository<NLog_Error> _NLog_ErrorRep;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AspNetUsersService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+            _AspNetUsersRep = new Repository<AspNetUsers>(unitOfWork);
+            _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
+        }
+
+        //Repository<AspNetUsers> AspNetUsersRepository = new Repository<AspNetUsers>();
         private readonly int pageSize = (int)BackPageListSize.commonSize;
 
         /// <summary>
@@ -59,9 +73,17 @@ namespace BackMeow.Service
         private IEnumerable<AspNetUsers> GetAllAspNetUsers()
         {
             IEnumerable<AspNetUsers> GetAspNetUsers =
-                AspNetUsersRepository.GetAll().OrderByDescending(s => s.UserName).ToList();
+            _AspNetUsersRep.GetAll().OrderByDescending(s => s.UserName).ToList();
             return GetAspNetUsers;
-            //  return book_info.GetAll().OrderByDescending(s => s.DateTimes); 
+        }
+
+        public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(Actions ActionType,string guid)
+        {
+            AspNetUsersDetailViewModel DetailViewModel = new AspNetUsersDetailViewModel();
+            //Mapper.C
+            //DetailViewModel.
+            AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);
+            return DetailViewModel;
         }
 
         /// <summary>
@@ -69,10 +91,28 @@ namespace BackMeow.Service
         /// </summary>
         /// <param name="guid">The unique identifier.</param>
         /// <returns></returns>
-        public AspNetUsers GetAspNetUsersById(string guid)
+        private AspNetUsers GetAspNetUsersById(string guid)
         {
-            return AspNetUsersRepository.GetSingle(guid);
+            return _AspNetUsersRep.GetSingle(s=>s.Id == guid);
         }
-        
+
+        public void Add(AspNetUsers aspuser)
+        {
+            //aspuser.Id = Guid.NewGuid();
+            aspuser.CreateTime = DateTime.Now;
+            _AspNetUsersRep.Create(aspuser);
+            //var isMember = _NLog_Error.Query(d => d.Account == order.Email).Any();
+            //if (isMember == false)
+            //{
+            //    var newMember = new Members()
+            //    {
+            //        Id = Guid.NewGuid(),
+            //        Account = order.Email,
+            //        Password = Guid.NewGuid().ToString()
+            //    };
+            //    _membersRep.Create(newMember);
+            //}
+        }
+
     }
 }

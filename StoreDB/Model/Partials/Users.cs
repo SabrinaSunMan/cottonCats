@@ -11,11 +11,15 @@ namespace StoreDB.Model.Partials
     /// </summary>
     public class Users 
     {
-        /*前台使用者資料*/
+        /*前台使用者資料*/ 
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
+
         public int Age { get; set; }
+
         public string City { get; set; }
+
     }
      
 }

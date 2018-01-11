@@ -62,7 +62,6 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\Owin.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\PagedList.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\PagedList.Mvc.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\ServiceStack.Text.dll
-D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.exe
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Net.Http.Formatting.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.Helpers.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.Http.dll
@@ -76,7 +75,6 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Web.WebPages.Razor.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\WebGrease.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\System.Data.SqlServerCe.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.pdb
-D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.exe.config
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\EntityFramework.xml
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\EntityFramework.SqlServer.xml
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\log4net.xml
@@ -142,3 +140,7 @@ D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\obj\Debug\MeowStore.pdb
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\NLog.Elmah.dll
 D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\NLog.Elmah.xml
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\AutoMapper.dll
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.exe
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\StoreDB.exe.config
+D:\Work\Case\Sabrina\MeowStore\MeowStore\bin\AutoMapper.xml

@@ -1,5 +1,3 @@
-D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\StoreDB.exe.config
-D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\StoreDB.exe
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\StoreDB.pdb
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\EntityFramework.dll
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\EntityFramework.SqlServer.dll
@@ -12,13 +10,15 @@ D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\NLog.xml
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\ServiceStack.Text.xml
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\zh-Hant\EntityFramework.resources.dll
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\zh-Hant\EntityFramework.SqlServer.resources.dll
-D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.exe
 D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.pdb
-D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.Migrations.Init.resources
-D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.csproj.GenerateResource.Cache
-D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\Elmah.dll
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\NLog.Elmah.dll
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\System.Data.SqlServerCe.dll
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\NLog.Elmah.xml
 D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\zh-CHT\System.Data.SqlServerCe.resources.dll
+D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache
+D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.Migrations.Init.resources
+D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.csproj.GenerateResource.Cache
+D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\StoreDB.exe.config
+D:\Work\Case\Sabrina\MeowStore\StoreDB\bin\Debug\StoreDB.exe
+D:\Work\Case\Sabrina\MeowStore\StoreDB\obj\Debug\StoreDB.exe

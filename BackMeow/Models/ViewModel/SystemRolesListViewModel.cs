@@ -1,4 +1,6 @@
 ﻿using PagedList;
+using StoreDB.Enum;
+using StoreDB.Model.Partials;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,6 +38,8 @@ namespace BackMeow.Models.ViewModel
     /// </summary>
     public class SystemRolesListContentViewModel
     {
+        public string Id { get; set; }
+
         [DisplayName("帳號")]
         public string Email { get; set; }
 
@@ -47,5 +51,16 @@ namespace BackMeow.Models.ViewModel
 
         public bool LockoutEnabled { get; set; }
 
+    }
+
+    /// <summary>
+    /// 呈現 [AspNetUsers] 詳細資訊
+    /// </summary>
+    public class AspNetUsersDetailViewModel : AspNetUsers
+    {
+        /// <summary>
+        /// 針對資料要處理的動作
+        /// </summary>
+        public Actions ActionType { get; set; } 
     }
 }

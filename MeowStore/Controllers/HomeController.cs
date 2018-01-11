@@ -33,13 +33,13 @@ namespace MeowStore.Controllers
         public ActionResult Test()
         {
             //StoreDbContext db = new StoreDbContext();
-            Repository<Students> Students_info = new Repository<Students>();
+            //Repository<Students> Students_info = new Repository<Students>();
 
             //string GG = GuidNew().
 
             //取得資料
-            Students a  = Students_info.GetAll().FirstOrDefault();
-             
+            //Students a  = Students_info.GetAll().FirstOrDefault();
+
             ////新增一筆資料
             //Students cust = new Students();
             //cust.studentName = "Sabrina";
@@ -47,7 +47,8 @@ namespace MeowStore.Controllers
             //////MeowDbContext db = new MeowDbContext();
             ////Car ttt = db.Cars.FirstOrDefault(); 
             ////return View(ttt);
-            return View(a);
+            //return View(a);
+            return View();
         }
     }
 }

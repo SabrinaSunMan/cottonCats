@@ -6,7 +6,10 @@ namespace StoreDB.Model.Partials
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-
+     
+    /// <summary>
+    /// 管理者資料
+    /// </summary>
     public partial class AspNetUsers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -41,6 +44,10 @@ namespace StoreDB.Model.Partials
         public bool LockoutEnabled { get; set; }
 
         public int AccessFailedCount { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public DateTime UpdateTime { get; set; }
 
         [Required]
         [StringLength(256)]

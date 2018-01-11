@@ -6,7 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace StoreDB.Model.Partials
-{
+{ 
+    /// <summary>
+    /// Log資訊
+    /// </summary>
     public class NLog_Error
     {
         [Key] 

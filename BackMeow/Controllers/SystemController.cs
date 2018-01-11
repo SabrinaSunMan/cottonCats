@@ -2,18 +2,26 @@
 using BackMeow.Service;
 using StoreDB.Enum;
 using StoreDB.Model.Partials;
+using StoreDB.Repositories;
 using System.Web.Mvc;
 
 namespace BackMeow.Controllers
 {
     public class SystemController : Controller
     {
-        private AspNetUsersService _UserService = new AspNetUsersService();
+        private readonly AspNetUsersService _UserService;
+        //private AspNetUsersService _UserService = new AspNetUsersService();
+
+        public SystemController()
+        {
+            var unitOfWork = new EFUnitOfWork();
+            _UserService = new AspNetUsersService(unitOfWork); 
+        }
         // GET: System 
         #region 後台使用者管理
 
-            #region 取得所有後台使用者清單
-            [HttpGet]
+        #region 取得所有後台使用者清單
+        [HttpGet]
             public ActionResult SystemRolesList()
             {
                 SystemRolesListViewModel ResultViewModel = _UserService.GetSystemRolesListViewModel(new SystemRolesListHeaderViewModel(), 1);
@@ -29,10 +37,17 @@ namespace BackMeow.Controllers
             #endregion
             #region 藉由ID取得後台使用者
             [HttpGet]
-            public ActionResult SystemRolesMain(string guid)
+            public ActionResult SystemRolesMain(Actions ActionType,string guid)
             {
-                AspNetUsers AspNetUsersViewModel = _UserService.GetAspNetUsersById(guid);
-                return View(AspNetUsersViewModel);
+                //if(ActionType==Actions.Update)
+                //{
+                    
+                //}else
+                //{
+                //    return View(new )   
+                //}
+                
+                return View();
             }
 
             [HttpPost]

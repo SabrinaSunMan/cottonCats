@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -18,6 +19,7 @@
 	<!-- GOOGLE FONTS --> 
 </head>
 <body>
+    <div class="modal"><!-- Place at bottom of page --></div>
     <div id="wrapper">
         <!-- NAVBAR -->
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -191,12 +193,97 @@
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Content/vendor/jquery/jquery.min.js"></script>
     <script src="~/Content/vendor/bootstrap/js/bootstrap.min.js"></script>
-    @*<script src="~/Scripts/jquery-3.2.1.js"></script>*@
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Content/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="~/Content/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
     <script src="~/Content/vendor/chartist/js/chartist.min.js"></script>
     <script src="~/Content/vendor/klorofil-common.js"></script>
     @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+
+            $(".table-hover").on('click', '.btn-danger', function () {
+                var currentRow = $(this).closest("tr"); // get current row 1st table cell TD value
+                @*showconfirm(currentRow.find(".primarkeyvalue").val(), '@Orignal_Page.MA_DebtManagementData');*@
+            });
+
+        });
+
+
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        function showconfirm(Guid, Pages) {
+            var $dialog = $('<div id="dialog-confirm" ></div>')
+                .html('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>刪除將無法回復，確定刪除嗎?</p>')
+                .dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    width: '300',
+                    title: "刪除提醒視窗",
+                    buttons: {
+                        "確認刪除": function () {
+                            $(this).dialog("close");
+                            Delete(Guid, Pages);
+                        },
+                        "取消": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            $dialog.dialog('open');
+        }
+
+        function showDialog(message, reloadtrue) {
+            var $dialog = $('<div id="dialog" ></div>')
+                .html(message)
+                .dialog({
+                    autoOpen: false,
+                    resizable: false,
+                    modal: true,
+                    width: '200',
+                    title: "訊息視窗",
+                    buttons: {
+                        "確認": function () {
+                            $(this).dialog("close");
+                            if (reloadtrue == true) { //刪除後需要Reload
+                                location.reload();
+                            }
+                        }
+                    }
+                });
+            $dialog.dialog('open');
+        }
+
+
+        function Delete(Guid, Pages) {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/DeleteInfo',
+                dataType: "json",
+                data: {
+                    guid: Guid,
+                    usePage: Pages
+                },
+                success:
+                function (response) {
+                    if (response.boolResult != null) {
+                        showDialog(response.result, true);
+                    }
+                    //location.reload();
+                },
+                error: function () { showDialog('未知的錯誤!', false); }
+            });
+        }
+
+    </script>
+
 </body>
 </html>

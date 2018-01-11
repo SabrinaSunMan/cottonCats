@@ -1,15 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace StoreDB.Interface
 {
     public interface IRepository<T> where T : class
     {
         /// <summary>
+        /// unit of work
+        /// </summary>
+        IUnitOfWork UnitOfWork { get; set; }
+
+        /// <summary>
         /// 取得單一 entity
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        T GetSingle(string id);
+        T GetSingle(Expression<Func<T, bool>> filter);
 
         /// <summary>
         /// GetAll.
@@ -33,6 +40,11 @@ namespace StoreDB.Interface
         /// </summary>
         /// <param name="entity"></param>
         void Update(T entity);
+
+        /// <summary>
+        /// save change
+        /// </summary>
+        void Commit();
 
         /// <summary>
         /// 回傳頁數

@@ -21,6 +21,9 @@ namespace StoreDB.Model
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Students> Students { get; set; } 
         public virtual DbSet<NLog_Error> Nlog_Error { get; set; }
+        public virtual DbSet<MenuTreeRoot> MenuTreeRoot { get; set; }
+        public virtual DbSet<MenuTree> MenuTree { get; set; }
+        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

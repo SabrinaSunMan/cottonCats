@@ -46,6 +46,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Elmah, Version=1.2.13605.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.1.2\lib\Elmah.dll</HintPath>
@@ -83,9 +86,10 @@
   <ItemGroup>
     <Compile Include="Enum\BackEnum.cs" />
     <Compile Include="Enum\PublicEnum.cs" />
-    <Compile Include="Migrations\201801040811590_Init.cs" />
-    <Compile Include="Migrations\201801040811590_Init.Designer.cs">
-      <DependentUpon>201801040811590_Init.cs</DependentUpon>
+    <Compile Include="Interface\IUnitOfWork.cs" />
+    <Compile Include="Migrations\201801100825151_Init.cs" />
+    <Compile Include="Migrations\201801100825151_Init.Designer.cs">
+      <DependentUpon>201801100825151_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -94,6 +98,8 @@
     <Compile Include="Model\Partials\AspNetUserLogins.cs" />
     <Compile Include="Model\Partials\AspNetUsers.cs" />
     <Compile Include="Model\Partials\C__MigrationHistory.cs" />
+    <Compile Include="Model\Partials\MenuTree.cs" />
+    <Compile Include="Model\Partials\MenuTreeRoot.cs" />
     <Compile Include="Model\Partials\NLog_Error.cs" />
     <Compile Include="Model\Partials\Users.cs" />
     <Compile Include="Model\StoreDBContext.cs" />
@@ -103,6 +109,7 @@
     <Compile Include="Repositories\AspNetUsersRepository.cs" />
     <Compile Include="Interface\IAspNetUsers.cs" />
     <Compile Include="Interface\IRepository.cs" />
+    <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Service\LoggingService.cs" />
   </ItemGroup>
@@ -139,13 +146,13 @@
     <Folder Include="Strategy\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801040811590_Init.resx">
-      <DependentUpon>201801040811590_Init.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="App_Readme\Elmah.SqlServer.sql" />
     <Content Include="App_Readme\Elmah.SqlServer.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201801100825151_Init.resx">
+      <DependentUpon>201801100825151_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
