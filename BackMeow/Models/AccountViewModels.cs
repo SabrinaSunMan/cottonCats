@@ -64,6 +64,12 @@ namespace BackMeow.Models
 
     public class RegisterViewModel
     {
+        [Display(Name = "名稱")]
+        public string UserName { get; set; }
+
+        [Display(Name = "手機號碼")]
+        public string Phonenumber { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "電子郵件")]

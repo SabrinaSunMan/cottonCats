@@ -141,6 +141,6 @@ D:\Work\Case\Sabrina\MeowStore\BackMeow\obj\Debug\BackMeow.pdb
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\NLog.Elmah.dll
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\NLog.Elmah.xml
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\AutoMapper.dll
-D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\StoreDB.exe
-D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\StoreDB.exe.config
 D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\AutoMapper.xml
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\StoreDB.dll
+D:\Work\Case\Sabrina\MeowStore\BackMeow\bin\StoreDB.dll.config

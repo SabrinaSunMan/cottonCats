@@ -38,7 +38,7 @@
             onclick="location.href='@Url.Action("SystemRolesMain", "System",
                                    new { ActionType = Actions.Update, guid = @item.Id })'">明細</button>
                 <button type="button" class="btn btn-danger">刪除</button>
-                <input class="primarkeyvalue" value="@item.Id" type="hidden" />
+                <input class="primarkeyvalue" value="@item.Id"  /> @*type="hidden"*@
             </td>
         </tr> 
 }

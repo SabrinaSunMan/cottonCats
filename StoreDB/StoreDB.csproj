@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{09EB42B8-B66D-4E23-8BC0-DB2506A961F1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>StoreDB</RootNamespace>
     <AssemblyName>StoreDB</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -87,9 +87,9 @@
     <Compile Include="Enum\BackEnum.cs" />
     <Compile Include="Enum\PublicEnum.cs" />
     <Compile Include="Interface\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201801100825151_Init.cs" />
-    <Compile Include="Migrations\201801100825151_Init.Designer.cs">
-      <DependentUpon>201801100825151_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201801170755289_Init.cs" />
+    <Compile Include="Migrations\201801170755289_Init.Designer.cs">
+      <DependentUpon>201801170755289_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -112,6 +112,7 @@
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Service\LoggingService.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -150,8 +151,8 @@
     <Content Include="App_Readme\Elmah.SqlServer.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801100825151_Init.resx">
-      <DependentUpon>201801100825151_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801170755289_Init.resx">
+      <DependentUpon>201801170755289_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

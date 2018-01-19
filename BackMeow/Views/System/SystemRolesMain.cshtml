@@ -1,123 +1,94 @@
-﻿@model StoreDB.Model.Partials.AspNetUsers
-
+﻿@model BackMeow.Models.ViewModel.AspNetUsersDetailViewModel
 @{
     ViewBag.Title = "SystemRolesMain";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+ 
+@using (Html.BeginForm("SystemRolesMain", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-md-12">
+            <!-- PANEL DEFAULT -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">SystemRolesMain</h3>
+                    @*<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>*@
+                </div>
 
-<h2>SystemRolesMain</h2>
+                @*</div>*@
+            </div>
+            <!-- END PANEL DEFAULT -->
+        </div>
+    </div>
+    @*<input type="text" name="actions" value="@TempData["Actions"]" />*@
+    @*<input type="text" name="guid" value="@Model.Id" />*@
 
-<div>
-    <h4>AspNetUsers</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailConfirmed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailConfirmed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PasswordHash)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PasswordHash)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SecurityStamp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SecurityStamp)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumberConfirmed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TwoFactorEnabled)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TwoFactorEnabled)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LockoutEndDateUtc)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LockoutEnabled)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LockoutEnabled)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AccessFailedCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AccessFailedCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateTime)
-        </dt>
-
-        <dd>
+    <div class="panel-body">
+        @Html.RenderAction
+        @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <input class="form-control" name="Account" placeholder="請輸入 @Html.DisplayNameFor(model => model.Account)"
+                   type="text" value="@Model.Account">
+            @Html.ValidationMessageFor(x => x.Account, "", new { @class = "text-danger" }) )
+        </div>
+       @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <input class="form-control" name="Email" placeholder="請輸入 @Html.DisplayNameFor(model => model.Email)"
+                   type="text" value="@Model.Email">
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" }) )
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <input class="form-control" name="Password" placeholder="請輸入 @Html.DisplayNameFor(model => model.Password)"
+                   type="password" value="@Model.Password">
+            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" }) )
+        </div>
+        @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <input class="form-control" name="ConfirmPassword" placeholder="請輸入 @Html.DisplayNameFor(model => model.ConfirmPassword)"
+                   type="password" value="">
+            @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" }) )
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <input class="form-control" name="UserName" placeholder="請輸入 @Html.DisplayNameFor(model => model.UserName)"
+                   type="text" value="@Model.UserName">
+        </div> 
+        @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            <input class="form-control" name="PhoneNumber" placeholder="請輸入 @Html.DisplayNameFor(model => model.PhoneNumber)"
+                   type="text" value="@Model.PhoneNumber">
+            @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" }) )
+        </div>
+    </div>
+    <div class="panel-body">  
+        @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
             @Html.DisplayFor(model => model.CreateTime)
-        </dd>
+        </div> 
+            @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.UpdateTime) 
+            </div> 
+    </div>
+    
+    <div class="panel-body"> 
+        <div class="col-md-5">
+            <button type="submit" class="btn btn-success">儲存</button> 
+            <button type="submit" class="btn btn-default" onclick="location.href='location.href='@Url.Action("SystemRolesList", "System",
+                                   new {  })'">返回</button> 
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdateTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    </div>
+    
+} 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+    

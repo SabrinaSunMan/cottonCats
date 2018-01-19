@@ -43,20 +43,25 @@ namespace StoreDB.Repositories
             return ObjectSet;
         }
 
+        public IQueryable<T> Query(Expression<Func<T, bool>> filter)
+        {
+            return ObjectSet.Where(filter);
+        }
+
         public T GetSingle(Expression<Func<T, bool>> filter)
         {
             return ObjectSet.SingleOrDefault(filter);
         }
 
         public void Commit()
-        {
+        { 
             UnitOfWork.Save();
         }
 
         public virtual void Update(T entity)
         {
-            ObjectSet.Attach(entity); 
-        } 
+            ObjectSet.Attach(entity);
+        }
 
         #region None Unit of work
         //private readonly StoreDBContext _DBContex;
@@ -65,7 +70,7 @@ namespace StoreDB.Repositories
 
         //public Repository()
         //{
-        //    _DBContex = new StoreDBContext(); 
+        //    _DBContex = new StoreDBContext();
         //    Dbset = _DBContex.Set<T>();
         //}
 
@@ -86,17 +91,21 @@ namespace StoreDB.Repositories
         //    return Dbset.ToList();
         //}
 
-        //public T GetSingle(string id)
+        ////public T GetSingle(string id)
+        ////{
+        ////    return Dbset.Find(id);
+        ////}
+        //public T GetSingle(Expression<Func<T, bool>> filter)
         //{
-        //    return Dbset.Find(id);
-        //}
-
+        //    return Dbset.SingleOrDefault(filter);
+        //} 
 
         //public void Update(T entity)
         //{
         //    _DBContex.Entry(entity).State = EntityState.Modified;
         //    _DBContex.SaveChanges();
         //}
+
         #endregion
     }
 }

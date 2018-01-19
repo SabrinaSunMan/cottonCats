@@ -8,6 +8,7 @@ using System.Linq;
 using StoreDB.Interface;
 using System;
 using AutoMapper;
+using BackMeow.AutoMapper;
 
 namespace BackMeow.Service
 {
@@ -15,14 +16,20 @@ namespace BackMeow.Service
     public class AspNetUsersService
     {
         private readonly IRepository<AspNetUsers> _AspNetUsersRep;
-        private readonly IRepository<NLog_Error> _NLog_ErrorRep;
+        private readonly IRepository<NLog_Error> _NLog_ErrorRep; 
+        private readonly IRepository<Addresses> _Addresses; //TEST
+        private readonly IRepository<Students> _Students; //TEST
+
         private readonly IUnitOfWork _unitOfWork;
+        private AspNetUsersInitialize _aspnetMapping = new AspNetUsersInitialize();
 
         public AspNetUsersService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _AspNetUsersRep = new Repository<AspNetUsers>(unitOfWork);
             _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
+            _Addresses = new Repository<Addresses>(unitOfWork);
+            _Students = new Repository<Students>(unitOfWork);
         }
 
         //Repository<AspNetUsers> AspNetUsersRepository = new Repository<AspNetUsers>();
@@ -51,21 +58,32 @@ namespace BackMeow.Service
         private IEnumerable<SystemRolesListContentViewModel> GetAllSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel)
         {
             IEnumerable<SystemRolesListContentViewModel> result = GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
-            s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName) 
+            s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
             && (!string.IsNullOrWhiteSpace(selectModel.Email) ?
-            s.Email.Contains(selectModel.Email) : s.Email == s.Email) 
+            s.Email.Contains(selectModel.Email) : s.Email == s.Email)
 
                 ).Select(List => new SystemRolesListContentViewModel()
                 {
+                    Id = List.Id,
                     Email = List.Email,
                     UserName = List.UserName,
                     PhoneNumber = List.PhoneNumber,
                     LockoutEnabled = List.LockoutEnabled
                 }).ToList();
+            //IEnumerable<AspNetUsers> ListViewModel = GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
+            //s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
+            //&& (!string.IsNullOrWhiteSpace(selectModel.Email) ?
+            //s.Email.Contains(selectModel.Email) : s.Email == s.Email));
+            //var config = new MapperConfiguration(cfg => cfg.CreateMap<AspNetUsers, SystemRolesListContentViewModel>());
 
+            //config.AssertConfigurationIsValid();//←證驗應對
+            //var mapper = config.CreateMapper();
+            //IEnumerable<SystemRolesListContentViewModel> result = 
+            //    mapper.Map<SystemRolesListContentViewModel>(ListViewModel);
             return result;
         }
 
+        
         /// <summary>
         /// Gets all ASP net users.
         /// </summary>
@@ -80,9 +98,9 @@ namespace BackMeow.Service
         public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(Actions ActionType,string guid)
         {
             AspNetUsersDetailViewModel DetailViewModel = new AspNetUsersDetailViewModel();
-            //Mapper.C
-            //DetailViewModel.
-            AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);
+            AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid); 
+            DetailViewModel = _aspnetMapping.MapperAspNetUsersDetailViewModel(AspNetUsersViewModel);
+             
             return DetailViewModel;
         }
 
@@ -91,28 +109,49 @@ namespace BackMeow.Service
         /// </summary>
         /// <param name="guid">The unique identifier.</param>
         /// <returns></returns>
-        private AspNetUsers GetAspNetUsersById(string guid)
+        public AspNetUsers GetAspNetUsersById(string guid)
         {
             return _AspNetUsersRep.GetSingle(s=>s.Id == guid);
         }
 
         public void Add(AspNetUsers aspuser)
         {
-            //aspuser.Id = Guid.NewGuid();
-            aspuser.CreateTime = DateTime.Now;
-            _AspNetUsersRep.Create(aspuser);
-            //var isMember = _NLog_Error.Query(d => d.Account == order.Email).Any();
-            //if (isMember == false)
-            //{
-            //    var newMember = new Members()
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        Account = order.Email,
-            //        Password = Guid.NewGuid().ToString()
-            //    };
-            //    _membersRep.Create(newMember);
-            //}
+            Students test = new Students();
+            test.studentName = "TESTStudent";
+            _Students.Create(test);
+            //aspuser.Id = Guid.NewGuid().ToString().ToUpper();
+            //aspuser.CreateTime = DateTime.Now;
+            //_AspNetUsersRep.Create(aspuser);
+            //////var isMember = _AspNetUsersRep.Query(s => s.Id == aspuser.Id).Any();
+            //////if (isMember == false)
+            //////{
+            //////    var newMember = new AspNetUsers()
+            //////    {
+            //////        Id = Guid.NewGuid().ToString().ToUpper(),
+            //////        Email = aspuser.Email,
+            //////        UserName = "TEST",
+            //////        CreateTime = DateTime.Now
+            //////    };
+            //////    _AspNetUsersRep.Create(newMember);
+            //////} 
+
+            #region TEST ADd
+            Addresses add = new Addresses(); 
+            add.AddressContent = "測試輸入";
+            _Addresses.Create(add);
+
+            #endregion
         }
 
+        public void Update(AspNetUsers aspuser)
+        {
+            aspuser.UpdateTime = DateTime.Now;
+            _AspNetUsersRep.Update(aspuser); 
+        }
+
+        public void Save()
+        {
+            _unitOfWork.Save();
+        }
     }
 }
