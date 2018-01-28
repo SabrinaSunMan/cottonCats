@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeowStore", "MeowStore\MeowStore.csproj", "{60DA8AA0-54E2-4FB7-9649-84AE1B746F49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cottonCats", "MeowStore\cottonCats.csproj", "{60DA8AA0-54E2-4FB7-9649-84AE1B746F49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackMeow", "BackMeow\BackMeow.csproj", "{010A1648-3A90-4448-BEEC-C1EF478A5F25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackcottonCats", "BackMeow\BackcottonCats.csproj", "{010A1648-3A90-4448-BEEC-C1EF478A5F25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreDB", "StoreDB\StoreDB.csproj", "{09EB42B8-B66D-4E23-8BC0-DB2506A961F1}"
 EndProject

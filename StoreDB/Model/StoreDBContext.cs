@@ -23,7 +23,9 @@ namespace StoreDB.Model
         public virtual DbSet<NLog_Error> Nlog_Error { get; set; }
         public virtual DbSet<MenuTreeRoot> MenuTreeRoot { get; set; }
         public virtual DbSet<MenuTree> MenuTree { get; set; }
-        
+        public virtual DbSet<MenuSideList> MenuSideList { get; set; }
+        public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<Group> Group { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreDB.Model.Partials
 {
@@ -13,14 +8,24 @@ namespace StoreDB.Model.Partials
     /// </summary>
     public class MenuTreeRoot
     {
+        /// <summary>
+        /// 根目錄 ID.
+        /// </summary> 
         [Key]
         [DisplayName("MenuTreeRootID")]
         public string TRootID { get; set; }
 
-        [DisplayName("功能名稱")]
+        /// <summary>
+        /// 根目錄功能名稱.
+        /// </summary> 
+        [DisplayName("根目錄功能名稱")]
+        [StringLength(10)]
         public string TRootName { get; set; }
-          
-        [DisplayName("功能排序")]
+
+        /// <summary>
+        /// 根目錄排序.
+        /// </summary> 
+        [DisplayName("根目錄排序")]
         public int TRootOrder { get; set; }
           
     }

@@ -12,7 +12,9 @@ using BackMeow.AutoMapper;
 
 namespace BackMeow.Service
 {
-    //取得使用者資料 
+    /// <summary>
+    /// 後台 使用者資料 相關
+    /// </summary>
     public class AspNetUsersService
     {
         private readonly IRepository<AspNetUsers> _AspNetUsersRep;

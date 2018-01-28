@@ -1,4 +1,5 @@
 ﻿@model BackMeow.Models.ViewModel.AspNetUsersDetailViewModel
+
 @{
     ViewBag.Title = "SystemRolesMain";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,71 +25,75 @@
     </div>
     @*<input type="text" name="actions" value="@TempData["Actions"]" />*@
     @*<input type="text" name="guid" value="@Model.Id" />*@
-
     <div class="panel-body">
-        @Html.RenderAction
-        @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "col-md-2 control-label" })
+        @Html.NoteSite()
+    </div>
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Account).ToString())
         <div class="col-md-3">
             <input class="form-control" name="Account" placeholder="請輸入 @Html.DisplayNameFor(model => model.Account)"
-                   type="text" value="@Model.Account">
-            @Html.ValidationMessageFor(x => x.Account, "", new { @class = "text-danger" }) )
+                    type="text" value="@Model.Account" />
+            @Html.ValidationMessageFor(x => x.Account, "", new { @class = "text-danger" })
         </div>
-       @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Email).ToString())
         <div class="col-md-3">
             <input class="form-control" name="Email" placeholder="請輸入 @Html.DisplayNameFor(model => model.Email)"
-                   type="text" value="@Model.Email">
-            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" }) )
+                    type="text" value="@Model.Email" />
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="panel-body">
-        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-md-2 control-label" })
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Password).ToString())
         <div class="col-md-3">
             <input class="form-control" name="Password" placeholder="請輸入 @Html.DisplayNameFor(model => model.Password)"
-                   type="password" value="@Model.Password">
-            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" }) )
+                    type="password" value="@Model.Password" />
+            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
         </div>
-        @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "col-md-2 control-label" })
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.ConfirmPassword).ToString())
         <div class="col-md-3">
             <input class="form-control" name="ConfirmPassword" placeholder="請輸入 @Html.DisplayNameFor(model => model.ConfirmPassword)"
-                   type="password" value="">
-            @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" }) )
+                    type="password" value="" />
+            @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="panel-body">
         @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
             <input class="form-control" name="UserName" placeholder="請輸入 @Html.DisplayNameFor(model => model.UserName)"
-                   type="text" value="@Model.UserName">
-        </div> 
+                    type="text" value="@Model.UserName" />
+        </div>
         @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
+            @*<input class="form-control datepicker" name="PhoneNumber" placeholder="請輸入 @Html.DisplayNameFor(model => model.PhoneNumber)"
+                    type="text" onkeydown="return false" value="@Model.PhoneNumber" />*@
             <input class="form-control" name="PhoneNumber" placeholder="請輸入 @Html.DisplayNameFor(model => model.PhoneNumber)"
-                   type="text" value="@Model.PhoneNumber">
-            @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" }) )
+                   type="number" value="@Model.PhoneNumber" />
+            @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="panel-body">  
+    <div class="panel-body">
         @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
             @Html.DisplayFor(model => model.CreateTime)
-        </div> 
-            @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
-            <div class="col-md-3">
-                @Html.DisplayFor(model => model.UpdateTime) 
-            </div> 
+        </div>
+        @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.UpdateTime)
+        </div>
     </div>
-    
-    <div class="panel-body"> 
+
+    <div class="panel-body">
         <div class="col-md-5">
-            <button type="submit" class="btn btn-success">儲存</button> 
+            <button type="submit" class="btn btn-success">儲存</button>
             <button type="submit" class="btn btn-default" onclick="location.href='location.href='@Url.Action("SystemRolesList", "System",
-                                   new {  })'">返回</button> 
+                                new {  })'">
+                返回
+            </button>
         </div>
 
     </div>
-    
-} 
+
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-    

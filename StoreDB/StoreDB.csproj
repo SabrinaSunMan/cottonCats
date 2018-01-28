@@ -87,9 +87,9 @@
     <Compile Include="Enum\BackEnum.cs" />
     <Compile Include="Enum\PublicEnum.cs" />
     <Compile Include="Interface\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201801170755289_Init.cs" />
-    <Compile Include="Migrations\201801170755289_Init.Designer.cs">
-      <DependentUpon>201801170755289_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201801230830531_Init.cs" />
+    <Compile Include="Migrations\201801230830531_Init.Designer.cs">
+      <DependentUpon>201801230830531_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -98,12 +98,15 @@
     <Compile Include="Model\Partials\AspNetUserLogins.cs" />
     <Compile Include="Model\Partials\AspNetUsers.cs" />
     <Compile Include="Model\Partials\C__MigrationHistory.cs" />
+    <Compile Include="Model\Partials\Group.cs" />
+    <Compile Include="Model\Partials\MenuSideList.cs" />
     <Compile Include="Model\Partials\MenuTree.cs" />
     <Compile Include="Model\Partials\MenuTreeRoot.cs" />
     <Compile Include="Model\Partials\NLog_Error.cs" />
-    <Compile Include="Model\Partials\Users.cs" />
+    <Compile Include="Model\Partials\Member.cs" />
     <Compile Include="Model\StoreDBContext.cs" />
     <Compile Include="Model\Partials\Students.cs" />
+    <Compile Include="Model\ViewModel\MenuSideViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AspNetUsersRepository.cs" />
@@ -151,8 +154,8 @@
     <Content Include="App_Readme\Elmah.SqlServer.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801170755289_Init.resx">
-      <DependentUpon>201801170755289_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801230830531_Init.resx">
+      <DependentUpon>201801230830531_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
