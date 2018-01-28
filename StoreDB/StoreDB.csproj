@@ -152,6 +152,7 @@
   <ItemGroup>
     <Content Include="App_Readme\Elmah.SqlServer.sql" />
     <Content Include="App_Readme\Elmah.SqlServer.txt" />
+    <Content Include="DBFile\StoreDB.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201801230830531_Init.resx">
