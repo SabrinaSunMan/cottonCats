@@ -7,9 +7,11 @@ using Microsoft.AspNet.Identity.Owin;
 using StoreDB;
 using StoreDB.Enum;
 using StoreDB.Model.Partials;
+using StoreDB.Model.ViewModel;
 using StoreDB.Repositories;
 using StoreDB.Service;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -22,12 +24,14 @@ namespace BackMeow.Controllers
         private readonly AspNetUsersService _UserService;
         private readonly LoggingService _logSvc;
         private ApplicationUserManager _userManager;
+        private MenuSideListService _menuSide;
 
         public SystemController()
         {
             var unitOfWork = new EFUnitOfWork();
             _UserService = new AspNetUsersService(unitOfWork);
-            _logSvc = new LoggingService(unitOfWork); 
+            _logSvc = new LoggingService(unitOfWork);
+            _menuSide = new MenuSideListService(unitOfWork);
         }
         public ApplicationUserManager UserManager
         {
@@ -66,6 +70,8 @@ namespace BackMeow.Controllers
                 TempData["Actions"] = ActionType;
                 if (ActionType == Actions.Update)
                 {
+                IEnumerable<MenuSideViewModel> tmp = _menuSide.ReturnMenuSideViewModel();
+
                     return View(_UserService.ReturnAspNetUsersDetail(ActionType, guid));
                 }
                 else

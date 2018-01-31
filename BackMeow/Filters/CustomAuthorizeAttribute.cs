@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace BackMeow.Filters
 {
     public class CustomAuthorizeAttribute : AuthorizeAttribute
-    {
+    { 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if (httpContext == null)

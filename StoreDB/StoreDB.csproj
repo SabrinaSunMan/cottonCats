@@ -87,9 +87,9 @@
     <Compile Include="Enum\BackEnum.cs" />
     <Compile Include="Enum\PublicEnum.cs" />
     <Compile Include="Interface\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201801230830531_Init.cs" />
-    <Compile Include="Migrations\201801230830531_Init.Designer.cs">
-      <DependentUpon>201801230830531_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201801310920108_Base.cs" />
+    <Compile Include="Migrations\201801310920108_Base.Designer.cs">
+      <DependentUpon>201801310920108_Base.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -155,8 +155,8 @@
     <Content Include="DBFile\StoreDB.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801230830531_Init.resx">
-      <DependentUpon>201801230830531_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801310920108_Base.resx">
+      <DependentUpon>201801310920108_Base.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

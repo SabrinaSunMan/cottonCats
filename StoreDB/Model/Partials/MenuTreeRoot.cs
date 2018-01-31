@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace StoreDB.Model.Partials
@@ -13,7 +14,7 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [Key]
         [DisplayName("MenuTreeRootID")]
-        public string TRootID { get; set; }
+        public Guid TRootID { get; set; }
 
         /// <summary>
         /// 根目錄功能名稱.

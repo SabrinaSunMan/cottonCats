@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace StoreDB.Model.Partials
@@ -14,7 +15,7 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [Key]
         [DisplayName("ID")]
-        public string MenuID { get; set; }
+        public Guid MenuID { get; set; }
 
         /// <summary>
         /// 子功能名稱.
@@ -41,6 +42,6 @@ namespace StoreDB.Model.Partials
         /// 根目錄 ID.
         /// </summary> 
         [DisplayName("根目錄 ID")]
-        public string TRootID { get; set; }
+        public Guid TRootID { get; set; }
     }
 }

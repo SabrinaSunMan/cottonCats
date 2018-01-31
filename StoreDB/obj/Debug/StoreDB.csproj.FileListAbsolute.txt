@@ -41,8 +41,8 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\ServiceStack.Text.xml
 D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\zh-Hant\EntityFramework.resources.dll
 D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\zh-Hant\EntityFramework.SqlServer.resources.dll
 D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\zh-CHT\System.Data.SqlServerCe.resources.dll
-D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.dll
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.pdb
-D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Init.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Base.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.GenerateResource.Cache

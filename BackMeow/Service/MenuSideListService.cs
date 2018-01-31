@@ -4,6 +4,7 @@ using StoreDB.Model.ViewModel;
 using StoreDB.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -27,70 +28,34 @@ namespace BackMeow.Service
             _unitOfWork = unitOfWork;
         }
 
-        /// <summary>
-        /// Get All SideMenu can use.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerable<MenuSideList> GetAllMenuSideList()
+        //這個要放在Filters 每次登入就去檢查是否有可以讀取該網頁的權限
+        public IEnumerable<MenuSideViewModel> ReturnMenuSideViewModel()
         {
-            IEnumerable<MenuSideList> GetMenuSideList = _MenuSideListRep.GetAll().ToList();
-            return GetMenuSideList;
+            // 取得 後台_測邊功能列與使用者的連繫Table
+            List<MenuSideList> sidemenu = _MenuSideListRep.GetAll().ToList();
+            // 取得子功能
+            List<MenuTree> menu = _MenuTree.GetAll().ToList();
+            // 取得根目錄的功能
+            List<MenuTreeRoot> menuRoot = _MenuTreeRoot.GetAll().ToList();
+
+            var t1 = from menulist in sidemenu
+                     join tree in menu
+                  on menulist.MenuID equals tree.MenuID
+                     join Roots in menuRoot
+                 on tree.TRootID equals Roots.TRootID
+                     where menulist.Id == new Guid("6ACCC598-CA32-499C-920A-B4BCF4CAEF37")
+                     orderby Roots.TRootOrder, tree.MenuOrder
+                     select new
+                     MenuSideViewModel
+                     {
+                         TRootName = Roots.TRootName,
+                         TRootOrder = Roots.TRootOrder,
+                         ActionName = tree.ActionName,
+                         CrollerName = tree.ControllerName,
+                         MenuName = tree.MenuName,
+                         MenuOrder = tree.MenuOrder
+                     };
+            return t1.ToList();
         }
-
-        /// <summary>
-        /// Get All MenuTree.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerable<MenuTree> GetAllMenuTree()
-        {
-            IEnumerable<MenuTree> GetMenuTree =  _MenuTree.GetAll().ToList();
-
-            return GetMenuTree;
-        }
-
-        /// <summary>
-        /// Get All MenuTreeRoot.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerable<MenuTreeRoot> GetAllMenuTreeRoot()
-        {
-            IEnumerable<MenuTreeRoot> GetMenuTree = _MenuTreeRoot.GetAll().ToList();
-            return GetMenuTree;
-        }
-
-        //private IEnumerable<MenuSideViewModel> ReturnMenuSideViewModel()
-        //{
-        //    // 取得 後台_測邊功能列與使用者的連繫Table
-        //    List<MenuSideList> sidemenu = GetAllMenuSideList().ToList(); 
-        //    // 取得子功能
-        //    List<MenuTree> menu = GetAllMenuTree().ToList();
-        //    // 取得根目錄的功能
-        //    List<MenuTreeRoot> menuRoot = GetAllMenuTreeRoot().ToList(); 
-        //    //          var test = from word in sidemenu 
-        //    //                        select word;
-        //    //          from d in Duty
-        //    //          join c in Company on d.CompanyId equals c.id
-        //    //          join s in SewagePlant on c.SewagePlantId equals s.id
-        //    //            .Select(m => new
-        //    //            {
-        //    //                duty = s.Duty.Duty,
-        //    //                CatId = s.Company.CompanyName,
-        //    //                SewagePlantName = s.SewagePlant.SewagePlantName
-        //    //             other assignments
-        //    //}); 
-        //    //var allSide = from menulist in sidemenu
-        //    //              join tree in menu on menu.FirstOrDefault().MenuID equals tree.MenuID
-        //    //              join Roots in menuRoot on tree.TRootID equals Roots.TRootID
-        //    //               .Select(s=> new
-        //    //               { 
-        //    //                   sidemenu.FirstOrDefault().
-        //    //                   Roots.TRootName,
-        //    //                   tree.ActionName,
-        //    //                   tree.ControllerName
-        //    //                   ,
-        //    //                   tree.MenuOrder,
-        //    //                   Roots.TRootOrder
-        //    //               });
-        //    //return allSide;
     }
 }

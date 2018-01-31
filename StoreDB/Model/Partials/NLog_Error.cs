@@ -10,7 +10,7 @@ namespace StoreDB.Model.Partials
     /// <summary>
     /// Log資訊
     /// </summary>
-    public class NLog_Error
+    public partial class NLog_Error
     {
         [Key] 
         public string LogId { get; set; }

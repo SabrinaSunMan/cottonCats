@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,11 +20,13 @@ namespace StoreDB.Model.Partials
         /// <summary>
         /// 子目錄ID.
         /// </summary> 
-        public virtual ICollection<MenuTree> MenuID { get; set; }
+        //public virtual ICollection<MenuTree> MenuID { get; set; }
+        public Guid MenuID { get; set; }
 
         /// <summary>
         /// 使用者ID.
         /// </summary> 
-        public virtual ICollection<AspNetUsers> Id { get; set; } 
+        //public virtual ICollection<AspNetUsers> Id { get; set; } 
+        public Guid Id { get; set; }
     }
 }

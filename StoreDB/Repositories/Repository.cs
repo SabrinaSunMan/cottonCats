@@ -36,7 +36,7 @@ namespace StoreDB.Repositories
         public void Delete(T entity)
         {
             ObjectSet.Remove(entity);
-        }
+        } 
 
         public IEnumerable<T> GetAll()
         {
