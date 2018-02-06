@@ -1,24 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
+using BackMeow.Service;
+using Microsoft.AspNet.Identity.Owin;
+using StoreDB.Model.Partials;
+using StoreDB.Repositories;
+using System;
 using System.Web;
-using System.Web.Mvc; 
+using System.Web.Mvc;
 
 namespace BackMeow.Filters
 {
     public class CustomAuthorizeAttribute : AuthorizeAttribute
-    { 
+    {
+        private readonly AspNetUsersService _UserService;
+        private ApplicationSignInManager _signInManager;
+
+        public CustomAuthorizeAttribute()
+        {
+            var unitOfWork = new EFUnitOfWork();
+            _UserService = new AspNetUsersService(unitOfWork);
+        }
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if (httpContext == null)
-                throw new ArgumentNullException("httpContext");
-
+                throw new ArgumentNullException("httpContext"); 
             //var test = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
 
             String[] users = Users.Split(',');//取得輸入user清單
             String[] roles = Roles.Split(',');//取得輸入role清單
             if (!httpContext.User.Identity.IsAuthenticated)//判斷是否已驗證
                 return false;
+
+            var rd = httpContext.Request.RequestContext.RouteData;
+            string currentAction = rd.GetRequiredString("action");
+            string currentController = rd.GetRequiredString("controller");
+            //string currentArea = rd.Values["area"] as string;
+
+            _signInManager = httpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            //ApplicationSignInManager UserManager = new ApplicationSignInManager(_signInManager);
+            string Username = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號
+            AspNetUsers AspNetusers = _UserService.GetAspNetUserByName(Username);
+            
             if (roles.Length != 0)
             {
                 //BookInfoDBContext _DBContex = new BookInfoDBContext();
@@ -40,9 +62,7 @@ namespace BackMeow.Filters
                 ////}
                 //return Isright;
             }
-            return true;
-
-        }
-    }
-     
+            return true; 
+        } 
+    } 
 }

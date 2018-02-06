@@ -12,12 +12,14 @@ using StoreDB.Repositories;
 using StoreDB.Service;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace BackMeow.Controllers
 {
+    [CustomAuthorize]
     public class SystemController : Controller
     {
         private Utility _utility = new Utility();
@@ -70,7 +72,7 @@ namespace BackMeow.Controllers
                 TempData["Actions"] = ActionType;
                 if (ActionType == Actions.Update)
                 {
-                IEnumerable<MenuSideViewModel> tmp = _menuSide.ReturnMenuSideViewModel();
+                IEnumerable<MenuTreeRootStratumViewModel> tmp = _menuSide.ReturnMenuSideViewModel(guid);
 
                     return View(_UserService.ReturnAspNetUsersDetail(ActionType, guid));
                 }
@@ -102,29 +104,30 @@ namespace BackMeow.Controllers
             }else /*建立*/
             {
                 if (ModelState.IsValid) //Check for validation errors
-                {
+                { 
                     var user = new ApplicationUser
                     {
                         UserName = AspNetUsersModel.UserName,
                         Email = AspNetUsersModel.Email,
                         Account = AspNetUsersModel.Account,
-                        CreateTime = DateTime.Now
-                    };
+                        CreateTime = DateTime.Now,
+                        UpdateTime = DateTime.Now,
+                        Id = Guid.NewGuid().ToString().ToUpper()
+                    }; 
                     var result = await UserManager.CreateAsync(user, AspNetUsersModel.Password);
                     if (result.Succeeded)
-                    {
+                    { 
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                         // 傳送包含此連結的電子郵件
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
-
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
                         return RedirectToAction("Index", "Home");
                     }
                     else
                     {
-                        //AddErrors(result);
-                    }
+                        AddErrors(result);
+                    } 
                 }
                 //_UserService.Add(oldData); 
                 //_logSvc.Add("FirstName", "LastName","Email", Guid.NewGuid());
@@ -136,7 +139,6 @@ namespace BackMeow.Controllers
         }
         #endregion
         #endregion
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -144,5 +146,6 @@ namespace BackMeow.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+
     }
 }

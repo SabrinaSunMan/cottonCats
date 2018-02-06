@@ -29,19 +29,18 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [DisplayName("子功能排序")]
         public int MenuOrder { get; set; }
-         
-
-        [StringLength(12)]
+          
+        [StringLength(20)]
         public string ControllerName { get; set; }
          
-        [StringLength(12)]
+        [StringLength(20)]
         public string ActionName { get; set; }
 
         //[ForeignKey("MenuTreeRoot")] 
         /// <summary>
-        /// 根目錄 ID.
+        /// 父目錄 ID.
         /// </summary> 
-        [DisplayName("根目錄 ID")]
+        [DisplayName("父目錄 ID")]
         public Guid TRootID { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace StoreDB.Model.Partials
         [Required(ErrorMessage = "帳號為為必輸入欄位")]
         [DisplayName("帳號")] //Add
         public string Account { get; set; }
-         
+
 
         [StringLength(256)]
         [EmailAddress(ErrorMessage ="非E-Mail格式")]

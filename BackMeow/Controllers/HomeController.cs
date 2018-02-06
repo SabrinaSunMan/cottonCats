@@ -1,13 +1,29 @@
 ﻿using BackMeow.Filters;
-using StoreDB.Service;
-using System;
+using BackMeow.Service;
+using Microsoft.AspNet.Identity;
+using StoreDB.Model.ViewModel;
+using StoreDB.Repositories;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Web.Mvc;
 
 namespace BackMeow.Controllers
 {
+    //[CustomAuthorize]
     public class HomeController : Controller
     {
-         
+        private readonly AspNetUsersService _UserService;
+        private ApplicationUserManager _userManager;
+        private MenuSideListService _menuSide;
+
+        public HomeController()
+        {
+            var unitOfWork = new EFUnitOfWork();
+            _UserService = new AspNetUsersService(unitOfWork);
+            _menuSide = new MenuSideListService(unitOfWork);
+        }
+
         public ActionResult Index()
         {
             //throw new NullReferenceException();
@@ -15,7 +31,32 @@ namespace BackMeow.Controllers
             //throw new HttpException(404, "页面未找到");
             return View();
         }
-         
+
+        /// <summary>
+        /// 根據登入者身分確認並將可使用功能呈現至頁面上
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SideBarContent()
+        {
+            List<MenuTreeRootStratumViewModel> SideViewModel = new List<MenuTreeRootStratumViewModel>();
+            var userID = User.Identity.GetUserId();
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+                if (userIdClaim != null)
+                {
+                    var userIdValue = userIdClaim.Value;
+                }
+            }
+            SideViewModel = _menuSide.ReturnMenuSideViewModel(userID.ToString()).ToList();
+            return View(SideViewModel);
+        } 
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

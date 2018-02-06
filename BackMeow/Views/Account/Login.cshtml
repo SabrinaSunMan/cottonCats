@@ -13,13 +13,12 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="group"> 
-        <input type="text" name="Email" id="Email" /> 
-        @*@Html.EditorFor(s=>s.Email)*@ 
+        <input type="text" name="Account" id="Account" />  
         <span class="highlight"></span>
         <span class="bar">
         </span>
-        <label>Email</label>
-        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        <label>Account</label>
+        @Html.ValidationMessageFor(m => m.Account, "", new { @class = "text-danger" })
     </div>
     <div class="group"> 
         <input type="password" name="Password" />   

@@ -5,29 +5,31 @@ using System.ComponentModel.DataAnnotations;
 namespace StoreDB.Model.Partials
 {
     /// <summary>
-    /// Menu 根目錄 
+    /// Menu 父目錄 
     /// </summary>
     public class MenuTreeRoot
     {
         /// <summary>
-        /// 根目錄 ID.
+        /// 父目錄 ID.
         /// </summary> 
         [Key]
-        [DisplayName("MenuTreeRootID")]
+        [DisplayName("父目錄 ID")]
         public Guid TRootID { get; set; }
 
         /// <summary>
-        /// 根目錄功能名稱.
+        /// 父目錄功能名稱.
         /// </summary> 
-        [DisplayName("根目錄功能名稱")]
+        [DisplayName("父目錄功能名稱")]
         [StringLength(10)]
         public string TRootName { get; set; }
 
         /// <summary>
-        /// 根目錄排序.
+        /// 父目錄排序.
         /// </summary> 
-        [DisplayName("根目錄排序")]
+        [DisplayName("父目錄排序")]
         public int TRootOrder { get; set; }
+         
+        public string UrlIcon { get; set; }
           
     }
 }

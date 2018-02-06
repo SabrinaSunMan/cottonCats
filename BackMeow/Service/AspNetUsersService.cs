@@ -9,6 +9,7 @@ using StoreDB.Interface;
 using System;
 using AutoMapper;
 using BackMeow.AutoMapper;
+using BackMeow.Models;
 
 namespace BackMeow.Service
 {
@@ -24,7 +25,7 @@ namespace BackMeow.Service
 
         private readonly IUnitOfWork _unitOfWork;
         private AspNetUsersInitialize _aspnetMapping = new AspNetUsersInitialize();
-
+        
         public AspNetUsersService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -84,8 +85,7 @@ namespace BackMeow.Service
             //    mapper.Map<SystemRolesListContentViewModel>(ListViewModel);
             return result;
         }
-
-        
+          
         /// <summary>
         /// Gets all ASP net users.
         /// </summary>
@@ -115,7 +115,26 @@ namespace BackMeow.Service
         {
             return _AspNetUsersRep.GetSingle(s=>s.Id == guid);
         }
-          
+
+        public AspNetUsers GetAspNetUserByName(string name)
+        {
+            AspNetUsers GetAspNetUsers =
+            _AspNetUsersRep.GetAll().Where(s=>s.UserName==name).First();
+            return GetAspNetUsers;
+        }
+
+        /// <summary>
+        /// Logins the find data by user or email.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="account">The account.</param>
+        /// <param name="pwd">The password.</param>
+        /// <returns></returns>
+        //public LoginViewModel LoginFindDataByUserOrEmail(string email,string account,string pwd)
+        //{
+        //    AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);
+        //}
+
         public void Add(AspNetUsers aspuser)
         {
             Students test = new Students();

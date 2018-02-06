@@ -40,7 +40,7 @@ namespace BackMeow
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // 設定使用者名稱的驗證邏輯
@@ -81,7 +81,7 @@ namespace BackMeow
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
@@ -105,5 +105,45 @@ namespace BackMeow
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+        //public override async Task<SignInStatus> PasswordSignInAsync(string emailORaccount, string password, bool isPersistent, bool shouldLockout)
+        //{
+        //    //1.先判斷email是否有相等
+        //    var hasEmail = await UserManager.FindByEmailAsync(emailORaccount); 
+        //    return SignInStatus.Success;
+        //}
+
+        /// <summary>
+        /// 客製化_同時驗證email和Account的判斷
+        /// </summary>
+        /// <param name="emailORaccount">The email o raccount.</param>
+        /// <param name="password">The password.</param>
+        /// <returns></returns>
+        //public async Task<SignInStatus> HasPasswordAsync(string emailORaccount, string password)
+        //{
+        //    //1.先判斷email是否有相等
+        //    ApplicationUser GetResult = new ApplicationUser();
+        //    ApplicationUser hasEmail = await UserManager.FindByEmailAsync(emailORaccount);
+        //    ApplicationUser hasUserName = await UserManager.FindByNameAsync(emailORaccount);
+
+        //    if (hasEmail != null)
+        //    {
+        //        //2.判斷userName和pwd
+        //        GetResult = await UserManager.FindAsync(hasEmail.UserName, password); 
+        //    }else if(hasUserName!=null)
+        //    {
+        //        //2.判斷userName和pwd
+        //        GetResult = await UserManager.FindAsync(hasUserName.UserName, password); 
+        //    }
+
+        //    if (GetResult.Account != null) //如果有資料
+        //    {
+        //        // 代表驗證通過確有其人
+        //        return SignInStatus.Success;
+        //    }
+
+        //    return SignInStatus.Failure;
+        //}
+
     }
 }

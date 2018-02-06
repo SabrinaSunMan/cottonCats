@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BackMeow.Models;
+using BackMeow.Service;
+using StoreDB.Repositories;
 
 namespace BackMeow.Controllers
 {
@@ -14,16 +16,21 @@ namespace BackMeow.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private MenuSideListService _menuSideservice;
 
         public AccountController()
         {
+            var unitOfWork = new EFUnitOfWork();
+            _menuSideservice = new MenuSideListService(unitOfWork);
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        //{
+        //    var unitOfWork = new EFUnitOfWork();
+        //    UserManager = userManager;
+        //    SignInManager = signInManager;
+        //    _menuSideservice = new MenuSideListService(unitOfWork);
+        //}
 
         public ApplicationSignInManager SignInManager
         {
@@ -48,53 +55,26 @@ namespace BackMeow.Controllers
                 _userManager = value;
             }
         }
+
         //public class JsonHelper
         //{
         //    public static string ToJsonString(object obj)
         //    {
         //        return JsonConvert.SerializeObject(obj);
-        //    }
-
-
+        //    } 
         //    public static T ToObject<T>(string jsonString)
         //    {
         //        return JsonConvert.DeserializeObject<T>(jsonString);
         //    }
         //}
         //
+
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         //public async<IActionResult> Login(string returnUrl)
-        {
-            //LoginViewModel userinfo = JsonHelper.ToObject<LoginViewModel>(HttpContext.Current.User.Identity.Name);
-            //        string aa = System.Web.HttpContext.Current.Request
-            //.RequestContext.RouteData.Values["InterimIdentifier"].ToString();
-            //HttpContextBase httpContext;
-
-            //var ctx = HttpContext.GetOwinContext();
-            //ClaimsPrincipal user = ctx.Authentication.User;
-            //IEnumerable<Claim> claims = user.Claims;
-
-            //LoginViewModel lvm = new LoginViewModel();
-            //lvm.Email = System.Web.HttpContext.Current.User.Identity.Name;
-            //List<string> SessionList = new List<string>();
-            //foreach (var crntSession in Session)
-            //{
-            //    SessionList.Add(string.Concat(crntSession, "=", Session[crntSession.ToString()]) + "<br />");
-            //}
-            //string[] cookies = Request.Cookies.AllKeys;
-            //foreach (string cookie in cookies)
-            //{
-            //    Response.Cookies[cookie].Expires = DateTime.Now.AddDays(-1);
-            //}
-            //LoginViewModel a = new LoginViewModel()
-            //{
-            //    Email = "",
-            //    Password = ""
-            //};
-            //ModelState.Clear();
+        { 
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -113,14 +93,25 @@ namespace BackMeow.Controllers
 
             // 這不會計算為帳戶鎖定的登入失敗
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            //var result = await SignInManager.PasswordSignInAsync(model.Account, model.Password, model.RememberMe, shouldLockout: false);
+            SignInStatus result = new SignInStatus();
+            //1.先判斷email是否有相等 
+            ApplicationUser hasEmail = await UserManager.FindByEmailAsync(model.Account);
+            ApplicationUser hasUserName = await UserManager.FindByNameAsync(model.Account);
+
+            if (hasEmail != null)
+            {
+                //2.判斷userName和pwd
+                result = await SignInManager.PasswordSignInAsync(hasEmail.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            }
+            else if (hasUserName != null)
+            {
+                //2.判斷userName和pwd
+                result = await SignInManager.PasswordSignInAsync(hasUserName.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            }
             switch (result)
             {
-                case SignInStatus.Success:
-                    //if(returnUrl.Contains("elmah"))
-                    //{
-                    //    return View(returnUrl.Replace("/",""));
-                    //}else
+                case SignInStatus.Success: 
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -131,7 +122,7 @@ namespace BackMeow.Controllers
                     ModelState.AddModelError("", "登入嘗試失試。");
                     return View(model);
             }
-        }
+        } 
 
         //
         // GET: /Account/VerifyCode

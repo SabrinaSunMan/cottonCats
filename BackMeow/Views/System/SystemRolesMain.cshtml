@@ -8,7 +8,7 @@
 @using (Html.BeginForm("SystemRolesMain", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+    
     <div class="row">
         <div class="col-md-12">
             <!-- PANEL DEFAULT -->
@@ -27,6 +27,7 @@
     @*<input type="text" name="guid" value="@Model.Id" />*@
     <div class="panel-body">
         @Html.NoteSite()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
     </div>
     <div class="panel-body">
         @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Account).ToString())
@@ -57,10 +58,11 @@
         </div>
     </div>
     <div class="panel-body">
-        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-2 control-label" })
+        @Html.RequiredLabel(@Html.DisplayNameFor(model => model.UserName).ToString())
         <div class="col-md-3">
             <input class="form-control" name="UserName" placeholder="請輸入 @Html.DisplayNameFor(model => model.UserName)"
                     type="text" value="@Model.UserName" />
+            @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
         </div>
         @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">

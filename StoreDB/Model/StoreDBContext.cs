@@ -15,9 +15,9 @@ namespace StoreDB.Model
 
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Addresses> Addresses { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        //public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        //public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        //public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Students> Students { get; set; } 
         public virtual DbSet<NLog_Error> Nlog_Error { get; set; }
