@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreDB.Model.Partials
 {
@@ -14,6 +15,7 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [Key]
         [DisplayName("使用者序號")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MemberID { get; set; }
 
         /// <summary>

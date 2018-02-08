@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreDB.Model.Partials
 {
@@ -15,6 +16,7 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [Key]
         [DisplayName("ID")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid MenuID { get; set; }
 
         /// <summary>

@@ -22,18 +22,12 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [DisplayName("使用者ID")]
         public string Id { get; set; }
-
-        /// <summary>
-        /// 管理者 帳號.
-        /// </summary> 
-        [Required(ErrorMessage = "帳號為為必輸入欄位")]
-        [DisplayName("帳號")] //Add
-        public string Account { get; set; }
-
-
+          
         [StringLength(256)]
         [EmailAddress(ErrorMessage ="非E-Mail格式")]
+        [DisplayName("帳號")]
         public string Email { get; set; }
+
 
         public bool EmailConfirmed { get; set; }
 

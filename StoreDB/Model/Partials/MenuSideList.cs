@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreDB.Model.Partials
 {
@@ -15,7 +16,8 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [Key]
         [DisplayName("使用者功能列ID")]
-        public string MenuSideListID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid MenuSideListID { get; set; }
 
         /// <summary>
         /// 子目錄ID.

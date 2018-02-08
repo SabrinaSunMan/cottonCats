@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+    @Styles.Render("~/Content/css")
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="~/Content/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/vendor/linearicons/style.css">
+    <link rel="stylesheet" href="~/Content/vendor/chartist/css/chartist-custom.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/Content/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="~/Content/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/css/demo.css" rel="stylesheet" />
+    <!--DatePicker css-->
+</head>
+<body>
+    <div class="modal"><!-- Place at bottom of page --></div>
+
+    <div id="wrapper">
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="brand">
+                <a href="/Home/Index">
+                    <img src="~/Content/img/if_cat_track-24_302350.png" alt="非喵布可">非喵布可
+                </a>
+            </div> 
+        </nav>
+        <!-- END NAVBAR -->
+        <!-- LEFT SIDEBAR --> 
+
+        <!-- END LEFT SIDEBAR -->
+        <!-- MAIN -->
+        <div class="main">
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <!-- OVERVIEW -->
+                    <div class="panel panel-headline">
+                        @RenderBody()
+                    </div>
+                    <!-- END OVERVIEW -->
+                </div>
+            </div>
+            <!-- END MAIN CONTENT -->
+        </div>
+        <!-- END MAIN -->
+        <div class="clearfix"></div>
+        <div class="modal"><!-- Place at bottom of page --></div>
+        <footer>
+            <div class="container-fluid">
+                <p class="copyright">&copy; @DateTime.Now.Year - 我的 ASP.NET MVC 應用程式 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Content/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Content/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/Content/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+    <script src="~/Content/vendor/chartist/js/chartist.min.js"></script>
+    <script src="~/Content/vendor/klorofil-common.js"></script>
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+
+            $(".logout").on('click', function () {
+                alert('logout!!');
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/LogOff",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            })
+        }); 
+    </script>
+
+</body>
+</html>

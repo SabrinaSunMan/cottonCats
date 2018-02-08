@@ -233,6 +233,7 @@
     <Compile Include="AutoMapper\AspNetUsersInitialize.cs" />
     <Compile Include="AutoMapper\AspNetUsersProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
@@ -461,11 +462,13 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\BackTest.cshtml" />
-    <Content Include="Views\System\SystemRolesList.cshtml" />
+    <Content Include="Views\System\SystemRoles.cshtml" />
     <Content Include="Views\System\_RolesList.cshtml" />
     <Content Include="Views\System\SystemRolesMain.cshtml" />
     <Content Include="Views\Home\SideBarContent.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Error\ErrorPage.cshtml" />
+    <Content Include="Views\Shared\_LayoutEmpty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,16 +30,15 @@ namespace BackMeow.Service
 
 
         //該名使用者可以使用的目錄
-       public List<MenuTreeRootStratumViewModel> ReturnMenuSideViewModel(string guid)
+        public List<MenuTreeRootStratumViewModel> ReturnMenuSideViewModel(string guid)
         {
-            List<MenuTreeRoot> getMenuTreeRoot = _MenuTreeRoot.GetAll().OrderBy(s=>s.TRootOrder).ToList();
+            List<MenuTreeRoot> getMenuTreeRoot = _MenuTreeRoot.GetAll().Where(s=>s.TRootOrder!=0).OrderBy(s => s.TRootOrder).ToList();
             //List<MenuSideContentViewModel> getMenuSideContent = PackageMenuSideViewModel(guid).ToList();
 
             List<MenuTreeRootStratumViewModel> SideMenuViewModel = new List<MenuTreeRootStratumViewModel>();
-            foreach(var items in getMenuTreeRoot)
+            foreach (var items in getMenuTreeRoot)
             {
-                List<MenuTree> tmp = _MenuTree.Query(s=>s.TRootID.Equals(items.TRootID)).OrderBy(s=>s.MenuOrder).ToList();
-
+                List<MenuTree> tmp = _MenuTree.Query(s => s.TRootID.Equals(items.TRootID)).OrderBy(s => s.MenuOrder).ToList();
                 MenuTreeRootStratumViewModel tmpSideModel = new MenuTreeRootStratumViewModel()
                 {
                     TRootID = items.TRootID.ToString(),
@@ -47,22 +46,35 @@ namespace BackMeow.Service
                     UrlIcon = items.UrlIcon,
                     TRootOrder = items.TRootOrder,
                     ActionName = tmp.FirstOrDefault().ActionName,
-                    ControllerName = tmp.FirstOrDefault().ActionName,
+                    ControllerName = tmp.FirstOrDefault().ControllerName,
                     tree = tmp
                 };
                 SideMenuViewModel.Add(tmpSideModel);
-            }  
+            }
             return SideMenuViewModel;
-    }
-
-        public bool CheckRequestPage(string guid, string Controller, string ActionName)
-        {
-            //呼叫 PackageMenuSideViewModel(guid);
-            //這邊要判斷 該使用者以及點擊的網頁是否他可以訪問的?
-            return true;
         }
 
-        //這個要放在Filters 每次登入就去檢查是否有可以讀取該網頁的權限
+        /// <summary>
+        /// 使用者是否可訪問該頁面權限
+        /// </summary>
+        /// <param name="guid">The unique identifier.</param>
+        /// <param name="Controller">The controller.</param> 
+        /// <returns></returns>
+        public bool CheckRequestPage(string guid, string Controller) //, string ActionName
+        {
+            List<MenuSideContentViewModel> userMenu = PackageMenuSideViewModel(guid).ToList();
+            if (userMenu.Where(s =>s.ControllerName.Equals(Controller)).ToList().Count > 0)
+            { //目前只有去判斷到Contrller 並未判斷到 ActionName，如果需要得開Table
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 藉由使用者ID取得
+        /// </summary>
+        /// <param name="guid">The unique identifier.</param>
+        /// <returns></returns>
         private IEnumerable<MenuSideContentViewModel> PackageMenuSideViewModel(string guid)
         {
             // 取得 後台_測邊功能列與使用者的連繫Table
@@ -71,27 +83,24 @@ namespace BackMeow.Service
             List<MenuTree> menu = _MenuTree.GetAll().ToList();
             // 取得根目錄的功能
             List<MenuTreeRoot> menuRoot = _MenuTreeRoot.GetAll().ToList();
-
             IEnumerable<MenuSideContentViewModel> t1 = from menulist in sidemenu
-                     join tree in menu
-                  on menulist.MenuID equals tree.MenuID
-                     join Roots in menuRoot
-                 on tree.TRootID equals Roots.TRootID
-                     where menulist.Id == new Guid(guid)
-                     orderby Roots.TRootOrder, tree.MenuOrder
-                     select new
-                     MenuSideContentViewModel
-                     {
-                         TRootID = Roots.TRootID.ToString(),
-                         TRootName = Roots.TRootName,
-                         TRootOrder = Roots.TRootOrder,
-                         ActionName = tree.ActionName,
-                         ControllerName = tree.ControllerName,
-                         MenuName = tree.MenuName,
-                         MenuOrder = tree.MenuOrder,
-                         UrlIcon = Roots.UrlIcon
-                     }; 
-
+                                                       join tree in menu
+                    on menulist.MenuID equals tree.MenuID
+                                                       join Roots in menuRoot
+                                                   on tree.TRootID equals Roots.TRootID
+                                                       where menulist.Id == new Guid(guid)                                                        orderby Roots.TRootOrder, tree.MenuOrder
+                                                       select new
+                                                       MenuSideContentViewModel
+                                                       {
+                                                           TRootID = Roots.TRootID.ToString(),
+                                                           TRootName = Roots.TRootName,
+                                                           TRootOrder = Roots.TRootOrder,
+                                                           ActionName = tree.ActionName,
+                                                           ControllerName = tree.ControllerName,
+                                                           MenuName = tree.MenuName,
+                                                           MenuOrder = tree.MenuOrder,
+                                                           UrlIcon = Roots.UrlIcon
+                                                       };
             return t1;
         }
     }

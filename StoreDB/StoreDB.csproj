@@ -99,6 +99,14 @@
     <Compile Include="Migrations\201802060952366_Back02.Designer.cs">
       <DependentUpon>201802060952366_Back02.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802070808237_Back03.cs" />
+    <Compile Include="Migrations\201802070808237_Back03.Designer.cs">
+      <DependentUpon>201802070808237_Back03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802070952034_Back04.cs" />
+    <Compile Include="Migrations\201802070952034_Back04.Designer.cs">
+      <DependentUpon>201802070952034_Back04.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
     <Compile Include="Model\Partials\AspNetRoles.cs" />
@@ -171,6 +179,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802060952366_Back02.resx">
       <DependentUpon>201802060952366_Back02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802070808237_Back03.resx">
+      <DependentUpon>201802070808237_Back03.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802070952034_Back04.resx">
+      <DependentUpon>201802070952034_Back04.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

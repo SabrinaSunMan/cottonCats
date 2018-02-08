@@ -6,25 +6,58 @@ using StoreDB.Repositories;
 using System;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using System.Web.Security;
 
 namespace BackMeow.Filters
 {
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly AspNetUsersService _UserService;
+        private readonly MenuSideListService _MenuService;
         private ApplicationSignInManager _signInManager;
 
         public CustomAuthorizeAttribute()
         {
             var unitOfWork = new EFUnitOfWork();
             _UserService = new AspNetUsersService(unitOfWork);
+            _MenuService = new MenuSideListService(unitOfWork);
+        }
+
+        public object Request { get; private set; }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            string NotifyUrl = "/Account/Login";
+            //if (AuthorizeCore(filterContext.HttpContext))
+            //{
+            //    HttpCachePolicyBase cachePolicy =
+            //        filterContext.HttpContext.Response.Cache;
+            //    cachePolicy.SetProxyMaxAge(new TimeSpan(0));
+            //    //cachePolicy.AddValidationCallback(CacheValidateHandler, null);
+            //}
+
+            /// This code added to support custom Unauthorized pages.
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                if (NotifyUrl != null)
+                    filterContext.Result = new RedirectResult(NotifyUrl + "?Msg=很抱歉，您未使用該頁面權限");
+                else
+                    // Redirect to Login page.
+                    HandleUnauthorizedRequest(filterContext);
+            }
+            /// End of additional code
+            else
+            {
+                // Redirect to Login page.
+                HandleUnauthorizedRequest(filterContext);
+            }
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
-        {
+        { 
             if (httpContext == null)
-                throw new ArgumentNullException("httpContext"); 
-            //var test = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                throw new ArgumentNullException("httpContext");
 
             String[] users = Users.Split(',');//取得輸入user清單
             String[] roles = Roles.Split(',');//取得輸入role清單
@@ -32,37 +65,21 @@ namespace BackMeow.Filters
                 return false;
 
             var rd = httpContext.Request.RequestContext.RouteData;
-            string currentAction = rd.GetRequiredString("action");
-            string currentController = rd.GetRequiredString("controller");
+            string Action = rd.GetRequiredString("action");
+            string Controller = rd.GetRequiredString("controller");
             //string currentArea = rd.Values["area"] as string;
 
             _signInManager = httpContext.GetOwinContext().Get<ApplicationSignInManager>();
             //ApplicationSignInManager UserManager = new ApplicationSignInManager(_signInManager);
             string Username = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號
             AspNetUsers AspNetusers = _UserService.GetAspNetUserByName(Username);
-            
-            if (roles.Length != 0)
+
+            if (_MenuService.CheckRequestPage(AspNetusers.Id, Controller))
             {
-                //BookInfoDBContext _DBContex = new BookInfoDBContext();
-                //SkillTreeHomeworkEntities db = _DBContex.LocalDBConnection();
-                //String account = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號
-                //bool Isright = false;//角色是否正確
-                ////var q = from tbl in db.USERPROFILE
-                ////        where tbl.ACCOUNT == account
-                ////        select new
-                ////        {
-                ////            tbl.ROLE
-                ////        };
-                ////foreach (String inputval in roles)//循環比對角色資料
-                ////{
-                ////    if (q.First().ROLE.ToString() == inputval)
-                ////        return true;
-                ////    else
-                ////        Isright = false;
-                ////}
-                //return Isright;
+                return false;
+                //return true;
             }
-            return true; 
+            else return false; 
         } 
-    } 
+    }
 }

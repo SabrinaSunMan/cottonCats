@@ -14,9 +14,9 @@ namespace BackMeow.AutoMapper
 
         //這邊負責確認是否兩個欄位有不同名稱
         public AspNetUsersProfile()
-        { 
+        {
             CreateMap<AspNetUsers, AspNetUsersDetailViewModel>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName));
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName)); 
 
         }
     }

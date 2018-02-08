@@ -14,7 +14,7 @@ namespace BackMeow.Models.ViewModel
     /// 包括 表頭以及 PageList
     /// </summary>
     public class SystemRolesListViewModel
-    {
+    { 
         public SystemRolesListHeaderViewModel Header { get; set; }
 
         public IPagedList<SystemRolesListContentViewModel> Content_List { get; set; }
@@ -26,7 +26,7 @@ namespace BackMeow.Models.ViewModel
     /// 搜尋 [AspNetUsers] 條件式
     /// </summary>
     public class SystemRolesListHeaderViewModel
-    {
+    {  
         [DisplayName("帳號")]
         public string Email { get; set; }
 
@@ -59,14 +59,10 @@ namespace BackMeow.Models.ViewModel
     /// 呈現 [AspNetUsers] 詳細資訊
     /// </summary>
     public class AspNetUsersDetailViewModel  
-    {
+    { 
         [DisplayName("使用者ID")]
         public string Id { get; set; }
-
-        [Required(ErrorMessage ="帳號為為必輸入欄位")]
-        [DisplayName("帳號")]
-        public string Account { get; set; }
-
+ 
         [StringLength(256)]
         [EmailAddress(ErrorMessage = "非E-Mail格式")]
         public string Email { get; set; }

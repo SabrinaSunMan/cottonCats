@@ -9,10 +9,7 @@ namespace BackMeow.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
-    {
-        ////[DisplayName("帳號")] //Add
-        public string Account { get; set; }
-
+    {  
         //[DisplayName("建立時間")] //Add
         public DateTime CreateTime { get; set; }
 

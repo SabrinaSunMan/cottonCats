@@ -14,10 +14,8 @@
             <!-- PANEL DEFAULT -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">SystemRolesMain</h3>
-                    @*<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>*@
-                </div>
-
+                    <h3 class="panel-title">管理者 </h3>
+                </div> 
                 @*</div>*@
             </div>
             <!-- END PANEL DEFAULT -->
@@ -30,17 +28,17 @@
         @Html.ValidationSummary("", new { @class = "text-danger" })
     </div>
     <div class="panel-body">
-        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Account).ToString())
-        <div class="col-md-3">
-            <input class="form-control" name="Account" placeholder="請輸入 @Html.DisplayNameFor(model => model.Account)"
-                    type="text" value="@Model.Account" />
-            @Html.ValidationMessageFor(x => x.Account, "", new { @class = "text-danger" })
-        </div>
-        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Email).ToString())
+       @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Email).ToString())
         <div class="col-md-3">
             <input class="form-control" name="Email" placeholder="請輸入 @Html.DisplayNameFor(model => model.Email)"
-                    type="text" value="@Model.Email" />
+                   type="text" value="@Model.Email" />
             @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+        </div>
+        @Html.RequiredLabel(@Html.DisplayNameFor(model => model.UserName).ToString())
+        <div class="col-md-3">
+            <input class="form-control" name="UserName" placeholder="請輸入 @Html.DisplayNameFor(model => model.UserName)"
+                   type="text" value="@Model.UserName" />
+            @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="panel-body">
@@ -57,13 +55,7 @@
             @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="panel-body">
-        @Html.RequiredLabel(@Html.DisplayNameFor(model => model.UserName).ToString())
-        <div class="col-md-3">
-            <input class="form-control" name="UserName" placeholder="請輸入 @Html.DisplayNameFor(model => model.UserName)"
-                    type="text" value="@Model.UserName" />
-            @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
-        </div>
+    <div class="panel-body"> 
         @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
             @*<input class="form-control datepicker" name="PhoneNumber" placeholder="請輸入 @Html.DisplayNameFor(model => model.PhoneNumber)"

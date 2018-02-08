@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace BackMeow.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     public class HomeController : Controller
     {
         private readonly AspNetUsersService _UserService;
@@ -41,7 +41,7 @@ namespace BackMeow.Controllers
             List<MenuTreeRootStratumViewModel> SideViewModel = new List<MenuTreeRootStratumViewModel>();
             var userID = User.Identity.GetUserId();
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            if (claimsIdentity != null)
+            if (claimsIdentity != null && userID !=null)
             {
                 // the principal identity is a claims identity.
                 // now we need to find the NameIdentifier claim
@@ -52,8 +52,8 @@ namespace BackMeow.Controllers
                 {
                     var userIdValue = userIdClaim.Value;
                 }
-            }
-            SideViewModel = _menuSide.ReturnMenuSideViewModel(userID.ToString()).ToList();
+                SideViewModel = _menuSide.ReturnMenuSideViewModel(userID.ToString()).ToList();
+            }  
             return View(SideViewModel);
         } 
 

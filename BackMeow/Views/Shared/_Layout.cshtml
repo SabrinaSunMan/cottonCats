@@ -74,7 +74,11 @@
                                 <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                                <li>
+                                    <a href="#" class="logout">
+                                    <i class="lnr lnr-exit"></i> 
+                                    <span>Logout</span></a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -143,9 +147,23 @@
                 $(this).addClass("active");
             }) //選單
 
-            $(".collapsed").on('click', function () {
-                $(this).removeClass("active");
-            }) //選單
+            $(".logout").on('click', function () {
+                alert('logout!!'); 
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/LogOff" ,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }) 
 
 
             $(".table-hover").on('click', '.btn-danger', function () {

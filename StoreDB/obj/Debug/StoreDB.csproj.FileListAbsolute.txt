@@ -48,3 +48,5 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Base.resour
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.GenerateResource.Cache
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back01.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back02.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back03.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back04.resources

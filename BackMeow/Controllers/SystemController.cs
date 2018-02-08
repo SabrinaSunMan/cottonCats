@@ -52,14 +52,14 @@ namespace BackMeow.Controllers
 
         #region 取得所有後台使用者清單
         [HttpGet]
-            public ActionResult SystemRolesList()
+            public ActionResult SystemRoles()
             {
                 SystemRolesListViewModel ResultViewModel = _UserService.GetSystemRolesListViewModel(new SystemRolesListHeaderViewModel(), 1);
                 return View(ResultViewModel);
             }
 
             [HttpPost]
-            public ActionResult SystemRolesList(SystemRolesListViewModel SystemRolesListViewModel,int page = 1)
+            public ActionResult SystemRoles(SystemRolesListViewModel SystemRolesListViewModel,int page = 1)
             {
                 SystemRolesListViewModel ResultViewModel = _UserService.GetSystemRolesListViewModel(SystemRolesListViewModel.Header, page);
                 return View(ResultViewModel);
@@ -71,9 +71,7 @@ namespace BackMeow.Controllers
             {
                 TempData["Actions"] = ActionType;
                 if (ActionType == Actions.Update)
-                {
-                IEnumerable<MenuTreeRootStratumViewModel> tmp = _menuSide.ReturnMenuSideViewModel(guid);
-
+                { 
                     return View(_UserService.ReturnAspNetUsersDetail(ActionType, guid));
                 }
                 else
@@ -108,8 +106,7 @@ namespace BackMeow.Controllers
                     var user = new ApplicationUser
                     {
                         UserName = AspNetUsersModel.UserName,
-                        Email = AspNetUsersModel.Email,
-                        Account = AspNetUsersModel.Account,
+                        Email = AspNetUsersModel.Email, 
                         CreateTime = DateTime.Now,
                         UpdateTime = DateTime.Now,
                         Id = Guid.NewGuid().ToString().ToUpper()

@@ -72,9 +72,10 @@ namespace BackMeow.Controllers
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl,string Msg)
         //public async<IActionResult> Login(string returnUrl)
-        { 
+        {
+            ViewBag.ErrorMsg = Msg;
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -99,25 +100,27 @@ namespace BackMeow.Controllers
             ApplicationUser hasEmail = await UserManager.FindByEmailAsync(model.Account);
             ApplicationUser hasUserName = await UserManager.FindByNameAsync(model.Account);
 
-            if (hasEmail != null)
+            if (hasEmail != null || hasUserName != null)
             {
                 //2.判斷userName和pwd
                 result = await SignInManager.PasswordSignInAsync(hasEmail.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            }
-            else if (hasUserName != null)
-            {
-                //2.判斷userName和pwd
-                result = await SignInManager.PasswordSignInAsync(hasUserName.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            }
+            } 
+
             switch (result)
             {
                 case SignInStatus.Success: 
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
                 case SignInStatus.Failure:
+                    ModelState.AddModelError("", "登入嘗試失試，請帳號或密碼有誤");
+                    return View(model);
+
                 default:
                     ModelState.AddModelError("", "登入嘗試失試。");
                     return View(model);
