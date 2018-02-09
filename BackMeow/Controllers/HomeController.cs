@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace BackMeow.Controllers
 {
-    [CustomAuthorize]
+    [CustomAuthorize] 
     public class HomeController : Controller
     {
         private readonly AspNetUsersService _UserService;
@@ -26,6 +27,19 @@ namespace BackMeow.Controllers
 
         public ActionResult Index()
         {
+            //FormsIdentity id = (FormsIdentity)User.Identity;
+            //FormsAuthenticationTicket ticket = id.Ticket;
+
+            //string cookiePath = ticket.CookiePath;
+            //string expireDate = ticket.Expiration.ToString();
+            //string expired = ticket.Expired.ToString();
+            //string isPersistent = ticket.IsPersistent.ToString();
+            //string issueDate = ticket.IssueDate.ToString();
+            //string name = ticket.Name;
+            //string userData = ticket.UserData;
+            //string version = ticket.Version.ToString();
+
+            int i = 0;
             //throw new NullReferenceException();
             //throw new Exception("Error!Test");
             //throw new HttpException(404, "页面未找到");

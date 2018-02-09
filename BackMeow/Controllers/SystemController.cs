@@ -19,7 +19,7 @@ using System.Web.Mvc;
 
 namespace BackMeow.Controllers
 {
-    [CustomAuthorize]
+    [Authorize]
     public class SystemController : Controller
     {
         private Utility _utility = new Utility();
@@ -110,21 +110,30 @@ namespace BackMeow.Controllers
                         CreateTime = DateTime.Now,
                         UpdateTime = DateTime.Now,
                         Id = Guid.NewGuid().ToString().ToUpper()
-                    }; 
-                    var result = await UserManager.CreateAsync(user, AspNetUsersModel.Password);
-                    if (result.Succeeded)
-                    { 
-                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                        // 傳送包含此連結的電子郵件
-                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
+                    };
+                    _UserService.UserName = user.UserName;
+                    _UserService.UserEmail = user.Email;
+
+                    if (_UserService.GetAspNetUserBySelectPramters() == null)
                     {
-                        AddErrors(result);
-                    } 
+                        var result = await UserManager.CreateAsync(user, AspNetUsersModel.Password);
+                        if (result.Succeeded)
+                        {
+                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                            // 傳送包含此連結的電子郵件
+                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            AddErrors(result);
+                        }
+                    }else
+                    {
+                        CustomerIdentityError(BackReturnMsg.Repeat);
+                    }
                 }
                 //_UserService.Add(oldData); 
                 //_logSvc.Add("FirstName", "LastName","Email", Guid.NewGuid());
@@ -136,6 +145,20 @@ namespace BackMeow.Controllers
         }
         #endregion
         #endregion
+
+        /// <summary>
+        /// 客制化錯誤訊息
+        /// </summary>
+        /// <param name="ErrorMsg">The error MSG.</param>
+        private void CustomerIdentityError(BackReturnMsg Msg)
+        {
+            AddErrors(IdentityResult.Failed(Msg.ToString()));
+        }
+
+        /// <summary>
+        /// Identity 回的結果
+        /// </summary>
+        /// <param name="result">The result.</param>
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

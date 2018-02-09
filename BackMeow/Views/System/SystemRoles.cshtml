@@ -9,7 +9,6 @@
 @using (Html.BeginForm("SystemRolesList", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.HiddenFor(model => model.page)
-    @Html.AntiForgeryToken()
     <div class="row">
     <div class="col-md-12">
         <!-- PANEL DEFAULT -->

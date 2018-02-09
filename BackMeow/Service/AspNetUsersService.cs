@@ -20,8 +20,9 @@ namespace BackMeow.Service
     {
         private readonly IRepository<AspNetUsers> _AspNetUsersRep;
         private readonly IRepository<NLog_Error> _NLog_ErrorRep; 
-        private readonly IRepository<Addresses> _Addresses; //TEST
-        private readonly IRepository<Students> _Students; //TEST
+
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
 
         private readonly IUnitOfWork _unitOfWork;
         private AspNetUsersInitialize _aspnetMapping = new AspNetUsersInitialize();
@@ -30,12 +31,9 @@ namespace BackMeow.Service
         {
             _unitOfWork = unitOfWork;
             _AspNetUsersRep = new Repository<AspNetUsers>(unitOfWork);
-            _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
-            _Addresses = new Repository<Addresses>(unitOfWork);
-            _Students = new Repository<Students>(unitOfWork);
+            _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork); 
         }
 
-        //Repository<AspNetUsers> AspNetUsersRepository = new Repository<AspNetUsers>();
         private readonly int pageSize = (int)BackPageListSize.commonSize;
 
         /// <summary>
@@ -60,7 +58,8 @@ namespace BackMeow.Service
         /// <returns></returns>
         private IEnumerable<SystemRolesListContentViewModel> GetAllSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel)
         {
-            IEnumerable<SystemRolesListContentViewModel> result = GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
+            IEnumerable<SystemRolesListContentViewModel> result = 
+                GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
             s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
             && (!string.IsNullOrWhiteSpace(selectModel.Email) ?
             s.Email.Contains(selectModel.Email) : s.Email == s.Email)
@@ -85,18 +84,7 @@ namespace BackMeow.Service
             //    mapper.Map<SystemRolesListContentViewModel>(ListViewModel);
             return result;
         }
-          
-        /// <summary>
-        /// Gets all ASP net users.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerable<AspNetUsers> GetAllAspNetUsers()
-        {
-            IEnumerable<AspNetUsers> GetAspNetUsers =
-            _AspNetUsersRep.GetAll().OrderByDescending(s => s.UserName).ToList();
-            return GetAspNetUsers;
-        }
-
+         
         public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(Actions ActionType,string guid)
         {
             AspNetUsersDetailViewModel DetailViewModel = new AspNetUsersDetailViewModel();
@@ -107,39 +95,45 @@ namespace BackMeow.Service
         }
 
         /// <summary>
+        /// 取得所有管理者.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<AspNetUsers> GetAllAspNetUsers()
+        {
+            IEnumerable<AspNetUsers> GetAspNetUsers =
+            _AspNetUsersRep.GetAll().OrderByDescending(s => s.UserName).ToList();
+            return GetAspNetUsers;
+        }
+
+        /// <summary>
+        /// 藉由參數取得管理者資訊.
+        /// </summary>
+        /// <returns></returns>
+        public AspNetUsers GetAspNetUserBySelectPramters()
+        {
+            AspNetUsers GetAspNetUsers =
+            _AspNetUsersRep.GetAll().Where(s => s.UserName == (string.IsNullOrEmpty(UserName) ? s.UserName : UserName)
+            && s.Email == (string.IsNullOrEmpty(UserEmail) ? s.Email : UserEmail)).First();
+            return GetAspNetUsers;
+        }
+
+        /// <summary>
         /// Gets the ASP net users by identifier.
         /// </summary>
         /// <param name="guid">The unique identifier.</param>
         /// <returns></returns>
         public AspNetUsers GetAspNetUsersById(string guid)
         {
-            return _AspNetUsersRep.GetSingle(s=>s.Id == guid);
-        }
-
-        public AspNetUsers GetAspNetUserByName(string name)
-        {
-            AspNetUsers GetAspNetUsers =
-            _AspNetUsersRep.GetAll().Where(s=>s.UserName==name).First();
-            return GetAspNetUsers;
-        }
-
-        /// <summary>
-        /// Logins the find data by user or email.
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="account">The account.</param>
-        /// <param name="pwd">The password.</param>
-        /// <returns></returns>
-        //public LoginViewModel LoginFindDataByUserOrEmail(string email,string account,string pwd)
-        //{
-        //    AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);
-        //}
-
+            return _AspNetUsersRep.GetSingle(s => s.Id == guid);
+        } 
+         
         public void Add(AspNetUsers aspuser)
         {
-            Students test = new Students();
-            test.studentName = "TESTStudent";
-            _Students.Create(test);
+            //Students test = new Students();
+            //test.studentName = "TESTStudent";
+            //_Students.Create(test);
+
+             
             //aspuser.Id = Guid.NewGuid().ToString().ToUpper();
             //aspuser.CreateTime = DateTime.Now;
             //_AspNetUsersRep.Create(aspuser);
@@ -157,9 +151,9 @@ namespace BackMeow.Service
             //////} 
 
             #region TEST ADd
-            Addresses add = new Addresses(); 
-            add.AddressContent = "測試輸入";
-            _Addresses.Create(add);
+            //Addresses add = new Addresses(); 
+            //add.AddressContent = "測試輸入";
+            //_Addresses.Create(add);
 
             #endregion
         }

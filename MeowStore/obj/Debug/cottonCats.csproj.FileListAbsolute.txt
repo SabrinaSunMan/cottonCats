@@ -290,3 +290,6 @@ D:\Work\Case\Sabrina\cottonCats\MeowStore\bin\zh-CHT\System.Data.SqlServerCe.res
 D:\Work\Case\Sabrina\cottonCats\MeowStore\obj\Debug\cottonCats.csprojResolveAssemblyReference.cache
 D:\Work\Case\Sabrina\cottonCats\MeowStore\obj\Debug\MeowStore.dll
 D:\Work\Case\Sabrina\cottonCats\MeowStore\obj\Debug\MeowStore.pdb
+D:\Work\Case\Sabrina\cottonCats\MeowStore\bin\Unity.Abstractions.dll
+D:\Work\Case\Sabrina\cottonCats\MeowStore\bin\Unity.Container.dll
+D:\Work\Case\Sabrina\cottonCats\MeowStore\bin\WebActivatorEx.dll

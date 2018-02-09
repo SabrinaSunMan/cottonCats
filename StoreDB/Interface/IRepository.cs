@@ -93,5 +93,6 @@ namespace StoreDB.Interface
         ///// <param name="entity"></param>
         //void Update(T entity);
         #endregion
+
     }
 }

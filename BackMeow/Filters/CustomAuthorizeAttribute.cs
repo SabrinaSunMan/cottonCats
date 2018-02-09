@@ -38,7 +38,7 @@ namespace BackMeow.Filters
             //}
 
             /// This code added to support custom Unauthorized pages.
-            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 if (NotifyUrl != null)
                     filterContext.Result = new RedirectResult(NotifyUrl + "?Msg=很抱歉，您未使用該頁面權限");
@@ -71,13 +71,13 @@ namespace BackMeow.Filters
 
             _signInManager = httpContext.GetOwinContext().Get<ApplicationSignInManager>();
             //ApplicationSignInManager UserManager = new ApplicationSignInManager(_signInManager);
-            string Username = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號
-            AspNetUsers AspNetusers = _UserService.GetAspNetUserByName(Username);
+            _UserService.UserName = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號 
+            AspNetUsers AspNetusers = _UserService.GetAspNetUserBySelectPramters();
 
             if (_MenuService.CheckRequestPage(AspNetusers.Id, Controller))
             {
-                return false;
-                //return true;
+                //return false;
+                return true;
             }
             else return false; 
         } 

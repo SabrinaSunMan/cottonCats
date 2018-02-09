@@ -1,4 +1,37 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity 
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post,
+            new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="assets/img/user.png" class="img-circle" alt="Avatar"> 
+                <span>Hello! @User.Identity.GetUserName()
+                @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                </span>
+                <i class="icon-submenu lnr lnr-chevron-down"></i>
+            </a>
+
+            <ul class="dropdown-menu">
+                <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
+                <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+                <li>
+                    <a href="javascript:document.getElementById('logoutForm').submit()" class="logout">
+                        <i class="lnr lnr-exit"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </li> 
+    }
+}  
+
+
+
+@*@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -19,4 +52,4 @@ else
         <li>@Html.ActionLink("註冊", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("登入", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
-}
+}*@

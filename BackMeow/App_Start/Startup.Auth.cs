@@ -31,10 +31,15 @@ namespace BackMeow
                     // 讓應用程式在使用者登入時驗證安全性戳記。
                     // 這是您變更密碼或將外部登入新增至帳戶時所使用的安全性功能。  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(5),
+                        validateInterval: TimeSpan.FromSeconds(20),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-                }
-            });            
+                },
+                SlidingExpiration = false
+                //ExpireTimeSpan = TimeSpan.FromMinutes(5),
+                //TicketDataFormat = 
+            });         
+            
+
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // 讓應用程式在雙因素驗證程序中驗證第二個因素時暫時儲存使用者資訊。
