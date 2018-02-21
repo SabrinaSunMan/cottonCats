@@ -56,9 +56,9 @@ namespace BackMeow.Models.ViewModel
     }
 
     /// <summary>
-    /// 呈現 [AspNetUsers] 詳細資訊
+    /// 呈現 [AspNetUsers] 新增時
     /// </summary>
-    public class AspNetUsersDetailViewModel  
+    public class AspNetUsersDetailViewModel 
     { 
         [DisplayName("使用者ID")]
         public string Id { get; set; }
@@ -66,6 +66,9 @@ namespace BackMeow.Models.ViewModel
         [StringLength(256)]
         [EmailAddress(ErrorMessage = "非E-Mail格式")]
         public string Email { get; set; }
+
+        [DisplayName("舊密碼")]
+        public string Old_Password { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "{0} 的長度至少必須為 {2} 個字元。", MinimumLength = 6)]
@@ -86,12 +89,12 @@ namespace BackMeow.Models.ViewModel
         [DataType(DataType.PhoneNumber,ErrorMessage ="電話格式不對，請輸入數字")]
         [DisplayName("電話號碼")]
         public string PhoneNumber { get; set; }
-
+           
         [DisplayName("使用者建立時間")]
         public DateTime CreateTime { get; set; }
 
         [DisplayName("更新時間")]
         public DateTime UpdateTime { get; set; }
-
+         
     }
 }

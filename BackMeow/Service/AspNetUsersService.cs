@@ -8,8 +8,9 @@ using System.Linq;
 using StoreDB.Interface;
 using System;
 using AutoMapper;
-using BackMeow.AutoMapper;
+using BackMeow.App_Start;
 using BackMeow.Models;
+using StoreDB.Model;
 
 namespace BackMeow.Service
 {
@@ -19,23 +20,24 @@ namespace BackMeow.Service
     public class AspNetUsersService
     {
         private readonly IRepository<AspNetUsers> _AspNetUsersRep;
-        private readonly IRepository<NLog_Error> _NLog_ErrorRep; 
+        private readonly IRepository<NLog_Error> _NLog_ErrorRep;
+        private readonly IRepository<Addresses> _Addresses;
 
         public string UserName { get; set; }
         public string UserEmail { get; set; }
 
         private readonly IUnitOfWork _unitOfWork;
-        private AspNetUsersInitialize _aspnetMapping = new AspNetUsersInitialize();
         
         public AspNetUsersService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _AspNetUsersRep = new Repository<AspNetUsers>(unitOfWork);
-            _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork); 
+            _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
+            _Addresses = new Repository<Addresses>(unitOfWork);
         }
 
         private readonly int pageSize = (int)BackPageListSize.commonSize;
-
+         
         /// <summary>
         /// Gets the system roles ListView model.
         /// </summary>
@@ -88,9 +90,10 @@ namespace BackMeow.Service
         public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(Actions ActionType,string guid)
         {
             AspNetUsersDetailViewModel DetailViewModel = new AspNetUsersDetailViewModel();
-            AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid); 
-            DetailViewModel = _aspnetMapping.MapperAspNetUsersDetailViewModel(AspNetUsersViewModel);
-             
+            AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);  
+            var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper(); 
+            DetailViewModel  = mapper.Map<AspNetUsersDetailViewModel>(AspNetUsersViewModel);
+            //DetailViewModel = _aspnetMapping.MapperAspNetUsersDetailViewModel(AspNetUsersViewModel); 
             return DetailViewModel;
         }
 
@@ -128,12 +131,12 @@ namespace BackMeow.Service
         } 
          
         public void Add(AspNetUsers aspuser)
-        {
+        { 
             //Students test = new Students();
             //test.studentName = "TESTStudent";
             //_Students.Create(test);
 
-             
+
             //aspuser.Id = Guid.NewGuid().ToString().ToUpper();
             //aspuser.CreateTime = DateTime.Now;
             //_AspNetUsersRep.Create(aspuser);
@@ -158,7 +161,37 @@ namespace BackMeow.Service
             #endregion
         }
 
-        public void Update(AspNetUsers aspuser)
+        //public ReturnMsg ReturnUpdateResult(AspNetUsersDetailViewModel viewModel)
+        //{
+        //    ReturnMsg Results = new ReturnMsg();
+        //    //if (AspNetUsersDetailViewModelUpdate(viewModel))
+        //    //{
+        //    //    Results.enumMsg = BackReturnMsg.Scuess;
+        //    //}
+        //    //else Results.enumMsg = BackReturnMsg.Error;
+        //    return Results;
+        //}
+
+        public void AspNetUsersDetailViewModelUpdate(AspNetUsersDetailViewModel viewModel)
+        { 
+            AspNetUsers AspNetUsers = new AspNetUsers();
+            var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
+            AspNetUsers = mapper.Map<AspNetUsers>(viewModel);
+            
+            //StoreDBContext a = new StoreDBContext();
+            //a.Entry(AspNetUsers).State = System.Data.Entity.EntityState.Modified;
+            //AspNetUsers get =  a.AspNetUsers.Where(s=>s.Id==AspNetUsers.Id).FirstOrDefault();
+            //get.UserName = AspNetUsers.UserName;
+            ////get = AspNetUsers;
+            //a.SaveChanges();
+            Update(AspNetUsers);
+
+            Addresses add = new Addresses();
+            add.AddressContent = "測試輸入";
+            _Addresses.Create(add);
+        }
+
+        private void Update(AspNetUsers aspuser)
         {
             aspuser.UpdateTime = DateTime.Now;
             _AspNetUsersRep.Update(aspuser); 
@@ -166,6 +199,7 @@ namespace BackMeow.Service
 
         public void Save()
         {
+            //_AspNetUsersRep.Commit();
             _unitOfWork.Save();
         }
     }

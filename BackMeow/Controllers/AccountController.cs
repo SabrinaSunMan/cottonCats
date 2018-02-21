@@ -118,7 +118,7 @@ namespace BackMeow.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
 
                 case SignInStatus.Failure:
-                    ModelState.AddModelError("", "登入嘗試失試，請帳號或密碼有誤");
+                    ModelState.AddModelError("", "登入嘗試失試，帳號或密碼有誤");
                     return View(model);
 
                 default:

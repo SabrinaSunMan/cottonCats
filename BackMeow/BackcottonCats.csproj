@@ -270,6 +270,7 @@
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Filters\ModelStateExcludeAttribute.cs" />
+    <Compile Include="Filters\ResultFillterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -277,6 +278,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PublicModel.cs" />
     <Compile Include="Models\ViewModel\SystemRolesListViewModel.cs" />
     <Compile Include="Override\CustomSignInManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

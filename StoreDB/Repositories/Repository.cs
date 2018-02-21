@@ -58,10 +58,24 @@ namespace StoreDB.Repositories
             UnitOfWork.Save();
         }
 
-        public virtual void Update(T entity)
+        public void Update(T entity)
         {
+            //ObjectSet a 
+            //GetSingle
             ObjectSet.Attach(entity);
         }
+
+        //public virtual void Update(T entity)
+        //{
+        //    //DbEntityEntry dbEntityEntry = Context.Entry(entity);
+        //    //if (dbEntityEntry.State == EntityState.Detached)
+        //    //{
+        //    //    DbSet.Attach(entity);
+        //    //}
+        //    //DbSet.Attach(entity);
+        //    ObjectSet.Attach(entity);
+
+        //}
 
         #region None Unit of work
         //private readonly StoreDBContext _DBContex;

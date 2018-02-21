@@ -32,7 +32,7 @@
                                 @foreach (var son in items.tree)
                                 {
                                     <li>
-                                        <a href="@Url.Action(son.ControllerName,son.ActionName)" class="elements"> <span>@son.MenuName</span> </a>
+                                        <a href="@Url.Action(son.ActionName,son.ControllerName)" class="elements"> <span>@son.MenuName</span> </a>
                                     </li>
                                 }
                             </ul>

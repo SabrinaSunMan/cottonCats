@@ -21,8 +21,9 @@
             <!-- END PANEL DEFAULT -->
         </div>
     </div>
-    @*<input type="text" name="actions" value="@TempData["Actions"]" />*@
-    @*<input type="text" name="guid" value="@Model.Id" />*@
+    <input type="text" name="actions" value="@TempData["Actions"]" />
+    @*<input type="text" name="Id" value="@Model.Id" />*@
+    @Html.HiddenFor(s => s.Id)
     <div class="panel-body">
         @Html.NoteSite()
         @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -41,20 +42,32 @@
             @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
         </div>
     </div>
+    if (!string.IsNullOrEmpty(Model.Id))
+    {
+        <div class="panel-body">
+            @Html.LabelFor(model => model.Old_Password, htmlAttributes: new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                <input class="form-control" name="Old_Password" placeholder="請輸入 @Html.DisplayNameFor(model => model.Old_Password)"
+                       type="password" value="@Model.Old_Password" />
+                @Html.ValidationMessageFor(x => x.Old_Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
     <div class="panel-body">
         @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Password).ToString())
         <div class="col-md-3">
-            <input class="form-control" name="Password" placeholder="請輸入 @Html.DisplayNameFor(model => model.Password)"
-                    type="password" value="@Model.Password" />
+            <input id="Passwords" class="form-control" name="Password" placeholder="請輸入 @Html.DisplayNameFor(model => model.Password)"
+                   type="password" value="@Model.Password" onclick="document.getElementById('Passwords').value=''" />
             @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
         </div>
         @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.ConfirmPassword).ToString())
         <div class="col-md-3">
-            <input class="form-control" name="ConfirmPassword" placeholder="請輸入 @Html.DisplayNameFor(model => model.ConfirmPassword)"
-                    type="password" value="" />
+            <input id="ConfirmPassword" class="form-control" name="ConfirmPassword" placeholder="請輸入 @Html.DisplayNameFor(model => model.ConfirmPassword)"
+                   type="password" value="@Model.ConfirmPassword" onclick="document.getElementById('ConfirmPassword').value=''" />
             @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
+    
     <div class="panel-body"> 
         @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
@@ -69,17 +82,20 @@
         @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
             @Html.DisplayFor(model => model.CreateTime)
+            @Html.HiddenFor(model=>model.CreateTime)
         </div>
         @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
             @Html.DisplayFor(model => model.UpdateTime)
+            @Html.HiddenFor(model => model.UpdateTime)
         </div>
     </div>
 
     <div class="panel-body">
         <div class="col-md-5">
             <button type="submit" class="btn btn-success">儲存</button>
-            <button type="submit" class="btn btn-default" onclick="location.href='location.href='@Url.Action("SystemRolesList", "System",
+            <button type="submit" class="btn btn-default" 
+                    onclick="location.href='location.href='@Url.Action("SystemRolesList", "System",
                                 new {  })'">
                 返回
             </button>

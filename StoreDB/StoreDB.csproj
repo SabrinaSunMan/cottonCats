@@ -139,6 +139,10 @@
     <Compile Include="Migrations\201802070952034_Back04.Designer.cs">
       <DependentUpon>201802070952034_Back04.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802130401205_LogError.cs" />
+    <Compile Include="Migrations\201802130401205_LogError.Designer.cs">
+      <DependentUpon>201802130401205_LogError.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
     <Compile Include="Model\Partials\AspNetRoles.cs" />
@@ -217,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802070952034_Back04.resx">
       <DependentUpon>201802070952034_Back04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802130401205_LogError.resx">
+      <DependentUpon>201802130401205_LogError.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

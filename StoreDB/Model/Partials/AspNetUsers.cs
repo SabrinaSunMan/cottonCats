@@ -71,12 +71,14 @@ namespace StoreDB.Model.Partials
         /// 建立時間.
         /// </summary> 
         [DisplayName("建立時間")] //Add
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 更新時間.
         /// </summary> 
         [DisplayName("更新時間")] //Add
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime UpdateTime { get; set; }
 
         /// <summary>

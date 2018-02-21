@@ -2,7 +2,7 @@
 using StoreDB.Interface;
 using StoreDB.Model.Partials;
 using StoreDB.Repositories;
-using System;
+using System; 
 
 namespace StoreDB.Service
 { 
@@ -17,13 +17,40 @@ namespace StoreDB.Service
             _logRep = new Repository<NLog_Error>(unitOfWork);
         }
 
-        public void Add(string firstName, string lastName, string email, Guid orderId)
+        public void CreateNLog()
         {
             _logRep.Create(new NLog_Error
-            {
-                LogId = orderId.ToString().ToUpper(),
+            {  
                 SaveData = "TEST" 
             });
+        }
+
+        /// <summary>
+        /// Returns the log information.
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="result">The result.</param>
+        /// <param name="savedata">The savedata.</param>
+        /// <param name="loglevel">The loglevel.</param>
+        /// <param name="data_action">The data action.</param>
+        /// <param name="controllersname">The controllersname.</param>
+        /// <param name="actionname">The actionname.</param>
+        /// <returns></returns>
+        private NLog_Error ReturnLogInfo(string userid,string result , 
+            string savedata , string loglevel , string data_action , 
+            string controllersname, string actionname )
+        {
+            NLog_Error package = new NLog_Error()
+            {
+                ActionName = actionname,
+                ControllersName = controllersname,
+                Data_Action = data_action,
+                LogLevel = loglevel,
+                SaveData = savedata,
+                Result = result,
+                UserId = userid
+            };
+            return package;
         }
 
         public void Save()

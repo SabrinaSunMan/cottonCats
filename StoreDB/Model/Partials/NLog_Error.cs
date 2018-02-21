@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace StoreDB.Model.Partials
 { 
@@ -11,13 +12,22 @@ namespace StoreDB.Model.Partials
     /// Log資訊
     /// </summary>
     public partial class NLog_Error
-    {
+    { 
         [Key] 
-        public string LogId { get; set; }
+        public string LogId { get; set; } = Guid.NewGuid().ToString().ToUpper();
 
-        public DateTime CreateDateTime { get; set; }
+        //private string _LogId;
+        //public string LogId
+        //{ 
+        //    get { return _LogId ?? Guid.NewGuid().ToString().ToUpper(); }
+        //    set { _LogId = value; }
+        //}
 
-        public string Host { get; set; }
+        public string UserId { get; set; }
+
+        public DateTime CreateDateTime { get; set; } = DateTime.Now;
+         
+        public string Host { get; set; } = HttpContext.Current.Request.UserHostAddress;
 
         public string Result { get; set; }
 
@@ -26,11 +36,7 @@ namespace StoreDB.Model.Partials
         public string LogLevel { get; set; }
 
         public string Data_Action { get; set; }
-
-        public string Orignal_Page { get; set; }
-
-        public string Statement { get; set; }
-
+        
         public string ControllersName { get; set; }
 
         public string ActionName { get; set; }
