@@ -5,6 +5,7 @@ using System.Data.Entity;
 using StoreDB.Interface;
 using System;
 using System.Linq.Expressions;
+using System.Runtime.Remoting.Contexts;
 
 namespace StoreDB.Repositories
 {
@@ -60,9 +61,10 @@ namespace StoreDB.Repositories
 
         public void Update(T entity)
         {
-            //ObjectSet a 
-            //GetSingle
             ObjectSet.Attach(entity);
+            //var entry = Context.Entry(entity);
+            //entry.State = System.Data.EntityState.Modified;
+            //ObjectSet.Attach(entity); 
         }
 
         //public virtual void Update(T entity)
