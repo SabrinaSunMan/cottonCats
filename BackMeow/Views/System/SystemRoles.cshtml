@@ -1,73 +1,106 @@
 ﻿@using PagedList.Mvc;
-@using StoreDB.Enum; 
+@using StoreDB.Enum;
 @model BackMeow.Models.ViewModel.SystemRolesListViewModel
 
 @{
-    ViewBag.Title = "SystemRolesList";
+    ViewBag.Title = "SystemRoles";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}  
-@using (Html.BeginForm("SystemRolesList", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+}
+@using (Html.BeginForm("SystemRoles", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.HiddenFor(model => model.page)
     <div class="row">
-    <div class="col-md-12">
-        <!-- PANEL DEFAULT -->
-        <div class="panel">
-            <div class="panel-heading">
-                <h5 class="widget-title"></h5>
-                <button type="button" class="btn-toggle-collapse">
-                    <i class="lnr lnr-chevron-up"></i>
-                    系統使用者 查詢區
-                </button>
-                @*<div class="right">
-                    <button type="button" onclick="location.href='location.href='@Url.Action("SystemRolesMain", "System",
-                                   new { ActionType = Actions.Create })'"> 
-                        <i class="fa fa-plus-square"></i>新增
+        <div class="col-md-12">
+            <!-- PANEL DEFAULT -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h5 class="widget-title"></h5>
+                    <button type="button" class="btn-toggle-collapse">
+                        <i class="lnr lnr-chevron-up"></i>
+                        系統使用者 查詢區
                     </button>
-                </div>*@
-            </div>
-            <div style="overflow: auto;">
-                <div class="panel-body">
-                    @Html.LabelFor(model => model.Header.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
-                    <div class="col-md-3">
-                        <input class="form-control" name="Model.Header.Email" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.Email)"
-                               type="text" value="@Model.Header.Email"> 
+                    @*<div class="right">
+                            <button type="button" onclick="location.href='location.href='@Url.Action("SystemRolesMain", "System",
+                                           new { ActionType = Actions.Create })'">
+                                <i class="fa fa-plus-square"></i>新增
+                            </button>
+                        </div>*@
+                </div>
+                <div style="overflow: auto;">
+                    <div class="panel-body">
+                        @Html.LabelFor(model => model.Header.Email, htmlAttributes: new { @class = "col-md-2 control-label" })
+                        <div class="col-md-3">
+                            <input class="form-control" id="select_Email" name="Header.Email" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.Email)"
+                                   type="text" value="@Model.Header.Email">
+                        </div>
+                        @Html.LabelFor(model => model.Header.UserName, htmlAttributes: new { @class = "col-md-2 control-label" })
+                        <div class="col-md-3">
+                            <input class="form-control" id="select_UserName" name="Header.UserName" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.UserName)"
+                                   type="text" value="@Model.Header.UserName">
+                        </div>
                     </div>
-                    @Html.LabelFor(model => model.Header.UserName, htmlAttributes: new { @class = "col-md-2 control-label" })
-                    <div class="col-md-3">
-                        <input class="form-control" name="Model.Header.UserName" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.UserName)"
-                               type="text" value="@Model.Header.UserName">
-                    </div> 
+                    <div class="panel-body">
+
+                    </div>
                 </div>
                 <div class="panel-body">
-                    
+                    <button type="button" id="Create" class="btn btn-default pull-right">
+                        @*onclick="location.href='@Url.Action("SystemRolesMain", "System",
+                            new { ActionType = Actions.Create })'"*@
+                        <i class="fa fa-plus-square"></i> 新增
+                    </button>
+                    <button type="submit" class="btn btn-default pull-right">
+                        <i class="fa fa-search lg"></i>查詢
+                    </button>
                 </div>
             </div>
-            <div class="panel-body"> 
-                <button type="button" class="btn btn-default pull-right" 
-                        onclick="location.href='@Url.Action("SystemRolesMain", "System",
-                                   new { ActionType = Actions.Create })'">
-                    <i class="fa fa-plus-square"></i> 新增 </button>
-                <button type="submit" class="btn btn-default pull-right">
-                    <i class="fa fa-search lg"></i>查詢
-                </button>
-            </div>
+            <!-- END PANEL DEFAULT -->
         </div>
-        <!-- END PANEL DEFAULT -->
     </div>
-</div>
 }
-<div class="row"> 
+<div class="row">
     <div class="col-md-12">
-        @Html.Partial("_RolesList", Model.Content_List) 
+        @Html.Partial("_RolesList", Model.Content_List)
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-12">
-        @Html.PagedListPager(Model.Content_List, page => Url.Action("SystemRolesList", new { page }),
+    <div class="col-md-12">
+        @Html.PagedListPager(Model.Content_List, page => Url.Action("SystemRoles", new { ViewModel = @Model,page }),
             PagedListRenderOptions.ClassicPlusFirstAndLast)
     </div>
 </div>
 <div>
     @Html.ActionLink("Back to List", "Index")
-</div> 
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () { 
+            var Message = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)@TempData["message"]))';
+            if (Message != '') {
+                showDialog(Message, false); 
+             }
+
+            $("#Create").click(function () {
+                PackageEvent('', true);
+            });
+        });
+        function PackageEvent(uid, createOrUpdat)
+        {
+            var dataType = '@DataAction.Create';
+            var select_email = $("#select_Email").val();
+            var select_name = $("#select_UserName").val();
+
+            var url = '@Url.Action("SystemRolesMain", "System")'+'?guid=' + uid +
+                '&selectEmail=' + select_email + '&selectUserName=' + select_name + '&pages=' + @Model.page+ '&ActionType=';
+            if (!createOrUpdat) // True = Create; False = Update
+            {
+                dataType = '@DataAction.Update';
+            }
+            url += dataType;
+            
+            window.location.href = url;
+        }
+
+    </script>
+}

@@ -23,7 +23,7 @@ namespace StoreDB.Model.Partials
         /// 子功能名稱.
         /// </summary> 
         [DisplayName("子功能名稱")]
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "長度不得超過{0}")]
         public string MenuName { get; set; }
 
         /// <summary>
@@ -32,10 +32,10 @@ namespace StoreDB.Model.Partials
         [DisplayName("子功能排序")]
         public int MenuOrder { get; set; }
           
-        [StringLength(20)]
+        [StringLength(20, ErrorMessage = "長度不得超過{0}")]
         public string ControllerName { get; set; }
          
-        [StringLength(20)]
+        [StringLength(20,ErrorMessage = "長度不得超過{0}")]
         public string ActionName { get; set; }
 
         //[ForeignKey("MenuTreeRoot")] 

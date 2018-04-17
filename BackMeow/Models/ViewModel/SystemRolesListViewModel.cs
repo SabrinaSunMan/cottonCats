@@ -58,11 +58,12 @@ namespace BackMeow.Models.ViewModel
     /// <summary>
     /// 呈現 [AspNetUsers] 新增時
     /// </summary>
-    public class AspNetUsersDetailViewModel 
-    { 
+    public class AspNetUsersDetailViewModel
+    {
         [DisplayName("使用者ID")]
         public string Id { get; set; }
- 
+
+        [Required(ErrorMessage =" {0} 為必填")]
         [StringLength(256)]
         [EmailAddress(ErrorMessage = "非E-Mail格式")]
         public string Email { get; set; }
@@ -81,7 +82,8 @@ namespace BackMeow.Models.ViewModel
         [Display(Name = "確認密碼")]
         [Compare("Password", ErrorMessage = "密碼和確認密碼不相符。")]
         public string ConfirmPassword { get; set; }
-         
+
+        [Required(ErrorMessage = " {0} 為必填")]
         [StringLength(256)]
         [DisplayName("使用者名稱")]
         public string UserName { get; set; }

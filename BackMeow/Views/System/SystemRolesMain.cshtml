@@ -4,32 +4,32 @@
     ViewBag.Title = "SystemRolesMain";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
- 
+
 @using (Html.BeginForm("SystemRolesMain", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="row">
         <div class="col-md-12">
             <!-- PANEL DEFAULT -->
             <div class="panel">
                 <div class="panel-heading">
                     <h3 class="panel-title">管理者 </h3>
-                </div> 
+                </div>
                 @*</div>*@
             </div>
             <!-- END PANEL DEFAULT -->
         </div>
     </div>
-    <input type="text" name="actions" value="@TempData["Actions"]" />
+    <input type="hidden" name="actions" value="@TempData["Actions"]" />
     @*<input type="text" name="Id" value="@Model.Id" />*@
     @Html.HiddenFor(s => s.Id)
     <div class="panel-body">
         @Html.NoteSite()
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
     </div>
     <div class="panel-body">
-       @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Email).ToString())
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Email).ToString())
         <div class="col-md-3">
             <input class="form-control" name="Email" placeholder="請輸入 @Html.DisplayNameFor(model => model.Email)"
                    type="text" value="@Model.Email" />
@@ -57,22 +57,22 @@
         @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Password).ToString())
         <div class="col-md-3">
             <input id="Passwords" class="form-control" name="Password" placeholder="請輸入 @Html.DisplayNameFor(model => model.Password)"
-                   type="password" value="@Model.Password" onclick="document.getElementById('Passwords').value=''" />
+                   type="password" value="@Model.Password" />
             @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
         </div>
         @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.ConfirmPassword).ToString())
         <div class="col-md-3">
             <input id="ConfirmPassword" class="form-control" name="ConfirmPassword" placeholder="請輸入 @Html.DisplayNameFor(model => model.ConfirmPassword)"
-                   type="password" value="@Model.ConfirmPassword" onclick="document.getElementById('ConfirmPassword').value=''" />
+                   type="password" value="@Model.ConfirmPassword" onclick="document.getElementById('ConfirmPassword').value = ''" />
             @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
-    
-    <div class="panel-body"> 
+
+    <div class="panel-body">
         @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
             @*<input class="form-control datepicker" name="PhoneNumber" placeholder="請輸入 @Html.DisplayNameFor(model => model.PhoneNumber)"
-                    type="text" onkeydown="return false" value="@Model.PhoneNumber" />*@
+                type="text" onkeydown="return false" value="@Model.PhoneNumber" />*@
             <input class="form-control" name="PhoneNumber" placeholder="請輸入 @Html.DisplayNameFor(model => model.PhoneNumber)"
                    type="number" value="@Model.PhoneNumber" />
             @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
@@ -82,7 +82,7 @@
         @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
             @Html.DisplayFor(model => model.CreateTime)
-            @Html.HiddenFor(model=>model.CreateTime)
+            @Html.HiddenFor(model => model.CreateTime)
         </div>
         @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
@@ -93,10 +93,9 @@
 
     <div class="panel-body">
         <div class="col-md-5">
-            <button type="submit" class="btn btn-success">儲存</button>
-            <button type="submit" class="btn btn-default" 
-                    onclick="location.href='location.href='@Url.Action("SystemRolesList", "System",
-                                new {  })'">
+            <button type="button" id="Save" class="btn btn-success">儲存</button>
+            <button type="button" class="btn btn-default"
+                    onclick="location.href='@Url.Action("SystemRoles", "System", new {  })'">
                 返回
             </button>
         </div>
@@ -106,4 +105,61 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var Passwordsoptin = document.getElementById("Passwords");
+        var ConfirmPasswordoptin = document.getElementById("ConfirmPassword");
+        var oldPassword = document.getElementById("Old_Password");
+
+        $("#Save").click(function () {
+            if (Passwordsoptin.value == ConfirmPasswordoptin.value) /*兩者密碼相等*/ {
+                if ((Passwordsoptin.value != Passwordsoptin.defaultValue)) /*欲變更密碼*/ {
+                    if (oldPassword.value != "") {
+                        $("#Save").submit();
+                    } else {
+                        $('span[data-valmsg-for="Old_Password"]').text('變更密碼前請輸入舊有密碼');
+                    }
+                } else {
+                    if ($('form').valid()) {
+                        $("#Save").submit();
+                    }
+                }
+            } else {
+                $('span[data-valmsg-for="ConfirmPassword"]').text('密碼與確認密碼不符');
+            }
+        })
+
+            //$("#Passwords").change(function ()
+            //{
+
+            //    alert(this.value);
+            //    //var Passwordsoptin = document.getElementById("Passwords");
+            //})
+
+            //$('#Save').click(function () {
+            //
+            //    if (Passwordsoptin.value != Passwordsoptin.defaultValue) {
+            //        /**
+            //         要變更密碼
+            //         */
+            //        if (ConfirmPasswordoptin.value == Passwordsoptin.value)
+            //        {
+
+            //        }
+            //        if (oldPassword != "")
+            //        {
+            //            showDialog('如欲變更密碼，必須先輸入舊密碼', false);
+            //        } else
+            //        {
+
+            //        }
+
+            //    } else {
+
+            //    };
+
+
+            //    if (Passwordsoptin.checked != optin.defaultChecked) alert("#optin has changed");
+            //        alert('readySave!!');
+            //    });
+    </script>
 }

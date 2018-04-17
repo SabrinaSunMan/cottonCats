@@ -26,6 +26,9 @@ namespace StoreDB.Model
         public virtual DbSet<MenuSideList> MenuSideList { get; set; }
         public virtual DbSet<Member> Member { get; set; }
         public virtual DbSet<Group> Group { get; set; }
+        public virtual DbSet<PictureInfo> PictureInfo { get; set; }
+        public virtual DbSet<StaticHtml> StaticHtml { get; set; }
+        public virtual DbSet<HtmlSubject> HtmlSubject { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

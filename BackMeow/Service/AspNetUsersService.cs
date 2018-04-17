@@ -19,9 +19,10 @@ namespace BackMeow.Service
     /// </summary>
     public class AspNetUsersService
     {
-        private readonly IRepository<AspNetUsers> _AspNetUsersRep;
+        //private readonly IRepository<AspNetUsers> _AspNetUsersRep;
         private readonly IRepository<NLog_Error> _NLog_ErrorRep;
         private readonly IRepository<Addresses> _Addresses;
+        private readonly AspNetUsersRepository _AspNetUsersRep;
 
         public string UserName { get; set; }
         public string UserEmail { get; set; }
@@ -30,10 +31,10 @@ namespace BackMeow.Service
         
         public AspNetUsersService(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-            _AspNetUsersRep = new Repository<AspNetUsers>(unitOfWork);
+            _unitOfWork = unitOfWork; 
             _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
             _Addresses = new Repository<Addresses>(unitOfWork);
+            _AspNetUsersRep = new AspNetUsersRepository(unitOfWork);
         }
 
         private readonly int pageSize = (int)BackPageListSize.commonSize;
@@ -44,12 +45,13 @@ namespace BackMeow.Service
         /// <param name="selectModel">The select model.</param>
         /// <param name="nowpage">The nowpage.</param>
         /// <returns></returns>
-        public SystemRolesListViewModel GetSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel, int nowpage)
+        public SystemRolesListViewModel GetSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel, int nowpage=1)
         {
             SystemRolesListViewModel returnSystemRolesListViewModel = new SystemRolesListViewModel();
-            int currentPage = nowpage < 1 ? 1 : nowpage;
             returnSystemRolesListViewModel.Header = selectModel; /*表頭*/
-            returnSystemRolesListViewModel.Content_List = GetAllSystemRolesListViewModel(selectModel).ToPagedList(currentPage, pageSize);/*內容*/
+            IEnumerable<SystemRolesListContentViewModel> GetAllSystemRolesListViewModelResult = GetAllSystemRolesListViewModel(selectModel);
+            int currentPage = (nowpage < 1) && GetAllSystemRolesListViewModelResult.Count() >= 1 ? 1 : nowpage;
+            returnSystemRolesListViewModel.Content_List = GetAllSystemRolesListViewModelResult.ToPagedList(currentPage, pageSize);/*內容*/
             return returnSystemRolesListViewModel;
         }
 
@@ -64,16 +66,14 @@ namespace BackMeow.Service
                 GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
             s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
             && (!string.IsNullOrWhiteSpace(selectModel.Email) ?
-            s.Email.Contains(selectModel.Email) : s.Email == s.Email)
-
-                ).Select(List => new SystemRolesListContentViewModel()
+            s.Email.Contains(selectModel.Email) : s.Email == s.Email)).Select(List => new SystemRolesListContentViewModel()
                 {
                     Id = List.Id,
                     Email = List.Email,
                     UserName = List.UserName,
                     PhoneNumber = List.PhoneNumber,
                     LockoutEnabled = List.LockoutEnabled
-                }).ToList();
+                }).OrderByDescending(s=>s.UserName).ToList();
             //IEnumerable<AspNetUsers> ListViewModel = GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
             //s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
             //&& (!string.IsNullOrWhiteSpace(selectModel.Email) ?
@@ -114,9 +114,14 @@ namespace BackMeow.Service
         /// <returns></returns>
         public AspNetUsers GetAspNetUserBySelectPramters()
         {
-            AspNetUsers GetAspNetUsers =
-            _AspNetUsersRep.GetAll().Where(s => s.UserName == (string.IsNullOrEmpty(UserName) ? s.UserName : UserName)
-            && s.Email == (string.IsNullOrEmpty(UserEmail) ? s.Email : UserEmail)).First();
+            //AspNetUsers GetAspNetUsers = _AspNetUsersRep.GetAll().Where(s => s.UserName == (string.IsNullOrEmpty(UserName) ? s.UserName : UserName)
+            //|| s.Email == (string.IsNullOrEmpty(UserEmail) ? s.Email : UserEmail)).FirstOrDefault();
+
+            //_AspNetUsersRep.GetAll().Where(s => s.UserName.Equals(UserName) && s.Email.Equals(UserEmail)).FirstOrDefault();
+
+            //TEST
+            AspNetUsers GetAspNetUsers = _AspNetUsersRep.GetAll().Where(s => s.UserName.Equals(UserName)
+            || s.Email.Equals(UserEmail)).FirstOrDefault(); 
             return GetAspNetUsers;
         }
 
@@ -128,74 +133,15 @@ namespace BackMeow.Service
         public AspNetUsers GetAspNetUsersById(string guid)
         {
             return _AspNetUsersRep.GetSingle(s => s.Id == guid);
-        } 
-         
-        public void Add(AspNetUsers aspuser)
-        { 
-            //Students test = new Students();
-            //test.studentName = "TESTStudent";
-            //_Students.Create(test);
-
-
-            //aspuser.Id = Guid.NewGuid().ToString().ToUpper();
-            //aspuser.CreateTime = DateTime.Now;
-            //_AspNetUsersRep.Create(aspuser);
-            //////var isMember = _AspNetUsersRep.Query(s => s.Id == aspuser.Id).Any();
-            //////if (isMember == false)
-            //////{
-            //////    var newMember = new AspNetUsers()
-            //////    {
-            //////        Id = Guid.NewGuid().ToString().ToUpper(),
-            //////        Email = aspuser.Email,
-            //////        UserName = "TEST",
-            //////        CreateTime = DateTime.Now
-            //////    };
-            //////    _AspNetUsersRep.Create(newMember);
-            //////} 
-
-            #region TEST ADd
-            //Addresses add = new Addresses(); 
-            //add.AddressContent = "測試輸入";
-            //_Addresses.Create(add);
-
-            #endregion
-        }
-
-        //public ReturnMsg ReturnUpdateResult(AspNetUsersDetailViewModel viewModel)
-        //{
-        //    ReturnMsg Results = new ReturnMsg();
-        //    //if (AspNetUsersDetailViewModelUpdate(viewModel))
-        //    //{
-        //    //    Results.enumMsg = BackReturnMsg.Scuess;
-        //    //}
-        //    //else Results.enumMsg = BackReturnMsg.Error;
-        //    return Results;
-        //}
+        }    
 
         public void AspNetUsersDetailViewModelUpdate(AspNetUsersDetailViewModel viewModel)
         { 
             AspNetUsers AspNetUsers = new AspNetUsers();
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
-            AspNetUsers = mapper.Map<AspNetUsers>(viewModel);
-            
-            //StoreDBContext a = new StoreDBContext();
-            //a.Entry(AspNetUsers).State = System.Data.Entity.EntityState.Modified;
-            //AspNetUsers get =  a.AspNetUsers.Where(s=>s.Id==AspNetUsers.Id).FirstOrDefault();
-            //get.UserName = AspNetUsers.UserName;
-            ////get = AspNetUsers;
-            //a.SaveChanges();
-            Update(AspNetUsers);
-
-            Addresses add = new Addresses();
-            add.AddressContent = "測試輸入";
-            _Addresses.Create(add);
-        }
-
-        private void Update(AspNetUsers aspuser)
-        {
-            aspuser.UpdateTime = DateTime.Now;
-            _AspNetUsersRep.Update(aspuser); 
-        }
+            AspNetUsers = mapper.Map<AspNetUsers>(viewModel);  
+            _AspNetUsersRep.AspNetUserUpdate(AspNetUsers, AspNetUsers.Id); 
+        } 
 
         public void Save()
         {

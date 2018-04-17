@@ -21,7 +21,7 @@ namespace StoreDB.Repositories
                 if (_Objectset == null)
                 {
                     _Objectset = UnitOfWork.Context.Set<T>();
-                }
+                } 
                 return _Objectset;
             }
         }
@@ -59,14 +59,30 @@ namespace StoreDB.Repositories
             UnitOfWork.Save();
         }
 
-        public void Update(T entity)
-        {
-            ObjectSet.Attach(entity);
+        protected void Update(T entity, params object[] keyValues)
+        { 
+            var entry = UnitOfWork.Context.Entry<T>(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                var set = UnitOfWork.Context.Set<T>();
+                T attachedEntity = set.Find(keyValues);  // You need to have access to key
+
+                if (attachedEntity != null)
+                {
+                    var attachedEntry = UnitOfWork.Context.Entry(attachedEntity);
+                    attachedEntry.CurrentValues.SetValues(entity);
+                }
+                else
+                {
+                    entry.State = EntityState.Modified; // This should attach entity
+                }
+            }  
             //var entry = Context.Entry(entity);
             //entry.State = System.Data.EntityState.Modified;
             //ObjectSet.Attach(entity); 
-        }
-
+        } 
+         
         //public virtual void Update(T entity)
         //{
         //    //DbEntityEntry dbEntityEntry = Context.Entry(entity);
@@ -75,8 +91,7 @@ namespace StoreDB.Repositories
         //    //    DbSet.Attach(entity);
         //    //}
         //    //DbSet.Attach(entity);
-        //    ObjectSet.Attach(entity);
-
+        //    ObjectSet.Attach(entity); 
         //}
 
         #region None Unit of work

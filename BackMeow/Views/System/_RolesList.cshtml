@@ -1,6 +1,6 @@
-﻿@using StoreDB.Enum; 
+﻿@using StoreDB.Enum;
 @model PagedList.IPagedList<BackMeow.Models.ViewModel.SystemRolesListContentViewModel>
- 
+
 <table class="table table-bordered table-striped table-hover">
     <tr>
         <th>
@@ -32,15 +32,14 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LockoutEnabled)
-            </td> 
-            <td style="width:18%">
-                <button type="button" class="btn btn-primary btn-toastr"
-            onclick="location.href='@Url.Action("SystemRolesMain", "System",
-                                   new { ActionType = Actions.Update, guid = @item.Id })'">明細</button>
-                <button type="button" class="btn btn-danger">刪除</button> 
             </td>
-        </tr> 
-}
-
+            <td style="width:18%">
+                <button type="button" name="Detail" class="btn btn-primary btn-toastr"
+                        onclick="PackageEvent('@item.Id',false);">
+                    明細
+                </button>
+                <button type="button" class="btn btn-danger">刪除</button>
+            </td>
+        </tr>
+    }
 </table>
- 

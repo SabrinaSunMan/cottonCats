@@ -20,8 +20,7 @@ namespace StoreDB.Interface
         /// <param name="filter"></param>
         /// <returns></returns>
         T GetSingle(Expression<Func<T, bool>> filter);
-         
-
+          
         /// <summary>
         /// GetAll.
         /// </summary>
@@ -47,7 +46,8 @@ namespace StoreDB.Interface
         /// 更新
         /// </summary>
         /// <param name="entity"></param>
-        void Update(T entity);
+        //void Update(T entity, params object[] keyValues);
+         
 
         /// <summary>
         /// save change

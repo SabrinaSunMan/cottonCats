@@ -92,5 +92,20 @@ namespace BackMeow.Controllers
             //return View(abc);
             return View();
         }
+
+        [HttpPost]
+        public JsonResult DeleteInfo() //string guid, Orignal_Page usePage
+        {
+            //BasicViewModel ReturnViewModel = new BasicViewModel();
+            //ReturnViewModel = _baseService.SelectData(_url,
+            //    usePage.ToString() + ".config", guid.Trim().Replace(" ", ""), Data_Action.Delete);
+
+            //Result GetResult = _baseService.CURDData(_url,
+            //    usePage.ToString() + ".config", ReturnViewModel.RowData[0].FieldData,
+            //    ReturnViewModel.RowData[0].FieldData, Data_Action.Delete, Orignal_Page.MA_DebtManagementData);
+
+            //return Json(new { result = GetResult.ResultString, boolResult = GetResult.ResultBool }, JsonRequestBehavior.AllowGet);
+            return Json(JsonRequestBehavior.AllowGet);
+        }
     }
 }

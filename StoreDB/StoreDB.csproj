@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum\BackEnum.cs" />
+    <Compile Include="Enum\EnumHelper.cs" />
     <Compile Include="Enum\PublicEnum.cs" />
     <Compile Include="Interface\IUnitOfWork.cs" />
     <Compile Include="Migrations\201801310920108_Base.cs" />
@@ -143,19 +144,27 @@
     <Compile Include="Migrations\201802130401205_LogError.Designer.cs">
       <DependentUpon>201802130401205_LogError.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804170829410_Back05_StaticHtml.cs" />
+    <Compile Include="Migrations\201804170829410_Back05_StaticHtml.Designer.cs">
+      <DependentUpon>201804170829410_Back05_StaticHtml.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
     <Compile Include="Model\Partials\AspNetRoles.cs" />
     <Compile Include="Model\Partials\AspNetUserClaims.cs" />
     <Compile Include="Model\Partials\AspNetUserLogins.cs" />
     <Compile Include="Model\Partials\AspNetUsers.cs" />
+    <Compile Include="Model\Partials\BasePartials.cs" />
     <Compile Include="Model\Partials\C__MigrationHistory.cs" />
     <Compile Include="Model\Partials\Group.cs" />
+    <Compile Include="Model\Partials\HtmlSubject.cs" />
     <Compile Include="Model\Partials\MenuSideList.cs" />
     <Compile Include="Model\Partials\MenuTree.cs" />
     <Compile Include="Model\Partials\MenuTreeRoot.cs" />
     <Compile Include="Model\Partials\NLog_Error.cs" />
     <Compile Include="Model\Partials\Member.cs" />
+    <Compile Include="Model\Partials\PictureInfo.cs" />
+    <Compile Include="Model\Partials\StaticHtml.cs" />
     <Compile Include="Model\StoreDBContext.cs" />
     <Compile Include="Model\Partials\Students.cs" />
     <Compile Include="Model\ViewModel\MenuSideViewModel.cs" />
@@ -224,6 +233,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802130401205_LogError.resx">
       <DependentUpon>201802130401205_LogError.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804170829410_Back05_StaticHtml.resx">
+      <DependentUpon>201804170829410_Back05_StaticHtml.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
