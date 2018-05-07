@@ -16,7 +16,7 @@ namespace StoreDB.Model.Partials
         [Key]
         [DisplayName("靜圖片資訊ID")]
         public Guid PicID { get; set; }
-
+         
         /// <summary>
         /// 圖片名稱.
         /// </summary> 

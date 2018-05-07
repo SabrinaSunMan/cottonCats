@@ -74,3 +74,5 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\zh-Hant\System.Web.WebPages.De
 D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\zh-Hant\System.Web.WebPages.Razor.resources.dll
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.LogError.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back05_StaticHtml.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.CoreCompileInputs.cache
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.CopyComplete

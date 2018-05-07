@@ -308,3 +308,5 @@ D:\Work\Case\Sabrina\cottonCats\BackMeow\bin\Unity.Interception.pdb
 D:\Work\Case\Sabrina\cottonCats\BackMeow\bin\Unity.Interception.Configuration.pdb
 D:\Work\Case\Sabrina\cottonCats\BackMeow\bin\Unity.RegistrationByConvention.pdb
 D:\Work\Case\Sabrina\cottonCats\BackMeow\bin\Unity.ServiceLocation.pdb
+D:\Work\Case\Sabrina\cottonCats\BackMeow\obj\Debug\BackcottonCats.csproj.CoreCompileInputs.cache
+D:\Work\Case\Sabrina\cottonCats\BackMeow\obj\Debug\BackcottonCats.csproj.CopyComplete
