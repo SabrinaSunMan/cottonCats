@@ -148,6 +148,10 @@
     <Compile Include="Migrations\201804170829410_Back05_StaticHtml.Designer.cs">
       <DependentUpon>201804170829410_Back05_StaticHtml.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805140645530_Back06_StaticHtml_PictureInfo.cs" />
+    <Compile Include="Migrations\201805140645530_Back06_StaticHtml_PictureInfo.Designer.cs">
+      <DependentUpon>201805140645530_Back06_StaticHtml_PictureInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
     <Compile Include="Model\Partials\AspNetRoles.cs" />
@@ -236,6 +240,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804170829410_Back05_StaticHtml.resx">
       <DependentUpon>201804170829410_Back05_StaticHtml.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805140645530_Back06_StaticHtml_PictureInfo.resx">
+      <DependentUpon>201805140645530_Back06_StaticHtml_PictureInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

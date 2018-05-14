@@ -13,7 +13,7 @@ namespace BackMeow.Models.ViewModel
     /// <summary>
     /// 包括 表頭以及 PageList
     /// </summary>
-    public class SystemRolesListViewModel
+    public class SystemRolesViewModel
     { 
         public SystemRolesListHeaderViewModel Header { get; set; }
 

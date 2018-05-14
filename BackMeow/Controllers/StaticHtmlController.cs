@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackMeow.Models.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,7 @@ namespace BackMeow.Controllers
         public ActionResult About()
         {
 
-            return View();
+            return View(new AboutViewModel());
         }
     }
 }

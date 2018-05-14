@@ -1,7 +1,9 @@
-$(window, document, undefined).ready(function () {
-
+//$(window).load(function () {
+$(window).on("load", function () {
+    alert("Window Loaded");
+//$(window, document, undefined).ready(function () {
     $("input[type=text]").each(function () {  // for all input text
-            var inputText = $('[name="' + this.name + '"]');
+        var inputText = $('[name="' + this.name + '"]'); 
             SetClass(inputText);
     });
 
@@ -24,6 +26,7 @@ $(window, document, undefined).ready(function () {
   //    }
 
     function SetClass(e) {
+        alert(e.val());
         if (e.val()) {
             e.addClass('used'); 
         } else {

@@ -73,10 +73,10 @@ namespace BackMeow.Controllers
 
         #region 取得所有後台使用者清單
         [HttpGet]
-        public ActionResult SystemRoles(SystemRolesListViewModel ViewModel, int page = 1)
+        public ActionResult SystemRoles(SystemRolesViewModel ViewModel, int page = 1)
         {
-            SystemRolesListViewModel ResultViewModel;
-            SystemRolesListViewModel searchBlock = (SystemRolesListViewModel)TempData["SystemRolesSelect"];
+            SystemRolesViewModel ResultViewModel;
+            SystemRolesViewModel searchBlock = (SystemRolesViewModel)TempData["SystemRolesSelect"];
             if (searchBlock == null) /*空*/
             {
                 ResultViewModel = _UserService.GetSystemRolesListViewModel(new SystemRolesListHeaderViewModel(), page);
@@ -89,9 +89,9 @@ namespace BackMeow.Controllers
         }
 
         [HttpPost]
-        public ActionResult SystemRoles(SystemRolesListViewModel ViewModel)
+        public ActionResult SystemRoles(SystemRolesViewModel ViewModel)
         {
-            SystemRolesListViewModel ResultViewModel = _UserService.GetSystemRolesListViewModel(ViewModel.Header);
+            SystemRolesViewModel ResultViewModel = _UserService.GetSystemRolesListViewModel(ViewModel.Header);
             TempData["SystemRolesSelect"] = ResultViewModel;
             return View(ResultViewModel);
         }
@@ -108,7 +108,7 @@ namespace BackMeow.Controllers
             }
             #region KeepSelectBlock
             pages = pages == 0 ? 1 : pages;
-            TempData["SystemRolesSelect"] = new SystemRolesListViewModel()
+            TempData["SystemRolesSelect"] = new SystemRolesViewModel()
             {
                 Header = new SystemRolesListHeaderViewModel()
                 {
@@ -143,7 +143,7 @@ namespace BackMeow.Controllers
         {
             bool boolResult = true; // 取決於導向頁面
             string thisUserID; //使用者ID
-            SystemRolesListViewModel searchBlock = (SystemRolesListViewModel)TempData["SystemRolesSelect"];
+            SystemRolesViewModel searchBlock = (SystemRolesViewModel)TempData["SystemRolesSelect"];
             if (ModelState.IsValid)
             {
                 if (actions == Actions.Create)//Check for validation errors //&& !string.IsNullOrWhiteSpace(AspNetUsersModel.Id) 

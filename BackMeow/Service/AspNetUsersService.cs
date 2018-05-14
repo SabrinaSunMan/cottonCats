@@ -45,9 +45,9 @@ namespace BackMeow.Service
         /// <param name="selectModel">The select model.</param>
         /// <param name="nowpage">The nowpage.</param>
         /// <returns></returns>
-        public SystemRolesListViewModel GetSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel, int nowpage=1)
+        public SystemRolesViewModel GetSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel, int nowpage=1)
         {
-            SystemRolesListViewModel returnSystemRolesListViewModel = new SystemRolesListViewModel();
+            SystemRolesViewModel returnSystemRolesListViewModel = new SystemRolesViewModel();
             returnSystemRolesListViewModel.Header = selectModel; /*表頭*/
             IEnumerable<SystemRolesListContentViewModel> GetAllSystemRolesListViewModelResult = GetAllSystemRolesListViewModel(selectModel);
             int currentPage = (nowpage < 1) && GetAllSystemRolesListViewModelResult.Count() >= 1 ? 1 : nowpage;

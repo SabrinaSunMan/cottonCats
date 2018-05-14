@@ -28,5 +28,11 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [StringLength(100, ErrorMessage = "長度不得超過{0}")]
         public string PictureUrl { get; set; }
+
+        /// <summary>
+        /// 圖片副檔名.
+        /// </summary>
+        public string FileExtension { get; set; }
+
     }
 }

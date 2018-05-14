@@ -22,7 +22,7 @@ namespace StoreDB.Model.Partials
         /// 靜態網頁類別ID. FK From HtmlSubject
         /// </summary> 
         [DisplayName("靜態網頁類別ID")]
-        public Guid SubjectID { get; set; }
+        public string SubjectID { get; set; }
 
         /// <summary>
         /// 圖片資訊ID. FK From PictureInfo 
@@ -33,6 +33,7 @@ namespace StoreDB.Model.Partials
         /// <summary>
         /// 網頁內容文字.
         /// </summary> 
+        [DisplayName("內容文字")]
         public string HtmlContext { get; set; }
          
     }

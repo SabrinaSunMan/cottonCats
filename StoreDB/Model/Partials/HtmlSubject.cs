@@ -16,11 +16,12 @@ namespace StoreDB.Model.Partials
         /// </summary> 
         [DisplayName("靜態網頁類別ID")]
         [Key]
-        public Guid SubjectID { get; set; }
+        public string SubjectID { get; set; }
 
         /// <summary>
         /// 類別名稱.
-        /// </summary> 
+
+        [DisplayName("類別名稱")]
         [StringLength(20, ErrorMessage = "長度不得超過{0}")]
         public string SubjectName { get; set; }
     }

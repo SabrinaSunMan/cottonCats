@@ -4,45 +4,98 @@
     ViewBag.Title = "登入";
     Layout = "";
 }
-<link href="~/Content/Loginstyle.css" rel="stylesheet" /> 
+<link href="~/Content/Loginstyle.css" rel="stylesheet" />
 
 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    
-    @Html.AntiForgeryToken() 
+
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="group"> 
+    <div class="group">
         <span class="bar">
             @ViewBag.ErrorMsg
         </span>
-        <input type="text" name="Account" id="Account" />  
+        @Html.EditorFor(m=>m.Account)
+        @*<input type="text" name="Account" id="Account" />*@
         <span class="highlight"></span>
         <span class="bar">
         </span>
-        <label>Account</label>
+        @Html.LabelFor(m => m.Account, new { @class = "col-md-2 control-label" })
         @Html.ValidationMessageFor(m => m.Account, "", new { @class = "text-danger" })
     </div>
-    <div class="group"> 
-        <input type="password" name="Password" />   
+    <div class="group">
+        @Html.PasswordFor(m=>m.Password)
+        @*<input type="password" name="Password" />*@
         <span class="highlight"></span>
         <span class="bar">
-        </span> 
+        </span>
         @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-        
+
     </div>
-    
-        <button class="button buttonBlue">
-            登入
-            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-        </button> 
+
+    <button class="button buttonBlue">
+        登入
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
 }
-    <footer>
-        <a href="http://www.polymer-project.org/" target="_blank"><img src="https://www.polymer-project.org/images/logos/p-logo.svg"></a>
-        <p>You Gotta Love <a href="http://www.polymer-project.org/" target="_blank">Google</a></p>
-    </footer> 
+<footer>
+    <a href="http://www.polymer-project.org/" target="_blank"><img src="https://www.polymer-project.org/images/logos/p-logo.svg"></a>
+    <p>You Gotta Love <a href="http://www.polymer-project.org/" target="_blank">Google</a></p>
+</footer>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>*@
 <script src="~/Scripts/LoginJs.js"></script>
+@*<script type='text/javascript'>
+
+    window.onload = function () {
+        alert("3.页面加载完成====》onload");
+        aaa();
+    }
+
+    $(window).load(function () {
+        alert("4.jquery===》window load");
+        aaa();
+    })
+
+    $(document).ready(function () {
+        alert("1. jquery====》document ready");
+        aaa();
+    });
+
+    $(function () {
+        alert("2.jquery====》document onload");
+        aaa();
+    });
+
+    function aaa() { 
+        //alert("5.静态标签====》onload");
+        var printAccount = document.getElementById('Account');
+        alert(printAccount.innerHTML);
+        $("input[type=text]").each(function () {  // for all input text
+            var inputText = $('[name="' + this.name + '"]');
+            alert(inputText.val());
+            SetClass(inputText);
+        });
+
+        $("input[type=password]").each(function () {  // for all input password
+            var pwd = $('[name="' + this.name + '"]');
+            alert(pwd.val());
+            SetClass(pwd);
+        });
+
+        $('input').keyup(function () {
+            SetClass($(this));
+        });
+    }
+    function SetClass(e) {
+        alert(e.val());
+        if (e.val()) {
+            e.addClass('used');
+        } else {
+            e.removeClass('used');
+        };
+    }
+</script>*@  

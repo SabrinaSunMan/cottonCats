@@ -52,5 +52,6 @@ namespace StoreDB.Model
                 .WithRequired(e => e.AspNetUsers)
                 .HasForeignKey(e => e.UserId);
         }
+
     }
 }
