@@ -1,6 +1,8 @@
 //$(window).load(function () {
 $(window).on("load", function () {
-    alert("Window Loaded");
+//    alert("Window Loaded");
+
+//$(window).ready(function () {
 //$(window, document, undefined).ready(function () {
     $("input[type=text]").each(function () {  // for all input text
         var inputText = $('[name="' + this.name + '"]'); 

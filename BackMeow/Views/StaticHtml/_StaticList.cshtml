@@ -1,0 +1,38 @@
+﻿@model PagedList.IPagedList<BackMeow.Models.ViewModel.StaticHtmlListContentViewModel>
+
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().HtmlContext)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CreateTime)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HtmlContext)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateTime)
+            </td>
+            <td style="width:18%">
+                <button type="button" name="Detail" class="btn btn-primary btn-toastr"
+                        onclick="PackageEvent('@item.StaticID',false);">
+                    明細
+                </button>
+                <button type="button" class="btn btn-danger">刪除</button>
+            </td>
+        </tr>
+    }
+</table>

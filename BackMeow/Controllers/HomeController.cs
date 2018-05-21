@@ -1,13 +1,12 @@
 ﻿using BackMeow.Filters;
 using BackMeow.Service;
 using Microsoft.AspNet.Identity;
-using StoreDB.Model.ViewModel;
+using StoreDB.Model.ViewModel.BackcottonCats;
 using StoreDB.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace BackMeow.Controllers
 {

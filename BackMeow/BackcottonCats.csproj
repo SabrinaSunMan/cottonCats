@@ -281,12 +281,13 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PublicModel.cs" />
-    <Compile Include="Models\ViewModel\AboutViewModel.cs" />
+    <Compile Include="Models\ViewModel\StaticHtmlViewModel.cs" />
     <Compile Include="Models\ViewModel\SystemRolesViewModel.cs" />
     <Compile Include="Override\CustomSignInManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AspNetUsersService.cs" />
     <Compile Include="Service\MenuSideListService.cs" />
+    <Compile Include="Service\StaticHtmlService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -506,6 +507,8 @@
     <Content Include="Views\Error\ErrorPage.cshtml" />
     <Content Include="Views\Shared\_LayoutEmpty.cshtml" />
     <Content Include="Views\StaticHtml\About.cshtml" />
+    <Content Include="Views\StaticHtml\_StaticList.cshtml" />
+    <Content Include="Views\StaticHtml\_StaticHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

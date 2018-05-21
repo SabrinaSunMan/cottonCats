@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using BackMeow.App_Start;
-using StoreDB.Interface;
+﻿using StoreDB.Interface;
 using StoreDB.Model.Partials;
-using StoreDB.Model.ViewModel;
+using StoreDB.Model.ViewModel.BackcottonCats;
 using StoreDB.Repositories;
 using System;
 using System.Collections.Generic;

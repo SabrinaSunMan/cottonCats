@@ -1,12 +1,7 @@
 ﻿using PagedList;
-using StoreDB.Enum;
-using StoreDB.Model.Partials;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace BackMeow.Models.ViewModel
 {
@@ -56,7 +51,7 @@ namespace BackMeow.Models.ViewModel
     }
 
     /// <summary>
-    /// 呈現 [AspNetUsers] 新增時
+    /// 呈現 [AspNetUsers] 檢視頁面 時
     /// </summary>
     public class AspNetUsersDetailViewModel
     {

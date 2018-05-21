@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace StoreDB.Model.ViewModel
+namespace StoreDB.Model.ViewModel.BackcottonCats
 {
     /// <summary>
     /// 顯示所有功能列表(含根目錄,階層式)
     /// </summary>
     public class MenuTreeRootStratumViewModel
-    { 
+    {
         #region 第一層
         /// <summary>
         /// 父目錄 ID.
@@ -82,10 +82,10 @@ namespace StoreDB.Model.ViewModel
         [DisplayName("子功能名稱")]
         public string MenuName { get; set; }
 
-         
+
         public string ActionName { get; set; }
 
-         
+
         public string ControllerName { get; set; }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace StoreDB.Model.ViewModel
         /// </summary>
         [DisplayName("子功能排序")]
         public int MenuOrder { get; set; }
-          
+
         /// <summary>
         /// Gets or sets the URL icon.
         /// </summary> 

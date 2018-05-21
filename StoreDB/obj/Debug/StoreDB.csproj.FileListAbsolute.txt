@@ -77,3 +77,4 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back05_Stat
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.CoreCompileInputs.cache
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.CopyComplete
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back06_StaticHtml_PictureInfo.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back07_StaticHtml_PictureInfo.resources

@@ -11,7 +11,7 @@ namespace StoreDB.Model.Partials
     public partial class PictureInfo : BasePartials
     {
         /// <summary>
-        /// 圖片資訊ID. FK From PictureInfo 
+        /// 圖片資訊ID. 
         /// </summary> 
         [Key]
         [DisplayName("靜圖片資訊ID")]
@@ -33,6 +33,13 @@ namespace StoreDB.Model.Partials
         /// 圖片副檔名.
         /// </summary>
         public string FileExtension { get; set; }
+
+        /// <summary>
+        /// 圖片資訊ID. FK From PictureInfo 
+        /// </summary> 
+        [DisplayName("靜圖片Group_ID")]
+        public Guid PicGroupID { get; set; }
+        
 
     }
 }

@@ -48,27 +48,52 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>*@
 <script src="~/Scripts/LoginJs.js"></script>
-@*<script type='text/javascript'>
-
-    window.onload = function () {
-        alert("3.页面加载完成====》onload");
-        aaa();
-    }
-
-    $(window).load(function () {
-        alert("4.jquery===》window load");
-        aaa();
-    })
-
+@*<script>
     $(document).ready(function () {
-        alert("1. jquery====》document ready");
-        aaa();
+        var test = $("#Account");
+        alert($("#Account").val());
+
     });
 
-    $(function () {
-        alert("2.jquery====》document onload");
-        aaa();
-    });
+</script>*@
+<script type='text/javascript'>
+
+    //window.onload = function () {
+    //    alert("3.页面加载完成====》onload");
+    //    aaa();
+    //}
+
+    //$(window).load(function () {
+    ////    alert("4.jquery===》window load");
+    //    //    aaa();    
+    //    var test = $("input[type=text]");
+    //    test.keypress(function () {
+    //        alert("keypress");
+    //    });
+    //    test.keydown(function () {
+    //        alert("keydown");
+    //    });
+    //    test.keyup(function () {
+    //        alert("keyup");
+    //    });
+    //    test.change(function () {
+    //        alert("change");
+    //    });
+    //    test.focus();
+    //    test.blur();
+    //})
+
+   // $(document).ready(function () {
+    //    alert("1. jquery====》document ready");
+    //    aaa();
+    //});
+
+    //$(function () {
+    //    alert("2.jquery====》document onload");
+    //    aaa();
+    //}); 
+
+    
 
     function aaa() { 
         //alert("5.静态标签====》onload");
@@ -98,4 +123,4 @@
             e.removeClass('used');
         };
     }
-</script>*@  
+</script>  

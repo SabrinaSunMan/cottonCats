@@ -85,4 +85,32 @@ namespace StoreDB.Enum
 
         Read = 7
     }
+
+    public enum StaticHtmlAction
+    {
+        /// <summary>
+        /// 關於我們
+        /// </summary>
+        About = 1,
+
+        /// <summary>
+        /// 空間介紹
+        /// </summary>
+        Space = 2,
+
+        /// <summary>
+        /// 線上認養合約書
+        /// </summary>
+        Contract = 3,
+
+        /// <summary>
+        /// 義工招募
+        /// </summary>
+        Joinus = 4,
+
+        /// <summary>
+        /// 全部
+        /// </summary>
+        All = 99
+    }
 }

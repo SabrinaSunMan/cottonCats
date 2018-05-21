@@ -20,8 +20,8 @@ namespace BackMeow.Service
     public class AspNetUsersService
     {
         //private readonly IRepository<AspNetUsers> _AspNetUsersRep;
-        private readonly IRepository<NLog_Error> _NLog_ErrorRep;
-        private readonly IRepository<Addresses> _Addresses;
+        //private readonly IRepository<NLog_Error> _NLog_ErrorRep;
+        //private readonly IRepository<Addresses> _Addresses;
         private readonly AspNetUsersRepository _AspNetUsersRep;
 
         public string UserName { get; set; }
@@ -32,8 +32,8 @@ namespace BackMeow.Service
         public AspNetUsersService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork; 
-            _NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
-            _Addresses = new Repository<Addresses>(unitOfWork);
+            //_NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
+            //_Addresses = new Repository<Addresses>(unitOfWork);
             _AspNetUsersRep = new AspNetUsersRepository(unitOfWork);
         }
 
