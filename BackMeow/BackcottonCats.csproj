@@ -265,6 +265,7 @@
     <Compile Include="AutoMapper\AspNetUsersInitialize.cs" />
     <Compile Include="AutoMapper\AspNetUsersProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BasicController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -277,6 +278,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomHtmlExtensions.cs" />
+    <Compile Include="Helper\EnumHelper.cs" />
+    <Compile Include="Helper\GetLoginInfoHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -314,8 +317,14 @@
     <Content Include="Content\css\jquery-ui.theme.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\img\if_cat_track-24_302350.png" />
+    <Content Include="Content\jquery.mCustomScrollbar.css" />
+    <Content Include="Content\lightboxImages\close.png" />
+    <Content Include="Content\lightboxImages\loading.gif" />
+    <Content Include="Content\lightboxImages\next.png" />
+    <Content Include="Content\lightboxImages\prev.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Loginstyle.css" />
+    <Content Include="Content\ScrollbarStyle.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -443,13 +452,17 @@
     <Content Include="Content\vendor\linearicons\fonts\Linearicons-Free.woff" />
     <Content Include="Content\vendor\linearicons\fonts\Linearicons-Free.woff2" />
     <Content Include="NLog.config" />
-    <Content Include="App_Code\DatePicker.cshtml" />
+    <Content Include="App_Code\ShowPicture.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery.mCustomScrollbar.concat.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Content\lightbox.css" />
+    <Content Include="Scripts\lightbox-plus-jquery.min.js" />
+    <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LoginJs.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -463,6 +476,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\UploadFile.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -509,10 +523,15 @@
     <Content Include="Views\StaticHtml\About.cshtml" />
     <Content Include="Views\StaticHtml\_StaticList.cshtml" />
     <Content Include="Views\StaticHtml\_StaticHtml.cshtml" />
+    <Content Include="Views\StaticHtml\StaticHtmlMain.cshtml" />
+    <Content Include="Views\StaticHtml\_StaticMain.cshtml" />
+    <Content Include="Views\Basic\FileUpload.cshtml" />
+    <Content Include="Views\StaticHtml\_UploadFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
+    <Folder Include="Upload\StaticHtml\" />
+    <Folder Include="Upload\TempImage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

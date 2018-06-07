@@ -1,6 +1,7 @@
 ﻿@using PagedList.Mvc;
 @using StoreDB.Enum;
 @model BackMeow.Models.ViewModel.StaticHtmlViewModel
+
 @using (Html.BeginForm(Model.StaticHtmlActionType.ToString(), "StaticHtml", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.HiddenFor(model => model.page)
@@ -12,7 +13,7 @@
                     <h5 class="widget-title"></h5>
                     <button type="button" class="btn-toggle-collapse">
                         <i class="lnr lnr-chevron-up"></i>
-                        系統使用者 查詢區
+                        查詢區
                     </button>
                     @*<div class="right">
                             <button type="button" onclick="location.href='location.href='@Url.Action("SystemRolesMain", "System",
@@ -97,11 +98,10 @@
 <div class="row">
     <div class="col-md-12">
         @Html.PagedListPager(Model.Content_List, page => Url.Action(Model.StaticHtmlActionType.ToString(), new { ViewModel = @Model, page }),
-                                                                        PagedListRenderOptions.ClassicPlusFirstAndLast)
+                                                                                  PagedListRenderOptions.ClassicPlusFirstAndLast)
     </div>
 </div>
-
-@section Scripts {
+@*@section Scripts {*@
     <script>
         $(document).ready(function () {
             var Message = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)@TempData["message"]))';
@@ -120,9 +120,9 @@
             var select_HtmlContext = $("#select_HtmlContext").val();
             var select_sort = $("#select_sort").val();
 
-            var url = '@Url.Action("MainDetail", "StaticHtml")'+'?guid=' + uid +
+            var url = '@Url.Action("StaticHtmlMain", "StaticHtml")'+'?guid=' + uid +
                 '&select_CreateTime=' + select_CreateTime + '&select_HtmlContext=' + select_HtmlContext +
-                '&select_sort=' + select_sort + '&selectType=' + @Model.StaticHtmlActionType.ToString()+
+                '&select_sort=' + select_sort + '&selectType=@Model.StaticHtmlActionType.ToString()'+
                 '&pages=' + @Model.page+ '&ActionType=';
             if (!createOrUpdat) // True = Create; False = Update
             {
@@ -134,4 +134,4 @@
         }
 
     </script>
-}
+@*}*@

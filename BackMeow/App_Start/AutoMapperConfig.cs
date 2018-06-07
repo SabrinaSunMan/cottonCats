@@ -23,7 +23,7 @@ namespace BackMeow.App_Start
                 cfg.AddProfile<BackEntityProfile>();
                 cfg.AddProfile<AspNetUsersViewModelProfile>();
                 cfg.AddProfile<AspNetUsersProfile>();
-                //cfg.AddProfile<StaticHtmlProfile>(); //靜態網站管理 _List頁面
+                cfg.AddProfile<StaticHtmlProfile>(); //靜態網站管理 _List頁面
                 /*etc...*/
             });
             config.AssertConfigurationIsValid();//←證驗應對
@@ -109,34 +109,33 @@ namespace BackMeow.App_Start
     }
 
     /// <summary>
-    /// 靜態網站管理 _List頁面
+    /// 靜態網站管理_檢視頁面
     /// </summary>
     /// <seealso cref="AutoMapper.Profile" />
-    //public class StaticHtmlProfile : Profile
-    //{
-    //    public override string ProfileName => base.ProfileName;
+    public class StaticHtmlProfile : Profile
+    {
+        public override string ProfileName => base.ProfileName;
 
-    //    //這邊負責確認是否兩個欄位有不同名稱
-    //    public StaticHtmlProfile()
-    //    {
-    //        CreateMap<StaticHtmlListContentViewModel, StaticHtmlDBViewModel>()
+        //這邊負責確認是否兩個欄位有不同名稱
+        public StaticHtmlProfile()
+        {
+            //CreateMap<StaticHtmlDetailViewModel, StaticHtmlDBViewModel>()
+            CreateMap<StaticHtmlDBViewModel, StaticHtmlDetailViewModel>()
 
-    //            .ForMember(dest => dest.StaticID, opt => opt.MapFrom(src => src.CreateTime))
-    //            .ForMember(dest => dest.PictureName, opt => opt.MapFrom(src => src.PictureName))
-    //            .ForMember(dest => dest.HtmlContext, opt => opt.MapFrom(src => src.HtmlContext))
-    //            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-    //            .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
+                .ForMember(dest => dest.StaticID, opt => opt.MapFrom(src => src.StaticID))
+                .ForMember(dest => dest.picInfo, opt => opt.MapFrom(src => src.picInfo))
+                .ForMember(dest => dest.HtmlContext, opt => opt.MapFrom(src => src.HtmlContext))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
 
-    //            .ForMember(dest => dest.CreateUser, opt => opt.Ignore())
-    //            .ForMember(dest => dest.FileExtension, opt => opt.Ignore())
-    //            .ForMember(dest => dest.PicID, opt => opt.Ignore())
-    //            .ForMember(dest => dest.PictureUrl, opt => opt.Ignore())
-    //            .ForMember(dest => dest.sort, opt => opt.Ignore())
+                .ForMember(dest => dest.CreateUser, opt => opt.MapFrom(src => src.CreateUser))
+                .ForMember(dest => dest.sort, opt => opt.MapFrom(src => src.sort))
+                .ForMember(dest => dest.SubjectID, opt => opt.MapFrom(src => src.SubjectID))
+                .ForMember(dest => dest.SubjectName, opt => opt.MapFrom(src => src.SubjectName))
+                .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
 
-    //            .ForMember(dest => dest.SubjectID, opt => opt.Ignore())
-    //            .ForMember(dest => dest.SubjectName, opt => opt.Ignore())
-    //            .ForMember(dest => dest.UpdateTime, opt => opt.Ignore())
-    //            .ForMember(dest => dest.UpdateUser, opt => opt.Ignore());
-    //    }
-    //}
+                .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser))
+                .ForMember(dest => dest.StaticHtmlActionType, opt => opt.Ignore());
+        }
+    }
 }

@@ -58,5 +58,6 @@ namespace BackMeow.Helper
             return MvcHtmlString.Create($"<input class='form-control' id='select_" + ColumnId + "' name='Header." + ColumnId + "' placeholder='請輸入 '" + TextBoxplaceholder + "' type='text' value='" + StrTextBox + "' >");
             //return MvcHtmlString.Create($"<Label class='col-md-2 control-label'><label style = 'color:red' >*</label >" + labelString + "</Label >");
         }
+         
     }
 }

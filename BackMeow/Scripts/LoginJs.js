@@ -28,7 +28,7 @@ $(window).on("load", function () {
   //    }
 
     function SetClass(e) {
-        alert(e.val());
+        //alert(e.val());
         if (e.val()) {
             e.addClass('used'); 
         } else {

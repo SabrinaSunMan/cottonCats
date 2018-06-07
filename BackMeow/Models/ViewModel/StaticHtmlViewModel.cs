@@ -59,7 +59,7 @@ namespace BackMeow.Models.ViewModel
         /// </summary> 
         [DisplayName("ID")]
         public string StaticID { get; set; }
-       
+
         /// <summary>
         /// 網頁內容文字.
         /// </summary> 
@@ -69,14 +69,20 @@ namespace BackMeow.Models.ViewModel
         /// <summary>
         /// 狀態. False = 刪除,True = 啟用中
         /// </summary>
-        public bool Status { get; set; }
+        public string _HtmlStatus;
+        [DisplayName("上架狀態")]
+        public string Status //{ get; set; }
+        {
+            get { return Convert.ToBoolean(_HtmlStatus) == true ? "上架中" : "下架"; }
+            set { _HtmlStatus = value; }
+        }
 
         /// <summary>
         /// 建立日期.
         /// </summary>
         private DateTime _createTime;
         public string CreateTime
-    {
+        {
             get { return _createTime.ToString("yyyy/MM/dd"); }
             set { DateTime.TryParse(value, out _createTime); }
         }
@@ -98,7 +104,8 @@ namespace BackMeow.Models.ViewModel
         /// 網頁內容文字.
         /// </summary> 
         [DisplayName("內容文字")]
-        [StringLength(256,ErrorMessage =(" 不得超過長度 {1}"))]
+        [StringLength(256, ErrorMessage = (" 不得超過長度 {1}"))]
+        [DataType(DataType.MultilineText)]
         public string HtmlContext { get; set; }
 
         /// <summary>
@@ -113,14 +120,33 @@ namespace BackMeow.Models.ViewModel
         [DisplayName("類別名稱")]
         public string SubjectName { get; set; }
 
-        public List<PictureInfo> picInfo { get; set; }
-        
+        /// <summary>
+        /// 狀態. False = 刪除,True = 啟用中
+        /// </summary>
+        [DisplayName("上架狀態")]
+        public bool Status { get; set; }
+
+        public IEnumerable<PictureInfo> picInfo { get; set; }
+
         [DisplayName("使用者建立時間")]
         public DateTime CreateTime { get; set; }
+        
+        [DisplayName("建立者")]
+        public string CreateUser { get; set; }
 
         [DisplayName("更新時間")]
         public DateTime UpdateTime { get; set; }
+        
+        [DisplayName("更新者")]
+        public string UpdateUser { get; set; }
 
+        /// <summary>
+        /// 排序.
+        /// </summary>
+        public int sort { get; set; }
+
+        public StaticHtmlAction StaticHtmlActionType { get; set; }
+        
     }
-    
+
 }

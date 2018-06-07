@@ -1,0 +1,116 @@
+﻿@model IEnumerable<StoreDB.Model.Partials.PictureInfo>
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+<link href="~/Content/lightbox.css" rel="stylesheet" />
+<link href="~/Content/ScrollbarStyle.css" rel="stylesheet" />
+<link href="~/Content/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Uploaded", "Basic", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="text" name="PicGroupID" value="@Model.FirstOrDefault().PicGroupID" />
+    <input type="file" name="upload" id="upload" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple />
+    <input value="submit" type="submit" />
+
+    <div id="demo" class="showcase">
+        <section id="examples">
+            <div id="content-5" class="content horizontal-images light">
+                <ul>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-4.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-4.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-5.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-5.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="123">刪除</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    }
+    <script src="~/Scripts/lightbox-plus-jquery.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>window.jQuery || document.write('<script src="~/Scripts/jquery-1.10.2.min.js"><\/script>')</script>
+    <script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script>
+        (function ($) {
+            $(window).on("load", function () {
+                $("#content-5").mCustomScrollbar({
+                    axis: "x",
+                    theme: "dark-thin",
+                    autoExpandScrollbar: true,
+                    advanced: { autoExpandHorizontalScroll: true }
+                });
+            });
+            })(jQuery);
+
+        //$(".lightboxcontainer")
+        //    .on("mouseenter", function () {
+        //        //alert('滑鼠移入');
+        //        //$("p:first", this).text("mouse enter");
+        //    })
+        //    .on("mouseleave", function () {
+        //        //alert('out');
+        //        //$("p:first", this).text("mouse leave");
+        //        //$("p:last", this).text(++n);
+        //    });
+    </script>

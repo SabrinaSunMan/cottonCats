@@ -1,0 +1,130 @@
+﻿@model BackMeow.Models.ViewModel.StaticHtmlDetailViewModel
+@{
+    ViewBag.Title = "StaticHtmlMain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("StaticHtmlMain", "StaticHtml", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- PANEL DEFAULT -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Model.SubjectName </h3>
+                </div>
+            </div>
+            <!-- END PANEL DEFAULT -->
+        </div>
+    </div>
+    <input type="hidden" name="actions" value="@TempData["Actions"]" />
+    @*<input type="text" name="Id" value="@Model.Id" />*@
+    @Html.HiddenFor(s => s.StaticID)
+    @Html.HiddenFor(s => s.SubjectID)
+    <div class="panel-body">
+        @Html.NoteSite()
+    </div>
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Status).ToString())
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(x => x.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.HtmlContext, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(s => s.HtmlContext, new
+            {
+                htmlAttributes = new
+                {
+                    placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.HtmlContext),
+                    @class = "form-control",
+                    Name = "HtmlContext",
+                    @id = "HtmlContext"
+                }
+            })
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.CreateUser, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.CreateUser)
+            @Html.HiddenFor(model => model.CreateUser)
+        </div>
+        @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.CreateTime)
+            @Html.HiddenFor(model => model.CreateTime)
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.UpdateUser, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.UpdateUser)
+            @Html.HiddenFor(model => model.UpdateUser)
+        </div>
+        @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.UpdateTime)
+            @Html.HiddenFor(model => model.UpdateTime)
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-md-5">
+            <button type="button" id="Save" class="btn btn-success">儲存</button>
+            <button type="button" class="btn btn-default"
+                    onclick="location.href='@Url.Action(Model.StaticHtmlActionType.ToString(), "StaticHtml", new {  })'">
+                返回
+            </button>
+        </div>
+    </div>
+}
+    <div class="panel-body">
+        @*@Html.Partial("_UploadFiles", Model.picInfo)*@
+        @{
+        Html.RenderPartial("_UploadFiles", Model.picInfo);
+        }
+    </div>
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+@*Internet Explorer.The lightbox-plus-jquery.js file includes jQuery v2.x and supports IE 9+. If you want to support IE 6, 7, and 8, use your own copy of jQuery v1.x with lightbox.js.*@
+
+@section Scripts {
+    <script> 
+
+        $(".text").click(function () {
+            showDialog('hI', false);
+                //alert($(this).val());
+                //alert(this.id);
+                var words = this.id.split('_');
+                var Ids = words[0];
+                var nowCounts = words[1];
+                alert('your count=' + nowCounts + ' ; ID = ' + Ids);
+                /*alert($(this).text());*/ /*文字 - 刪除*/
+            })
+            
+            //$.ajax(
+            //    {
+            //        url: '/Basic/GetCust_DropDownlistHtml',
+            //        data: { selected: chooseItem },
+            //        type: 'get',
+            //        cache: false,
+            //        async: false,
+            //        dataType: 'html',
+            //        success: function (data) {
+            //            $('#partialImage').empty();
+            //            if (data.length > 0) {
+            //                $('#partialImage').append(data);
+            //            }
+            //        }
+            //    });
+    </script>
+}
+
+

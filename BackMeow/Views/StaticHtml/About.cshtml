@@ -1,134 +1,134 @@
 ﻿@using PagedList.Mvc;
 @using StoreDB.Enum;
 @model BackMeow.Models.ViewModel.StaticHtmlViewModel
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>About</h2>
 
-@Html.Partial("_StaticHtml",Model)
+@Html.Partial("_StaticHtml", Model)
+
 
 @*@using (Html.BeginForm(Model.StaticHtmlActionType.ToString(), "StaticHtml", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.HiddenFor(model => model.page)
+    {
+        @Html.HiddenFor(model => model.page)
+        <div class="row">
+            <div class="col-md-12">
+                <!-- PANEL DEFAULT -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h5 class="widget-title"></h5>
+                        <button type="button" class="btn-toggle-collapse">
+                            <i class="lnr lnr-chevron-up"></i>
+                            系統使用者 查詢區
+                        </button>
+                    </div>
+                    <div style="overflow: auto;">
+                        <div class="panel-body">
+                            @Html.LabelFor(model => model.Header.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(s => s.Header.CreateTime, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.Header.CreateTime),
+                                        @id = "select_CreateTime",
+                                        Name = "Header.CreateTime",
+                                        @class = "form-control datepicker"
+                                    }
+                                })
+                            </div>
+                            @Html.LabelFor(model => model.Header.HtmlContext, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(s => s.Header.HtmlContext, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.Header.HtmlContext),
+                                        @class = "form-control",
+                                        Name = "Header.HtmlContext",
+                                        @id = "select_HtmlContext"
+                                    }
+                                })
+                                @Html.ValidationMessageFor(x => x.Header.HtmlContext, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            @Html.LabelFor(model => model.Header.sort, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(s => s.Header.sort, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.Header.sort),
+                                        @class = "form-control",
+                                        Name = "Header.sort",
+                                        @id = "select_sort",
+                                        @type = "number",
+                                        @min = "0",
+                                        @step = "",
+                                        @value = ""
+                                    }
+                                })
+                                @Html.ValidationMessageFor(x => x.Header.sort, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <button type="button" id="Create" class="btn btn-default pull-right">
+                            <i class="fa fa-plus-square"></i> 新增
+                        </button>
+                        <button type="submit" class="btn btn-default pull-right">
+                            <i class="fa fa-search lg"></i>查詢
+                        </button>
+                    </div>
+                </div>
+                <!-- END PANEL DEFAULT -->
+            </div>
+        </div>
+    }
     <div class="row">
         <div class="col-md-12">
-            <!-- PANEL DEFAULT -->
-            <div class="panel">
-                <div class="panel-heading">
-                    <h5 class="widget-title"></h5>
-                    <button type="button" class="btn-toggle-collapse">
-                        <i class="lnr lnr-chevron-up"></i>
-                        系統使用者 查詢區
-                    </button>
-                </div>
-                <div style="overflow: auto;">
-                    <div class="panel-body">
-                        @Html.LabelFor(model => model.Header.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-3">
-                            @Html.EditorFor(s => s.Header.CreateTime, new
-                            {
-                                htmlAttributes = new
-                                {
-                                    placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.Header.CreateTime),
-                                    @id = "select_CreateTime",
-                                    Name = "Header.CreateTime",
-                                    @class = "form-control datepicker"
-                                }
-                            })
-                        </div>
-                        @Html.LabelFor(model => model.Header.HtmlContext, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-3">
-                            @Html.EditorFor(s => s.Header.HtmlContext, new
-                            {
-                                htmlAttributes = new
-                                {
-                                    placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.Header.HtmlContext),
-                                    @class = "form-control",
-                                    Name = "Header.HtmlContext",
-                                    @id = "select_HtmlContext"
-                                }
-                            })
-                            @Html.ValidationMessageFor(x => x.Header.HtmlContext, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        @Html.LabelFor(model => model.Header.sort, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-3">
-                            @Html.EditorFor(s => s.Header.sort, new
-                            {
-                                htmlAttributes = new
-                                {
-                                    placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.Header.sort),
-                                    @class = "form-control",
-                                    Name = "Header.sort",
-                                    @id = "select_sort",
-                                    @type = "number",
-                                    @min = "0",
-                                    @step = "",
-                                    @value = ""
-                                }
-                            })
-                            @Html.ValidationMessageFor(x => x.Header.sort, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <button type="button" id="Create" class="btn btn-default pull-right">
-                        <i class="fa fa-plus-square"></i> 新增
-                    </button>
-                    <button type="submit" class="btn btn-default pull-right">
-                        <i class="fa fa-search lg"></i>查詢
-                    </button>
-                </div>
-            </div>
-            <!-- END PANEL DEFAULT -->
+            @Html.Partial("_StaticList", Model.Content_List)
         </div>
     </div>
-}
-<div class="row">
-    <div class="col-md-12">
-        @Html.Partial("_StaticList", Model.Content_List)
+    <div class="row">
+        <div class="col-md-12">
+            @Html.PagedListPager(Model.Content_List, page => Url.Action(Model.StaticHtmlActionType.ToString(), new { ViewModel = @Model, page }),
+                                                             PagedListRenderOptions.ClassicPlusFirstAndLast)
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        @Html.PagedListPager(Model.Content_List, page => Url.Action(Model.StaticHtmlActionType.ToString(), new { ViewModel = @Model, page }),
-                                                         PagedListRenderOptions.ClassicPlusFirstAndLast)
-    </div>
-</div>
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            var Message = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)@TempData["message"]))';
-            if (Message != '') {
-                showDialog(Message, false);
-             }
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                var Message = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)@TempData["message"]))';
+                if (Message != '') {
+                    showDialog(Message, false);
+                 }
 
-            $("#Create").click(function () {
-                PackageEvent('', true);
+                $("#Create").click(function () {
+                    PackageEvent('', true);
+                });
             });
-        });
-        function PackageEvent(uid, createOrUpdat)
-        {
-            var dataType = '@DataAction.Create';
-            var select_CreateTime = $("#select_CreateTime").val();
-            var select_HtmlContext = $("#select_HtmlContext").val();
-            var select_sort = $("#select_sort").val();
-
-            var url = '@Url.Action("MainDetail", "StaticHtml")'+'?guid=' + uid +
-                '&select_CreateTime=' + select_CreateTime + '&select_HtmlContext=' + select_HtmlContext +
-                '&select_sort=' + select_sort + '&selectType=' + @Model.StaticHtmlActionType.ToString()+
-                '&pages=' + @Model.page+ '&ActionType=';
-            if (!createOrUpdat) // True = Create; False = Update
+            function PackageEvent(uid, createOrUpdat)
             {
-                dataType = '@DataAction.Update';
+                var dataType = '@DataAction.Create';
+                var select_CreateTime = $("#select_CreateTime").val();
+                var select_HtmlContext = $("#select_HtmlContext").val();
+                var select_sort = $("#select_sort").val();
+
+                var url = '@Url.Action("MainDetail", "StaticHtml")'+'?guid=' + uid +
+                    '&select_CreateTime=' + select_CreateTime + '&select_HtmlContext=' + select_HtmlContext +
+                    '&select_sort=' + select_sort + '&selectType=' + @Model.StaticHtmlActionType.ToString()+
+                    '&pages=' + @Model.page+ '&ActionType=';
+                if (!createOrUpdat) // True = Create; False = Update
+                {
+                    dataType = '@DataAction.Update';
+                }
+                url += dataType;
+
+                window.location.href = url;
             }
-            url += dataType;
 
-            window.location.href = url;
-        }
-
-    </script>
-}*@
+        </script>
+    }*@

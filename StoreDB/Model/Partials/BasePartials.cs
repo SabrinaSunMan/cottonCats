@@ -11,12 +11,22 @@ namespace StoreDB.Model.Partials
         /// <summary>
         /// 建立日期.
         /// </summary>
-        public DateTime CreateTime { get; set; }
+        private DateTime _createtime;
+        public DateTime CreateTime
+        {
+            get { return _createtime; }
+            set { value = DateTime.Now; }
+        }
 
         /// <summary>
         /// 更新日期.
         /// </summary>
-        public DateTime UpdateTime { get; set; }
+        private DateTime _updatetime;
+        public DateTime UpdateTime
+        {
+            get { return _updatetime; }
+            set { value = DateTime.Now; }
+        }
 
         /// <summary>
         /// 建立者.

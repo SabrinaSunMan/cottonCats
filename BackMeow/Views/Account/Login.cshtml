@@ -56,7 +56,7 @@
     });
 
 </script>*@
-<script type='text/javascript'>
+@*<script type='text/javascript'>
 
     //window.onload = function () {
     //    alert("3.页面加载完成====》onload");
@@ -95,32 +95,32 @@
 
     
 
-    function aaa() { 
-        //alert("5.静态标签====》onload");
-        var printAccount = document.getElementById('Account');
-        alert(printAccount.innerHTML);
-        $("input[type=text]").each(function () {  // for all input text
-            var inputText = $('[name="' + this.name + '"]');
-            alert(inputText.val());
-            SetClass(inputText);
-        });
+    //function aaa() { 
+    //    //alert("5.静态标签====》onload");
+    //    var printAccount = document.getElementById('Account');
+    //    alert(printAccount.innerHTML);
+    //    $("input[type=text]").each(function () {  // for all input text
+    //        var inputText = $('[name="' + this.name + '"]');
+    //        alert(inputText.val());
+    //        SetClass(inputText);
+    //    });
 
-        $("input[type=password]").each(function () {  // for all input password
-            var pwd = $('[name="' + this.name + '"]');
-            alert(pwd.val());
-            SetClass(pwd);
-        });
+    //    $("input[type=password]").each(function () {  // for all input password
+    //        var pwd = $('[name="' + this.name + '"]');
+    //        alert(pwd.val());
+    //        SetClass(pwd);
+    //    });
 
-        $('input').keyup(function () {
-            SetClass($(this));
-        });
-    }
-    function SetClass(e) {
-        alert(e.val());
-        if (e.val()) {
-            e.addClass('used');
-        } else {
-            e.removeClass('used');
-        };
-    }
-</script>  
+    //    $('input').keyup(function () {
+    //        SetClass($(this));
+    //    });
+    //}
+    //function SetClass(e) {
+    //    alert(e.val());
+    //    if (e.val()) {
+    //        e.addClass('used');
+    //    } else {
+    //        e.removeClass('used');
+    //    };
+    //}
+</script>*@  

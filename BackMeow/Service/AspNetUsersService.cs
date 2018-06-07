@@ -120,8 +120,11 @@ namespace BackMeow.Service
             //_AspNetUsersRep.GetAll().Where(s => s.UserName.Equals(UserName) && s.Email.Equals(UserEmail)).FirstOrDefault();
 
             //TEST
-            AspNetUsers GetAspNetUsers = _AspNetUsersRep.GetAll().Where(s => s.UserName.Equals(UserName)
-            || s.Email.Equals(UserEmail)).FirstOrDefault(); 
+            //AspNetUsers GetAspNetUsers = _AspNetUsersRep.GetAll().Where(s => s.UserName.Equals(UserName)
+            //|| s.Email.Equals(UserEmail)).FirstOrDefault();
+
+            //TEST01
+            AspNetUsers GetAspNetUsers = _AspNetUsersRep.Query(s => s.UserName.Equals(UserName) || s.Email.Equals(UserEmail)).FirstOrDefault();
             return GetAspNetUsers;
         }
 

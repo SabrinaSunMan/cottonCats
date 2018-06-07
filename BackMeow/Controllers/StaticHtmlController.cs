@@ -9,18 +9,34 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace BackMeow.Controllers
 {
     public class StaticHtmlController : Controller
     {
         private readonly StaticHtmlService _StaticHtmlService;
-        private readonly LoggingService _logSvc;
+        private readonly AspNetUsersService _UserService;
+        private string _signInManager;
+        private readonly LoggingService _logSvc; 
 
         public StaticHtmlController()
         {
             var unitOfWork = new EFUnitOfWork();
             _StaticHtmlService = new StaticHtmlService(unitOfWork);
             _logSvc = new LoggingService(unitOfWork);
+            _UserService = new AspNetUsersService(unitOfWork);
+        }
+
+        public string SignInManagerName
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.User.Identity.Name.ToString();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
         }
 
         #region 靜態網站管理
@@ -29,7 +45,7 @@ namespace BackMeow.Controllers
         [HttpGet]
         public ActionResult About(StaticHtmlViewModel ViewModel, int page = 1)
         {
-            StaticHtmlViewModel ResultViewModel = HttpGetStaticHtmlViewModel((StaticHtmlViewModel)TempData["StaticHtmlSelect"], StaticHtmlAction.About,page);
+            StaticHtmlViewModel ResultViewModel = HttpGetStaticHtmlViewModel((StaticHtmlViewModel)TempData["StaticHtmlSelect"], StaticHtmlAction.About, page);
             return View(ResultViewModel);
             //return RedirectToAction("StaticHtmlSelect", ResultViewModel);
         }
@@ -68,24 +84,10 @@ namespace BackMeow.Controllers
             return ResultViewModel;
         }
 
-        public ActionResult MainDetail(Actions ActionType, string guid, string select_CreateTime, string select_HtmlContext,string select_sort,
-            string selectType, int pages = 1)
+        private void PackageTempData(string select_CreateTime, string select_HtmlContext, string select_sort,
+            StaticHtmlAction selectType, int pages = 1)
         {
-            //if (!string.IsNullOrWhiteSpace(selectType))
-            //{
-            StaticHtmlAction select = (StaticHtmlAction)Enum.Parse(typeof(StaticHtmlAction), selectType);
-            switch (select)
-            {
-                case StaticHtmlAction.About:
-                case StaticHtmlAction.Space:
-                    return RedirectToAction("Index", "Home", new { Area = "" });
-                case StaticHtmlAction.Contract:
-                case StaticHtmlAction.Joinus:
-                    return RedirectToAction("Index", "Home", new { Area = "" });
-                default:
-                    break;
-            }
-            // } 
+            pages = pages == 0 ? 1 : pages;
             TempData["StaticHtmlSelect"] = new StaticHtmlViewModel()
             {
                 Header = new StaticHtmlListHeaderViewModel()
@@ -95,36 +97,72 @@ namespace BackMeow.Controllers
                     sort = select_sort
                 },
                 page = pages,
-                StaticHtmlActionType = select
+                StaticHtmlActionType = selectType
             };
-            
-            return RedirectToAction(selectType, "StaticHtml", new { Area = "" });
         }
 
         #region 藉由ID取得靜態網頁管理明細
         [HttpGet]
-        public ActionResult AboutMain(Actions ActionType, string guid, string selectEmail, string selectUserName, int pages = 1)
+        public ActionResult StaticHtmlMain(Actions ActionType, string guid, string select_CreateTime, string select_HtmlContext, string select_sort,
+            string selectType, int pages = 1)
         {
-            //TempData["Actions"] = ActionType;
-            //AspNetUsersDetailViewModel data = new AspNetUsersDetailViewModel();
-            //if (ActionType == Actions.Update)
+            TempData["Actions"] = ActionType;
+            StaticHtmlAction select = (StaticHtmlAction)Enum.Parse(typeof(StaticHtmlAction), selectType);
+            StaticHtmlDetailViewModel data = new StaticHtmlDetailViewModel();
+
+            if (ActionType == Actions.Update)
+            {
+                data = _StaticHtmlService.ReturnStaticHtmlDetail(select, ActionType, guid);
+            }
+            // KeepSelectBlock
+            PackageTempData(select_CreateTime, select_HtmlContext, select_sort, select, pages);
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult StaticUpload(IEnumerable<HttpPostedFileBase> upload, string PicGroupID)
+        {
+            //上傳照片
+            var result = new BasicController().Uploaded(upload);
+
+            //存入DB
+            _StaticHtmlService.CreatePictureInfo(upload, PicGroupID, SignInManagerName);
+            _StaticHtmlService.Save();
+
+            //重新整理該頁面
+            var PictureInfoList = _StaticHtmlService.ReturnPictureInfoList(PicGroupID).AsEnumerable();
+            return PartialView("_UploadFiles", PictureInfoList);
+        }
+
+        [HttpPost]
+        public ActionResult StaticHtmlMain(Actions ActionType, StaticHtmlDetailViewModel satichtmlViewModel)
+        {
+            switch (satichtmlViewModel.StaticHtmlActionType)
+            {
+                case StaticHtmlAction.About:
+                case StaticHtmlAction.Space:
+                    return RedirectToAction("AboutMain", "StaticHtml", new { Area = "" });
+                case StaticHtmlAction.Contract:
+                case StaticHtmlAction.Joinus:
+                    return RedirectToAction("Index", "Home", new { Area = "" });
+                default:
+                    break;
+            }
+            // } 
+            //TempData["StaticHtmlSelect"] = new StaticHtmlViewModel()
             //{
-            //    data = _UserService.ReturnAspNetUsersDetail(ActionType, guid);
-            //}
-            //#region KeepSelectBlock
-            //pages = pages == 0 ? 1 : pages;
-            //TempData["SystemRolesSelect"] = new SystemRolesViewModel()
-            //{
-            //    Header = new SystemRolesListHeaderViewModel()
+            //    Header = new StaticHtmlListHeaderViewModel()
             //    {
-            //        Email = selectEmail,
-            //        UserName = selectUserName
+            //        CreateTime = select_CreateTime,
+            //        HtmlContext = select_HtmlContext,
+            //        sort = select_sort
             //    },
-            //    page = pages
+            //    page = pages,
+            //    StaticHtmlActionType = select
             //};
-            //#endregion
-            //return View(data);
-            return View();
+
+            return RedirectToAction(satichtmlViewModel.StaticHtmlActionType.ToString(), "StaticHtml", new { Area = "" });
         }
         #endregion
         #endregion

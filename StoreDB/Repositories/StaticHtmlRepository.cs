@@ -42,6 +42,15 @@ namespace StoreDB.Repositories
             return ReturnViewModel(StaticHtmlAction.All);
         }
 
+        /// <summary>
+        /// 藉由 guid 搜尋該ViewModel
+        /// </summary>
+        /// <returns></returns>
+        public StaticHtmlDBViewModel GetSingle(StaticHtmlAction SelectTypes,string guid)
+        {
+            return ReturnViewModel(SelectTypes).Where(s=>s.StaticID.Equals(guid)).FirstOrDefault();
+        }
+
         private IEnumerable<StaticHtmlDBViewModel> ReturnViewModel(StaticHtmlAction SelectTypes)
         {
             // 取得 靜態網頁主檔 Table
@@ -79,10 +88,20 @@ namespace StoreDB.Repositories
                                                                  };
             if (SelectTypes!= StaticHtmlAction.All)
             {
-                ReturnViewModel = ReturnViewModel.Where(s => s.SubjectID.Equals((int)SelectTypes));
+                ReturnViewModel = ReturnViewModel.Where(s => s.SubjectID.Equals(SelectTypes.ToString()));
             }
 
             return ReturnViewModel.OrderByDescending(s=>s.CreateTime);
+        }
+
+        /// <summary>
+        /// Returns the picture information list.
+        /// </summary>
+        /// <param name="guid">The unique identifier.</param>
+        /// <returns></returns>
+        public IQueryable<PictureInfo> ReturnPictureInfoList(string groupguid)
+        {
+            return _PictureInfo.Query(s => s.PicGroupID.Equals(groupguid));
         }
 
         /// <summary>
@@ -101,6 +120,11 @@ namespace StoreDB.Repositories
             ReadyUpdate.UpdateUser = statichtml.UpdateUser;
             ReadyUpdate.UpdateTime = DateTime.Now;
             Update(ReadyUpdate, statichtml.StaticID);
+        }
+
+        public void SavePictureInfo (PictureInfo savedata)
+        {
+            _PictureInfo.Create(savedata);
         }
     }
 }
