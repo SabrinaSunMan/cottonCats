@@ -86,6 +86,9 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Renci.SshNet, Version=2016.0.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2016.0.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack.Text, Version=4.0.30.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.4.0.30\lib\net40\ServiceStack.Text.dll</HintPath>
     </Reference>
@@ -274,6 +277,7 @@
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Filters\ModelStateExcludeAttribute.cs" />
     <Compile Include="Filters\ResultFillterAttribute.cs" />
+    <Compile Include="Filters\ValidateFileAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -457,6 +461,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery.mCustomScrollbar.concat.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -467,7 +472,6 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -477,6 +481,15 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\UploadFile.js" />
+    <Content Include="Upload\StaticHtml\311865.jpg" />
+    <Content Include="Upload\StaticHtml\311866.jpg" />
+    <Content Include="Upload\StaticHtml\Ashampoo_Snap_2017.12.28_13h53m53s_001_.png" />
+    <Content Include="Upload\StaticHtml\Logo.JPG" />
+    <Content Include="Upload\StaticHtml\Logo.png" />
+    <Content Include="Upload\StaticHtml\Name1.JPG" />
+    <Content Include="Upload\StaticHtml\Space01-21.JPG" />
+    <Content Include="Upload\StaticHtml\Space01.JPG" />
+    <Content Include="Upload\StaticHtml\扣繳憑單.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -530,7 +543,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Upload\StaticHtml\" />
     <Folder Include="Upload\TempImage\" />
   </ItemGroup>
   <ItemGroup>

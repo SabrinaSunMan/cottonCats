@@ -53,24 +53,24 @@
                                 <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
                                 <li><a href="#" class="more">See all notifications</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         @Html.Partial("_LoginPartial")
                         @*<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="assets/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span> 
-                                <i class="icon-submenu lnr lnr-chevron-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-                                <li>
-                                    <a href="#" class="logout">
-                                    <i class="lnr lnr-exit"></i> 
-                                    <span>Logout</span></a>
-                                </li>
-                            </ul>
-                        </li>*@
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="assets/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span>
+                                    <i class="icon-submenu lnr lnr-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+                                    <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
+                                    <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+                                    <li>
+                                        <a href="#" class="logout">
+                                        <i class="lnr lnr-exit"></i>
+                                        <span>Logout</span></a>
+                                    </li>
+                                </ul>
+                            </li>*@
                     </ul>
                 </div>
             </div>
@@ -79,10 +79,9 @@
         <!-- LEFT SIDEBAR -->
         @Html.Action("SideBarContent", "Home")
         @*<div class="customersidebar">
-            
-        </div>*@
+            </div>*@
         @*@Html.Partial("_Sidebar")*@
-          
+
         <!-- END LEFT SIDEBAR -->
         <!-- MAIN -->
         <div class="main">
@@ -103,7 +102,7 @@
         <div class="modal"><!-- Place at bottom of page --></div>
         <footer>
             <div class="container-fluid">
-                <p class="copyright">&copy; @DateTime.Now.Year - 我的 ASP.NET MVC 應用程式 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+                <p class="copyright">&copy; @DateTime.Now.Year - 非喵不可 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
             </div>
         </footer>
     </div>
@@ -118,11 +117,12 @@
     @*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Content/vendor/jquery/jquery.min.js"></script>
     <script src="~/Content/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Content/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="~/Content/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
@@ -134,12 +134,12 @@
         $(document).ready(function () {
 
             //$('.customersidebar').load('/Home/SideBarContent/');
-            $(".collapse").on('click', function () { 
+            $(".collapse").on('click', function () {
                 $(this).addClass("active");
             }) //選單
 
             //$(".logout").on('click', function () {
-            //    alert('logout!!'); 
+            //    alert('logout!!');
             //    $.ajax({
             //        type: "POST",
             //        url: "/Account/LogOff" ,
@@ -154,8 +154,7 @@
             //            alert(response.responseText);
             //        }
             //    });
-            //}) 
-
+            //})
 
             $(".table-hover").on('click', '.btn-danger', function () {
                 var currentRow = $(this).closest("tr"); // get current row 1st table cell TD value
@@ -182,7 +181,6 @@
                 changeYear: true }); //Initialise any date pickers
         });
 
-
         $body = $("body");
 
         $(document).on({
@@ -190,10 +188,10 @@
             ajaxStop: function () { $body.removeClass("loading"); }
         });
 
-        function showconfirm(Guid, Pages) {
-            var $dialog = $('<div id="dialog-confirm" ></div>')
-                .html('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>刪除將無法回復，確定刪除嗎?</p>')
-                .dialog({
+        function showconfirm(Guid, Pages, ControllerName, TableName) {
+            var $dialog = $('<div id="dialog-confirm" ></div>');
+            var text01 = $dialog.html('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>刪除將無法回復，確定刪除嗎?</p>');
+            var text02 = text01.dialog({
                     autoOpen: false,
                     resizable: false,
                     modal: true,
@@ -202,7 +200,7 @@
                     buttons: {
                         "確認刪除": function () {
                             $(this).dialog("close");
-                            Delete(Guid, Pages);
+                            Delete(Guid, Pages, ControllerName, TableName);
                         },
                         "取消": function () {
                             $(this).dialog("close");
@@ -212,7 +210,7 @@
             $dialog.dialog('open');
         }
 
-        function showDialog(message, reloadtrue) {
+        function showDialog(message, reloadtrue,responseViewModel) {
             var $dialog = $('<div id="dialog" ></div>')
                 .html(message)
                 .dialog({
@@ -225,7 +223,8 @@
                         "確認": function () {
                             $(this).dialog("close");
                             if (reloadtrue == true) { //刪除後需要Reload
-                                location.reload();
+                                //location.reload();
+                                $("#Pic").html(responseViewModel);
                             }
                         }
                     }
@@ -233,28 +232,27 @@
             $dialog.dialog('open');
         }
 
-
-        function Delete(Guid, Pages) {
+        function Delete(Guid, Pages, ControllerName, TableName) {
             $.ajax({
                 type: 'POST',
-                url: '/Home/DeleteInfo',
+                url: '/' + ControllerName + '/Delete' ,
                 dataType: "json",
                 data: {
                     guid: Guid,
-                    usePage: Pages
+                    actionTable: TableName
                 },
                 success:
                 function (response) {
-                    if (response.boolResult != null) {
-                        showDialog(response.result, true);
-                    }
+                    //if (response.result != null) {
+                    alert(response.viewModel);
+                    showDialog(response.result, true, response.viewModel);
+
+                    //}
                     //location.reload();
                 },
                 error: function () { showDialog('未知的錯誤!', false); }
             });
         }
-
     </script>
-
 </body>
 </html>

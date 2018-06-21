@@ -5,10 +5,11 @@ using StoreDB.Repositories;
 using StoreDB.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
-
 
 namespace BackMeow.Controllers
 {
@@ -16,8 +17,9 @@ namespace BackMeow.Controllers
     {
         private readonly StaticHtmlService _StaticHtmlService;
         private readonly AspNetUsersService _UserService;
+        private string FileUrl = WebConfigurationManager.AppSettings["UploadFileUrl"];
         private string _signInManager;
-        private readonly LoggingService _logSvc; 
+        private readonly LoggingService _logSvc;
 
         public StaticHtmlController()
         {
@@ -40,8 +42,11 @@ namespace BackMeow.Controllers
         }
 
         #region 靜態網站管理
+
         #region 靜態網站管理 - 關於
+
         #region 取得[關於我們]清單
+
         [HttpGet]
         public ActionResult About(StaticHtmlViewModel ViewModel, int page = 1)
         {
@@ -61,7 +66,6 @@ namespace BackMeow.Controllers
             }
             else return View(ViewModel);
         }
-        #endregion
 
         /// <summary>
         /// 靜態網頁管理 取得 ViewModel
@@ -84,6 +88,27 @@ namespace BackMeow.Controllers
             return ResultViewModel;
         }
 
+        #endregion 取得[關於我們]清單
+
+        #region 藉由ID取得靜態網頁管理明細
+
+        [HttpGet]
+        public ActionResult StaticHtmlMain(Actions ActionType, string guid, string select_CreateTime, string select_HtmlContext, string select_sort,
+            string selectType, int pages = 1)
+        {
+            TempData["Actions"] = ActionType;
+            StaticHtmlAction select = (StaticHtmlAction)Enum.Parse(typeof(StaticHtmlAction), selectType);
+            StaticHtmlDetailViewModel data = new StaticHtmlDetailViewModel();
+            //if (ActionType == Actions.Update)
+            //{
+            data = _StaticHtmlService.ReturnStaticHtmlDetail(select, ActionType, guid);
+            //}
+            // KeepSelectBlock
+            PackageTempData(select_CreateTime, select_HtmlContext, select_sort, select, pages);
+
+            return View(data);
+        }
+
         private void PackageTempData(string select_CreateTime, string select_HtmlContext, string select_sort,
             StaticHtmlAction selectType, int pages = 1)
         {
@@ -101,55 +126,75 @@ namespace BackMeow.Controllers
             };
         }
 
-        #region 藉由ID取得靜態網頁管理明細
-        [HttpGet]
-        public ActionResult StaticHtmlMain(Actions ActionType, string guid, string select_CreateTime, string select_HtmlContext, string select_sort,
-            string selectType, int pages = 1)
-        {
-            TempData["Actions"] = ActionType;
-            StaticHtmlAction select = (StaticHtmlAction)Enum.Parse(typeof(StaticHtmlAction), selectType);
-            StaticHtmlDetailViewModel data = new StaticHtmlDetailViewModel();
+        #endregion 藉由ID取得靜態網頁管理明細
 
-            if (ActionType == Actions.Update)
-            {
-                data = _StaticHtmlService.ReturnStaticHtmlDetail(select, ActionType, guid);
-            }
-            // KeepSelectBlock
-            PackageTempData(select_CreateTime, select_HtmlContext, select_sort, select, pages);
-
-            return View(data);
-        }
+        #region 靜態網頁管理 存檔
 
         [HttpPost]
-        public ActionResult StaticUpload(IEnumerable<HttpPostedFileBase> upload, string PicGroupID)
+        //[ValidateFile] //上傳照片 日後將此功能抽出 ,日後改使用 MVC File upload unobtrusive validation
+        public ActionResult StaticHtmlMain(Actions actions, StaticHtmlDetailViewModel satichtmlViewModel,
+            IEnumerable<HttpPostedFileBase> upload)
         {
-            //上傳照片
-            var result = new BasicController().Uploaded(upload);
+            #region KeepSelectBlock
 
-            //存入DB
-            _StaticHtmlService.CreatePictureInfo(upload, PicGroupID, SignInManagerName);
-            _StaticHtmlService.Save();
+            TempData["Actions"] = actions;
+            TempData["StaticHtmlSelect"] = (StaticHtmlViewModel)TempData["StaticHtmlSelect"];
 
-            //重新整理該頁面
-            var PictureInfoList = _StaticHtmlService.ReturnPictureInfoList(PicGroupID).AsEnumerable();
-            return PartialView("_UploadFiles", PictureInfoList);
-        }
+            #endregion KeepSelectBlock
 
-        [HttpPost]
-        public ActionResult StaticHtmlMain(Actions ActionType, StaticHtmlDetailViewModel satichtmlViewModel)
-        {
-            switch (satichtmlViewModel.StaticHtmlActionType)
+            if (ModelState.IsValid)
             {
-                case StaticHtmlAction.About:
-                case StaticHtmlAction.Space:
-                    return RedirectToAction("AboutMain", "StaticHtml", new { Area = "" });
-                case StaticHtmlAction.Contract:
-                case StaticHtmlAction.Joinus:
-                    return RedirectToAction("Index", "Home", new { Area = "" });
-                default:
-                    break;
+                if (actions == Actions.Create) //建立資料
+                {
+                    satichtmlViewModel.StaticID = Guid.NewGuid().ToString().ToUpper();
+                    satichtmlViewModel.PicGroupID = Guid.NewGuid();
+                    TempData["message"] = _StaticHtmlService.CreateStaticHtml(satichtmlViewModel, SignInManagerName);
+                }
+                else //更新資料
+                {
+                    TempData["message"] = _StaticHtmlService.UpdateStaticHtml(satichtmlViewModel);
+                }
+
+                #region 上傳照片 日後將此功能抽出
+
+                //var result = new BasicController().Uploaded(upload);
+                bool UploadResult = UploadFile(upload, satichtmlViewModel.StaticID);
+                if (UploadResult)
+                {
+                    //存入DB
+                    _StaticHtmlService.CreatePictureInfo(upload, satichtmlViewModel.PicGroupID, SignInManagerName);
+                }
+
+                #endregion 上傳照片 日後將此功能抽出
+
+                _StaticHtmlService.Save();
             }
-            // } 
+
+            // 顯示資料
+            //StaticHtmlAction select = (StaticHtmlAction)Enum.Parse(typeof(StaticHtmlAction), );
+            satichtmlViewModel = _StaticHtmlService.ReturnStaticHtmlDetail(satichtmlViewModel.StaticHtmlActionType, actions, satichtmlViewModel.StaticID);
+
+            //return RedirectToAction("StaticHtmlMain", "StaticHtml", new { Area = "", selectType= satichtmlViewModel.SubjectID });
+            return View(satichtmlViewModel);
+
+            //switch (satichtmlViewModel.StaticHtmlActionType)
+            //{
+            //    case StaticHtmlAction.About:
+            //    case StaticHtmlAction.Space:
+            //        return RedirectToAction(Temp, "StaticHtml", new { Area = "" });
+            //    case StaticHtmlAction.Contract:
+            //    case StaticHtmlAction.Joinus:
+            //        return RedirectToAction("Index", "StaticHtml", new { Area = "" });
+            //    default:
+            //        return RedirectToAction("SystemRoles", new
+            //        {
+            //            ViewModel = searchBlock,
+            //            pages = searchBlock.page
+            //        });
+            //        break;
+            //}
+
+            //
             //TempData["StaticHtmlSelect"] = new StaticHtmlViewModel()
             //{
             //    Header = new StaticHtmlListHeaderViewModel()
@@ -161,14 +206,52 @@ namespace BackMeow.Controllers
             //    page = pages,
             //    StaticHtmlActionType = select
             //};
-
-            return RedirectToAction(satichtmlViewModel.StaticHtmlActionType.ToString(), "StaticHtml", new { Area = "" });
         }
-        #endregion
-        #endregion
+
+        /// <summary>
+        /// Uploads the file. 上傳照片 日後將此功能抽出 ,日後改使用 MVC File upload unobtrusive validation
+        /// </summary>
+        /// <param name="upload">The upload.</param>
+        /// <returns></returns>
+        private bool UploadFile(IEnumerable<HttpPostedFileBase> upload, string FolderName)
+        {
+            bool TmpResult = false;
+            try
+            {
+                if (upload != null)
+                {
+                    if (upload.Count() > 0)
+                    {
+                        string savePath = Server.MapPath(FileUrl) + FolderName;
+                        if (!Directory.Exists(savePath))
+                        {
+                            //If Directory (Folder) does not exists. Create it.
+                            Directory.CreateDirectory(savePath);
+                        }
+                        foreach (var uploadFile in upload)
+                            if (uploadFile.ContentLength > 0 && uploadFile.FileName.Length < 20)
+                            {
+                                string N_savePath = savePath + "\\" + uploadFile.FileName;
+                                uploadFile.SaveAs(N_savePath);
+                                TmpResult = true;
+                            }
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+            }
+            return TmpResult;
+        }
+
+        #endregion 靜態網頁管理 存檔
+
+        #endregion 靜態網站管理 - 關於
 
         #region 靜態網站管理 - 空間介紹
+
         #region 取得[關於我們]清單
+
         [HttpGet]
         public ActionResult Space(StaticHtmlViewModel ViewModel, int page = 1)
         {
@@ -187,8 +270,58 @@ namespace BackMeow.Controllers
             }
             else return View(ViewModel);
         }
-        #endregion
-        #endregion
-        #endregion
+
+        #endregion 取得[關於我們]清單
+
+        #endregion 靜態網站管理 - 空間介紹
+
+        #endregion 靜態網站管理
+
+        [HttpPost]
+        public JsonResult Delete(string StaticGuid, string guid, string actionTable)
+        {
+            string GetResult = "";
+            TableName actionTableS = (TableName)Enum.Parse(typeof(TableName), actionTable);
+            if (actionTableS == TableName.StaticHtml)
+            {
+                _StaticHtmlService.DeleteStaticHtml(guid);
+            }
+            else // actionTable == TableName.PictureInfo
+            {
+                _StaticHtmlService.DeletePictureInfo(guid);
+            }
+            _StaticHtmlService.Save();
+            string viewContent = RenderRazorViewToString(ControllerContext, "_UploadFiles", _StaticHtmlService.GetPictureInfo(guid));
+            //PartialView("_UploadFiles", )
+
+            return Json(new { result = GetResult, viewModel = viewContent }
+
+                , JsonRequestBehavior.AllowGet);
+        }
+
+        private string ConvertViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (StringWriter writer = new StringWriter())
+            {
+                ViewEngineResult vResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                ViewContext vContext = new ViewContext(this.ControllerContext, vResult.View, ViewData, new TempDataDictionary(), writer);
+                vResult.View.Render(vContext, writer);
+                return writer.ToString();
+            }
+        }
+
+        public static string RenderRazorViewToString(ControllerContext controllerContext, string viewName, object model)
+        {
+            controllerContext.Controller.ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var ViewResult = ViewEngines.Engines.FindPartialView(controllerContext, viewName);
+                var ViewContext = new ViewContext(controllerContext, ViewResult.View, controllerContext.Controller.ViewData, controllerContext.Controller.TempData, sw);
+                ViewResult.View.Render(ViewContext, sw);
+                ViewResult.ViewEngine.ReleaseView(controllerContext, ViewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
     }
 }

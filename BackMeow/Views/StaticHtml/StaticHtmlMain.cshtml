@@ -3,8 +3,17 @@
     ViewBag.Title = "StaticHtmlMain";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/lightbox-plus-jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="~/Scripts/jquery-1.10.2.min.js"><\/script>')</script>
+<script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>
 
-@using (Html.BeginForm("StaticHtmlMain", "StaticHtml", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("StaticHtmlMain", "StaticHtml", FormMethod.Post, new
+{
+    @class = "form-horizontal",
+    role = "form",
+    enctype = "multipart/form-data",
+    id = "StaticHtmlMainForm"
+}))
 {
     @Html.AntiForgeryToken()
 
@@ -21,8 +30,11 @@
     </div>
     <input type="hidden" name="actions" value="@TempData["Actions"]" />
     @*<input type="text" name="Id" value="@Model.Id" />*@
-    @Html.HiddenFor(s => s.StaticID)
-    @Html.HiddenFor(s => s.SubjectID)
+    @Html.EditorFor(s => s.StaticID)
+
+    @Html.EditorFor(s => s.StaticHtmlActionType)
+
+    @Html.EditorFor(s => s.SubjectID)
     <div class="panel-body">
         @Html.NoteSite()
     </div>
@@ -74,57 +86,23 @@
             @Html.HiddenFor(model => model.UpdateTime)
         </div>
     </div>
-
+    <div class="panel-body">
+        <input type="file" name="upload" id="upload" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple />
+    </div>
+    <div class="panel-body" id="Pic">
+        @*@Html.Partial("_UploadFiles", Model.picInfo)*@
+        @{
+            Html.RenderPartial("_UploadFiles", Model.picInfo);
+        }
+    </div>
     <div class="panel-body">
         <div class="col-md-5">
-            <button type="button" id="Save" class="btn btn-success">儲存</button>
+            <input type="submit" id="Save" class="btn btn-success" value="儲存" />
             <button type="button" class="btn btn-default"
-                    onclick="location.href='@Url.Action(Model.StaticHtmlActionType.ToString(), "StaticHtml", new {  })'">
+                    onclick="location.href='@Url.Action(Model.StaticHtmlActionType.ToString(), "StaticHtml", new { })'">
                 返回
             </button>
         </div>
     </div>
+
 }
-    <div class="panel-body">
-        @*@Html.Partial("_UploadFiles", Model.picInfo)*@
-        @{
-        Html.RenderPartial("_UploadFiles", Model.picInfo);
-        }
-    </div>
-
-@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
-@*Internet Explorer.The lightbox-plus-jquery.js file includes jQuery v2.x and supports IE 9+. If you want to support IE 6, 7, and 8, use your own copy of jQuery v1.x with lightbox.js.*@
-
-@section Scripts {
-    <script> 
-
-        $(".text").click(function () {
-            showDialog('hI', false);
-                //alert($(this).val());
-                //alert(this.id);
-                var words = this.id.split('_');
-                var Ids = words[0];
-                var nowCounts = words[1];
-                alert('your count=' + nowCounts + ' ; ID = ' + Ids);
-                /*alert($(this).text());*/ /*文字 - 刪除*/
-            })
-            
-            //$.ajax(
-            //    {
-            //        url: '/Basic/GetCust_DropDownlistHtml',
-            //        data: { selected: chooseItem },
-            //        type: 'get',
-            //        cache: false,
-            //        async: false,
-            //        dataType: 'html',
-            //        success: function (data) {
-            //            $('#partialImage').empty();
-            //            if (data.length > 0) {
-            //                $('#partialImage').append(data);
-            //            }
-            //        }
-            //    });
-    </script>
-}
-
-

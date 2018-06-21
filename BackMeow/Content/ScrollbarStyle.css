@@ -176,16 +176,18 @@ code{
 
 #examples > hr{ margin: 20px 10px; }
 
-.content{
-	overflow: auto;
-	position: relative;
-	padding: 20px;
-	background: #333;
-	margin: 10px;
-	width: 740px;
-	max-width: 97%;
-	height: 400px;
-	-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
+.content {
+    overflow: auto;
+    position: relative;
+    padding: 20px;
+    background: #333;
+    margin: 10px;
+    /*width: 740px;*/
+    max-width: 97%;
+    height: 400px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .content.hidden{ display: none; }
@@ -704,9 +706,9 @@ body.colorbox-demo #cboxContent, body.colorbox-demo #cboxContent p, body.colorbo
 	background: rgba(0,0,0,0.3);
 }
 
-.snap-scrolling-example .content{ 
-	height: auto; 
-	width: 853px;
+.snap-scrolling-example .content {
+    height: auto;
+    /*width: 853px;*/
 }
 
 .snap-scrolling-example .content img{ height: 160px; }

@@ -10,8 +10,8 @@ namespace StoreDB.Enum
     /// <summary>
     /// 後台_普遍性使用頁數
     /// </summary>
-    /// 
-    public enum BackPageListSize 
+    ///
+    public enum BackPageListSize
     {
         /// <summary>
         /// The common size
@@ -26,13 +26,13 @@ namespace StoreDB.Enum
     //{
     //    /// <summary>
     //    /// 此帳號或是Email已有人申請，請重新輸入
-    //    /// </summary> 
-        
+    //    /// </summary>
+
     //    Repeat = 0,
 
     //    /// <summary>
     //    /// 成功
-    //    /// </summary> 
+    //    /// </summary>
     //    Scuess = 1,
 
     //    /// <summary>
@@ -40,7 +40,7 @@ namespace StoreDB.Enum
     //    /// </summary>
     //    Error = 2
     //}
-    
+
     public enum DataAction
     {
         /// <summary>
@@ -112,5 +112,20 @@ namespace StoreDB.Enum
         /// 全部
         /// </summary>
         All = 99
+    }
+
+    public enum TableName
+    {
+        /// <summary>
+        /// 更新失敗
+        /// </summary>
+        [Description("靜態網頁主檔")]
+        StaticHtml = 0,
+
+        /// <summary>
+        /// 更新失敗
+        /// </summary>
+        [Description("圖片資訊")]
+        PictureInfo = 1
     }
 }

@@ -5,8 +5,6 @@ using StoreDB.Model.ViewModel.BackcottonCats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreDB.Repositories
 {
@@ -15,12 +13,14 @@ namespace StoreDB.Repositories
         private readonly IRepository<HtmlSubject> _HtmlSubject;
         private readonly IRepository<PictureInfo> _PictureInfo;
         private readonly IRepository<StaticHtml> _StaticHtml;
+        private readonly IRepository<AspNetUsers> _AspNetUsersRep;
 
         public StaticHtmlRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _HtmlSubject = new Repository<HtmlSubject>(unitOfWork);
             _PictureInfo = new Repository<PictureInfo>(unitOfWork);
             _StaticHtml = new Repository<StaticHtml>(unitOfWork);
+            _AspNetUsersRep = new Repository<AspNetUsers>(unitOfWork);
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace StoreDB.Repositories
         /// 藉由 guid 搜尋該ViewModel
         /// </summary>
         /// <returns></returns>
-        public StaticHtmlDBViewModel GetSingle(StaticHtmlAction SelectTypes,string guid)
+        public StaticHtmlDBViewModel GetSingle(StaticHtmlAction SelectTypes, string guid)
         {
-            return ReturnViewModel(SelectTypes).Where(s=>s.StaticID.Equals(guid)).FirstOrDefault();
+            return ReturnViewModel(SelectTypes).Where(s => s.StaticID.Equals(guid)).FirstOrDefault();
         }
 
         private IEnumerable<StaticHtmlDBViewModel> ReturnViewModel(StaticHtmlAction SelectTypes)
@@ -59,57 +59,51 @@ namespace StoreDB.Repositories
             List<PictureInfo> PicInfoList = _PictureInfo.GetAll().ToList();
             // 取得 靜態分類
             List<HtmlSubject> SubjectInfoList = _HtmlSubject.GetAll().ToList();
+
+            List<AspNetUsers> AspNetUsersList = _AspNetUsersRep.GetAll().ToList();
+
             IEnumerable<StaticHtmlDBViewModel> ReturnViewModel = from HtmlInfo in HtmlInfoList
-                                                                 //join PicInfo in PicInfoList
-                                                             //on HtmlInfo.PicGroupID equals PicInfo.PicGroupID
+                                                                     //join PicInfo in PicInfoList
+                                                                     //on HtmlInfo.PicGroupID equals PicInfo.PicGroupID
                                                                  join SubjectInfo in SubjectInfoList
-                                                             on HtmlInfo.SubjectID equals SubjectInfo.SubjectID
+                                                                on HtmlInfo.SubjectID equals SubjectInfo.SubjectID
                                                                  //where SubjectInfo.SubjectID == ""
                                                                  orderby HtmlInfo.CreateTime
                                                                  select new
                                                                  StaticHtmlDBViewModel
                                                                  {
                                                                      //FileExtension = PicInfo.FileExtension,
-                                                                     HtmlContext = HtmlInfo.HtmlContext,
+                                                                     HtmlContext = HtmlInfo.HtmlContext.Substring(0, 15) + "...", /*只固定顯示 15個字 */
                                                                      //PicID = PicInfo.PicID.ToString(),
                                                                      //PictureName = PicInfo.PictureName,
                                                                      //PictureUrl = PicInfo.PictureUrl,
                                                                      StaticID = HtmlInfo.StaticID.ToString(),
                                                                      SubjectID = SubjectInfo.SubjectID,
                                                                      SubjectName = SubjectInfo.SubjectName,
-
+                                                                     PicGroupID = HtmlInfo.PicGroupID.ToString(),
                                                                      CreateTime = HtmlInfo.CreateTime,
-                                                                     CreateUser = HtmlInfo.CreateUser,
+                                                                     CreateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.CreateUser)).FirstOrDefault().UserName,
                                                                      sort = HtmlInfo.sort,
                                                                      Status = HtmlInfo.Status,
                                                                      UpdateTime = HtmlInfo.UpdateTime,
-                                                                     UpdateUser = HtmlInfo.UpdateUser,
-                                                                     picInfo = PicInfoList.Where(s=>s.PicGroupID.Equals(HtmlInfo.PicGroupID))
+                                                                     UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.UpdateUser)).FirstOrDefault().UserName,
+                                                                     picInfo = PicInfoList.Where(s => s.PicGroupID.Equals(HtmlInfo.PicGroupID) && s.Status == true)
                                                                  };
-            if (SelectTypes!= StaticHtmlAction.All)
+
+            if (SelectTypes != StaticHtmlAction.All)
             {
                 ReturnViewModel = ReturnViewModel.Where(s => s.SubjectID.Equals(SelectTypes.ToString()));
             }
 
-            return ReturnViewModel.OrderByDescending(s=>s.CreateTime);
+            return ReturnViewModel.OrderByDescending(s => s.CreateTime);
         }
-
-        /// <summary>
-        /// Returns the picture information list.
-        /// </summary>
-        /// <param name="guid">The unique identifier.</param>
-        /// <returns></returns>
-        public IQueryable<PictureInfo> ReturnPictureInfoList(string groupguid)
-        {
-            return _PictureInfo.Query(s => s.PicGroupID.Equals(groupguid));
-        }
+         
 
         /// <summary>
         /// 更新 StaticHtml
         /// </summary>
         /// <param name="statichtml">The aspuser.</param>
-        /// <param name="keyValues">The key values.</param>
-        public void StaticHtmlUpdate(StaticHtml statichtml, params object[] keyValues)
+        public void StaticHtmlUpdate(StaticHtml statichtml) //, params object[] keyValues
         {
             StaticHtml ReadyUpdate = GetSingle(s => s.StaticID.Equals(statichtml.StaticID));
             ReadyUpdate.HtmlContext = statichtml.HtmlContext;
@@ -122,9 +116,41 @@ namespace StoreDB.Repositories
             Update(ReadyUpdate, statichtml.StaticID);
         }
 
-        public void SavePictureInfo (PictureInfo savedata)
+        public void StaticHtmlInsertInto(StaticHtml statichtml, string userName)
         {
-            _PictureInfo.Create(savedata);
+            //1.取得目前使用者 ID
+            AspNetUsers AspNetusers = _AspNetUsersRep.Query(s => s.UserName.Equals(userName)).FirstOrDefault();//登入的使用者帳號
+            statichtml.UpdateTime = DateTime.Now;
+            statichtml.CreateTime = DateTime.Now;
+            statichtml.CreateUser = AspNetusers.Id;
+            statichtml.UpdateUser = AspNetusers.Id;
+            _StaticHtml.Create(statichtml);
         }
+
+        /// <summary>
+        /// Tables the maximum count by identifier.
+        /// </summary>
+        /// <param name="selectTableName">Name of the select table.</param>
+        /// <param name="guid">The unique identifier.</param>
+        /// <returns></returns>
+        public int TableMaxCountByID(TableName selectTableName, Guid guid)
+        {
+            switch (selectTableName)
+            {
+                case TableName.PictureInfo:
+                    return _PictureInfo.Query(s => s.PicGroupID == guid).Count() + 1;
+
+                case TableName.StaticHtml:
+                    return _StaticHtml.Query(s => s.StaticID == guid).Count() + 1;
+
+                default:
+                    return 0;
+            }
+        }
+
+        //public void SavePictureInfo(PictureInfo savedata)
+        //{
+        //    _PictureInfo.Create(savedata);
+        //}
     }
 }

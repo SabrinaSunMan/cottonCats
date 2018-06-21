@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("SystemRolesMain", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("SystemRolesMain", "System", FormMethod.Post,
+    new { @class = "form-horizontal", role = "form",id= "SystemRolesMainForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -105,22 +106,23 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
     <script>
         var Passwordsoptin = document.getElementById("Passwords");
         var ConfirmPasswordoptin = document.getElementById("ConfirmPassword");
         var oldPassword = document.getElementById("Old_Password");
-
+        
         $("#Save").click(function () {
             if (Passwordsoptin.value == ConfirmPasswordoptin.value) /*兩者密碼相等*/ {
                 if ((Passwordsoptin.value != Passwordsoptin.defaultValue)) /*欲變更密碼*/ {
                     if (oldPassword.value != "") {
-                        $("#Save").submit();
+                        $("#SystemRolesMainForm").submit();
                     } else {
                         $('span[data-valmsg-for="Old_Password"]').text('變更密碼前請輸入舊有密碼');
                     }
                 } else {
                     if ($('form').valid()) {
-                        $("#Save").submit();
+                        $("#SystemRolesMainForm").submit();
                     }
                 }
             } else {

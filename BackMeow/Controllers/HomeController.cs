@@ -1,6 +1,7 @@
 ﻿using BackMeow.Filters;
 using BackMeow.Service;
 using Microsoft.AspNet.Identity;
+using StoreDB.Enum;
 using StoreDB.Model.ViewModel.BackcottonCats;
 using StoreDB.Repositories;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Web.Mvc;
 
 namespace BackMeow.Controllers
 {
-    [CustomAuthorize] 
+    [CustomAuthorize]
     public class HomeController : Controller
     {
         private readonly AspNetUsersService _UserService;
@@ -54,7 +55,7 @@ namespace BackMeow.Controllers
             List<MenuTreeRootStratumViewModel> SideViewModel = new List<MenuTreeRootStratumViewModel>();
             var userID = User.Identity.GetUserId();
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            if (claimsIdentity != null && userID !=null)
+            if (claimsIdentity != null && userID != null)
             {
                 // the principal identity is a claims identity.
                 // now we need to find the NameIdentifier claim
@@ -66,9 +67,9 @@ namespace BackMeow.Controllers
                     var userIdValue = userIdClaim.Value;
                 }
                 SideViewModel = _menuSide.ReturnMenuSideViewModel(userID.ToString()).ToList();
-            }  
+            }
             return View(SideViewModel);
-        } 
+        }
 
         public ActionResult About()
         {
@@ -92,19 +93,18 @@ namespace BackMeow.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult DeleteInfo() //string guid, Orignal_Page usePage
-        {
-            //BasicViewModel ReturnViewModel = new BasicViewModel();
-            //ReturnViewModel = _baseService.SelectData(_url,
-            //    usePage.ToString() + ".config", guid.Trim().Replace(" ", ""), Data_Action.Delete);
+        //[HttpPost]
+        //public JsonResult DeleteInfo(string guid, OriginalPage usePage)
+        //{
+        //    BasicViewModel ReturnViewModel = new BasicViewModel();
+        //    ReturnViewModel = _baseService.SelectData(_url,
+        //        usePage.ToString() + ".config", guid.Trim().Replace(" ", ""), Data_Action.Delete);
 
-            //Result GetResult = _baseService.CURDData(_url,
-            //    usePage.ToString() + ".config", ReturnViewModel.RowData[0].FieldData,
-            //    ReturnViewModel.RowData[0].FieldData, Data_Action.Delete, Orignal_Page.MA_DebtManagementData);
+        //    Result GetResult = _baseService.CURDData(_url,
+        //        usePage.ToString() + ".config", ReturnViewModel.RowData[0].FieldData,
+        //        ReturnViewModel.RowData[0].FieldData, Data_Action.Delete, Orignal_Page.MA_DebtManagementData);
 
-            //return Json(new { result = GetResult.ResultString, boolResult = GetResult.ResultBool }, JsonRequestBehavior.AllowGet);
-            return Json(JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(new { result = GetResult.ResultString, boolResult = GetResult.ResultBool }, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

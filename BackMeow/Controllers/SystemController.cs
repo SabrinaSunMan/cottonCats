@@ -207,14 +207,13 @@ namespace BackMeow.Controllers
                 }
                 //else /*什麼事情都不做*/
                 //{
-
                 //}
                 return RedirectToAction("SystemRoles", new
                 {
                     ViewModel = searchBlock,
                     pages = searchBlock.page
                 });
-            } 
+            }
             #region KeepSelectBlock
             TempData["Actions"] = actions;
             TempData["SystemRolesSelect"] = searchBlock;

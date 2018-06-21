@@ -21,22 +21,18 @@ namespace BackMeow.Service
     /// </summary>
     public class StaticHtmlService
     {
-        //private readonly IRepository<HtmlSubject> _HtmlSubject;
-        //private readonly IRepository<PictureInfo> _PictureInfo;
-        //private readonly IRepository<StaticHtml> _StaticHtml;
         private readonly StaticHtmlRepository _StaticHtmlRep;
-        private readonly AspNetUsersRepository _AspNetUsersRep;
+        private readonly PictureInfoRepository _PicInfoRep;
+
+        //private readonly AspNetUsersRepository _AspNetUsersRep;
         private readonly IUnitOfWork _unitOfWork;
 
         public StaticHtmlService(IUnitOfWork unitOfWork)
         {
-            //_HtmlSubject = new Repository<HtmlSubject>(unitOfWork);
-            //_PictureInfo = new Repository<PictureInfo>(unitOfWork);
-            //_StaticHtml = new Repository<StaticHtml>(unitOfWork);
             _unitOfWork = unitOfWork;
             _StaticHtmlRep = new StaticHtmlRepository(unitOfWork);
-            _AspNetUsersRep = new AspNetUsersRepository(unitOfWork);
-
+            _PicInfoRep = new PictureInfoRepository(unitOfWork);
+            //_AspNetUsersRep = new AspNetUsersRepository(unitOfWork);
         }
 
         private readonly int pageSize = (int)BackPageListSize.commonSize;
@@ -60,7 +56,6 @@ namespace BackMeow.Service
 
             return returnSystemRolesListViewModel;
         }
-
 
         /// <summary>
         /// Gets all static HTML ListView model.
@@ -94,6 +89,7 @@ namespace BackMeow.Service
         {
             StaticHtmlDetailViewModel DetailViewModel = new StaticHtmlDetailViewModel();
             StaticHtmlDBViewModel StaticHtmlDBViewModel = _StaticHtmlRep.GetSingle(selectType, guid);
+            if (StaticHtmlDBViewModel == null) StaticHtmlDBViewModel = new StaticHtmlDBViewModel();
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
             DetailViewModel = mapper.Map<StaticHtmlDetailViewModel>(StaticHtmlDBViewModel);
 
@@ -103,63 +99,130 @@ namespace BackMeow.Service
         }
 
         /// <summary>
-        /// Returns the picture information list.
+        /// ViewModel To DBModel
         /// </summary>
-        /// <param name="guid">The unique identifier.</param>
+        /// <param name="viewModel"></param>
         /// <returns></returns>
-        public IQueryable<PictureInfo> ReturnPictureInfoList(string groupguid)
+        private StaticHtml ReturnMappingStaticHtml(StaticHtmlDetailViewModel viewModel)
         {
-            return _StaticHtmlRep.ReturnPictureInfoList(groupguid);
+            StaticHtml dbViewModel = new StaticHtml();
+            var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
+            dbViewModel = mapper.Map<StaticHtml>(viewModel);
+            return dbViewModel;
         }
 
         /// <summary>
-        /// Pictures the information count.
+        /// Create StaticHtml Info
         /// </summary>
-        /// <param name="groupguid">The groupguid.</param>
-        /// <returns></returns>
-        private int PictureInfoCount(string groupguid)
+        /// <param name="statichtml"></param>
+        public string CreateStaticHtml(StaticHtmlDetailViewModel statichtml, string userName)
         {
-            return _StaticHtmlRep.ReturnPictureInfoList(groupguid).Count() + 1;
+            try
+            {
+                StaticHtml PartStaticHtml = ReturnMappingStaticHtml(statichtml);
+                PartStaticHtml.SubjectID = statichtml.StaticHtmlActionType.ToString();
+                _StaticHtmlRep.StaticHtmlInsertInto(PartStaticHtml, userName);
+
+                return EnumHelper.GetEnumDescription(DataAction.CreateScuess);
+            }
+            catch
+            {
+                return EnumHelper.GetEnumDescription(DataAction.CreateFail);
+            }
         }
 
-        public void CreatePictureInfo(IEnumerable<HttpPostedFileBase> upload, string PicGroupID, string UserName)
+        /// <summary>
+        /// Update StaticHtml
+        /// </summary>
+        /// <param name="statichtml"></param>
+        /// <returns></returns>
+        public string UpdateStaticHtml(StaticHtmlDetailViewModel statichtml)
         {
-            //1.取得目前使用者 ID
-            AspNetUsers AspNetusers = _AspNetUsersRep.Query(s => s.UserName.Equals(UserName)).FirstOrDefault();//登入的使用者帳號
-
-            //2.編號PicGroupID
-            Guid PicgroupId;
-            if (string.IsNullOrWhiteSpace(PicGroupID))
+            try
             {
-                PicgroupId = Guid.NewGuid();
+                StaticHtml PartStaticHtml = ReturnMappingStaticHtml(statichtml);
+                PartStaticHtml.SubjectID = statichtml.StaticHtmlActionType.ToString();
+                _StaticHtmlRep.StaticHtmlUpdate(PartStaticHtml);
+                return EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
             }
-            else PicgroupId = Guid.Parse(PicGroupID);
-
-            //3.取得 sort 累加
-            int DbSaveCount = PictureInfoCount(PicGroupID);
-
-            //4.存取路徑
-            string FileUrl = WebConfigurationManager.AppSettings["UploadFileUrl"];
-
-            foreach (var item in upload)
+            catch
             {
-                PictureInfo saveData = new PictureInfo()
-                {
-                    CreateUser = AspNetusers.Id,
-                    FileExtension = System.IO.Path.GetExtension(item.FileName),
-                    PicGroupID = PicgroupId,
-                    PicID = Guid.NewGuid(),
-                    PictureName = item.FileName,
-                    sort = DbSaveCount,
-                    Status = true,
-                    PictureUrl = FileUrl,
-                    UpdateUser = AspNetusers.Id
-                };
-
-                _StaticHtmlRep.SavePictureInfo(saveData);
-                DbSaveCount++;
+                return EnumHelper.GetEnumDescription(DataAction.UpdateFail);
             }
+        }
 
+        /// <summary>
+        /// Create Pic
+        /// </summary>
+        /// <param name="upload"></param>
+        /// <param name="PicGroupID"></param>
+        /// <param name="UserName"></param>
+        public void CreatePictureInfo(IEnumerable<HttpPostedFileBase> upload, Guid PicGroupID, string UserName)
+        {
+            //1.編號PicGroupID
+            //Guid PicgroupId;
+            //if (string.IsNullOrWhiteSpace(PicGroupID))
+            //{
+            //    PicgroupId = Guid.NewGuid();
+            //}
+            //else PicgroupId = Guid.Parse(PicGroupID);
+
+            //2.取得 sort 累加
+            int DbSaveCount = _StaticHtmlRep.TableMaxCountByID(TableName.PictureInfo, PicGroupID);
+
+            _PicInfoRep.PictureInfoInsertInto(upload, PicGroupID, DbSaveCount, UserName);
+        }
+
+        /// <summary>
+        /// Deletes the picture information.
+        /// </summary>
+        /// <param name="PicID">The pic identifier.</param>
+        /// <returns></returns>
+        public string DeletePictureInfo(string PicID)
+        {
+            try
+            {
+                _PicInfoRep.PictureInfoUpdate(PicID);
+                return EnumHelper.GetEnumDescription(DataAction.Update);
+            }
+            catch
+            {
+                return EnumHelper.GetEnumDescription(DataAction.UpdateFail);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the static HTML.
+        /// </summary>
+        /// <param name="HtmlID">The HTML identifier.</param>
+        /// <returns></returns>
+        public string DeleteStaticHtml(string HtmlID)
+        {
+            try
+            {
+                Guid newGuid = Guid.Parse(HtmlID);
+                StaticHtml statichtml = _StaticHtmlRep.GetSingle(s => s.StaticID.Equals(newGuid));
+                _StaticHtmlRep.StaticHtmlUpdate(statichtml);
+                return EnumHelper.GetEnumDescription(DataAction.Update);
+            }
+            catch
+            {
+                return EnumHelper.GetEnumDescription(DataAction.UpdateFail);
+            }
+        }
+
+        /// <summary>
+        /// Gets the picture information.
+        /// </summary>
+        /// <param name="PicID">The pic identifier.</param>
+        /// <returns></returns>
+        public IEnumerable<PictureInfo> GetPictureInfo(string PicID)
+        {
+            Guid newPicID = Guid.Parse(PicID);
+            PictureInfo picGroupid = _PicInfoRep.GetSingle(s => s.PicID == newPicID);
+            IEnumerable<PictureInfo> A1 = _PicInfoRep.Query(s => s.PicGroupID.Equals(picGroupid.PicGroupID) && s.Status == true);
+            List<PictureInfo> aa = _PicInfoRep.Query(s => s.PicGroupID.Equals(picGroupid.PicGroupID)).ToList();
+            return A1;
         }
 
         public void Save()

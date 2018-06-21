@@ -30,7 +30,6 @@ namespace BackMeow.Models.ViewModel
     /// </summary>
     public class StaticHtmlListHeaderViewModel
     {
-
         /// <summary>
         /// 建立日期.
         /// </summary>
@@ -43,7 +42,7 @@ namespace BackMeow.Models.ViewModel
 
         /// <summary>
         /// 網頁內容文字.
-        /// </summary> 
+        /// </summary>
         [DisplayName("內容文字")]
         [MinLength(3, ErrorMessage = "最少不得輸入少於 {1}")]
         public string HtmlContext { get; set; }
@@ -56,13 +55,13 @@ namespace BackMeow.Models.ViewModel
     {
         /// <summary>
         /// ID.
-        /// </summary> 
+        /// </summary>
         [DisplayName("ID")]
         public string StaticID { get; set; }
 
         /// <summary>
         /// 網頁內容文字.
-        /// </summary> 
+        /// </summary>
         [DisplayName("內容文字")]
         public string HtmlContext { get; set; }
 
@@ -70,6 +69,7 @@ namespace BackMeow.Models.ViewModel
         /// 狀態. False = 刪除,True = 啟用中
         /// </summary>
         public string _HtmlStatus;
+
         [DisplayName("上架狀態")]
         public string Status //{ get; set; }
         {
@@ -81,12 +81,12 @@ namespace BackMeow.Models.ViewModel
         /// 建立日期.
         /// </summary>
         private DateTime _createTime;
+
         public string CreateTime
         {
             get { return _createTime.ToString("yyyy/MM/dd"); }
             set { DateTime.TryParse(value, out _createTime); }
         }
-
     }
 
     /// <summary>
@@ -96,13 +96,13 @@ namespace BackMeow.Models.ViewModel
     {
         /// <summary>
         /// ID.
-        /// </summary> 
+        /// </summary>
         [DisplayName("StaticHtmlID")]
         public string StaticID { get; set; }
 
         /// <summary>
         /// 網頁內容文字.
-        /// </summary> 
+        /// </summary>
         [DisplayName("內容文字")]
         [StringLength(256, ErrorMessage = (" 不得超過長度 {1}"))]
         [DataType(DataType.MultilineText)]
@@ -110,7 +110,7 @@ namespace BackMeow.Models.ViewModel
 
         /// <summary>
         /// 靜態網頁類別ID. FK From HtmlSubject
-        /// </summary> 
+        /// </summary>
         [DisplayName("靜態網頁類別ID")]
         public string SubjectID { get; set; }
 
@@ -130,13 +130,13 @@ namespace BackMeow.Models.ViewModel
 
         [DisplayName("使用者建立時間")]
         public DateTime CreateTime { get; set; }
-        
+
         [DisplayName("建立者")]
         public string CreateUser { get; set; }
 
         [DisplayName("更新時間")]
         public DateTime UpdateTime { get; set; }
-        
+
         [DisplayName("更新者")]
         public string UpdateUser { get; set; }
 
@@ -145,8 +145,12 @@ namespace BackMeow.Models.ViewModel
         /// </summary>
         public int sort { get; set; }
 
-        public StaticHtmlAction StaticHtmlActionType { get; set; }
-        
-    }
+        /// <summary>
+        /// 圖片資訊ID. FK From StaticHtml.StaticID
+        /// </summary>
+        [DisplayName("靜態圖片Group_ID")]
+        public Guid PicGroupID { get; set; }
 
+        public StaticHtmlAction StaticHtmlActionType { get; set; }
+    }
 }

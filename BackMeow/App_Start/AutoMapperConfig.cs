@@ -15,15 +15,17 @@ namespace BackMeow.App_Start
         //    {
         //        cfg.AddProfile<BackEntityProfile>();
         //    });
-        //} 
+        //}
         public static MapperConfiguration InitializeAutoMapper()
         {
             MapperConfiguration config = new MapperConfiguration(cfg =>
             {
+                // [功能名稱].List/Main.Get/Post. DBModel TO ViewModel (縮寫 D To V 或是 V To D即可)
                 cfg.AddProfile<BackEntityProfile>();
                 cfg.AddProfile<AspNetUsersViewModelProfile>();
                 cfg.AddProfile<AspNetUsersProfile>();
-                cfg.AddProfile<StaticHtmlProfile>(); //靜態網站管理 _List頁面
+                cfg.AddProfile<StaticHtmlProfile>(); //[靜態網站管理].List.Get.D To V
+                cfg.AddProfile<StaticHtmlViewModelProfile>(); //[靜態網站管理].Main.Post.V To D
                 /*etc...*/
             });
             config.AssertConfigurationIsValid();//←證驗應對
@@ -109,7 +111,7 @@ namespace BackMeow.App_Start
     }
 
     /// <summary>
-    /// 靜態網站管理_檢視頁面
+    /// [靜態網站管理].List.Get.D To V
     /// </summary>
     /// <seealso cref="AutoMapper.Profile" />
     public class StaticHtmlProfile : Profile
@@ -135,7 +137,36 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
 
                 .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser))
-                .ForMember(dest => dest.StaticHtmlActionType, opt => opt.Ignore());
+                .ForMember(dest => dest.StaticHtmlActionType, opt => opt.Ignore())
+                .ForMember(dest => dest.PicGroupID, opt => opt.MapFrom(src => src.PicGroupID));
+        }
+    }
+
+    /// <summary>
+    /// [靜態網站管理].Main.Post.V To D
+    /// </summary>
+    /// <seealso cref="AutoMapper.Profile" />
+    public class StaticHtmlViewModelProfile : Profile
+    {
+        public override string ProfileName => base.ProfileName;
+
+        public StaticHtmlViewModelProfile()
+        {
+            CreateMap<StaticHtmlDetailViewModel, StaticHtml>()
+
+                .ForMember(dest => dest.StaticID, opt => opt.MapFrom(src => src.StaticID))
+                .ForMember(dest => dest.HtmlContext, opt => opt.MapFrom(src => src.HtmlContext))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
+
+                .ForMember(dest => dest.CreateUser, opt => opt.MapFrom(src => src.CreateUser))
+                .ForMember(dest => dest.sort, opt => opt.MapFrom(src => src.sort))
+                .ForMember(dest => dest.SubjectID, opt => opt.MapFrom(src => src.SubjectID))
+                .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
+
+                .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser))
+                .ForMember(dest => dest.PicGroupID, opt => opt.MapFrom(src => src.PicGroupID));
+            ;
         }
     }
 }
