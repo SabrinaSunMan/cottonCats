@@ -128,6 +128,7 @@
     <script src="~/Content/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
     <script src="~/Content/vendor/chartist/js/chartist.min.js"></script>
     <script src="~/Content/vendor/klorofil-common.js"></script>
+    <script src="~/Scripts/PublicBase.js"></script>
     @RenderSection("scripts", required: false)
 
     <script>
@@ -224,7 +225,7 @@
                             $(this).dialog("close");
                             if (reloadtrue == true) { //刪除後需要Reload
                                 //location.reload();
-                                $("#Pic").html(responseViewModel);
+                                $("#ReloadBlock").html(responseViewModel);
                             }
                         }
                     }
@@ -244,9 +245,7 @@
                 success:
                 function (response) {
                     //if (response.result != null) {
-                    alert(response.viewModel);
                     showDialog(response.result, true, response.viewModel);
-
                     //}
                     //location.reload();
                 },

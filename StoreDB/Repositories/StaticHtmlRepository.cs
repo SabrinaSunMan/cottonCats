@@ -48,7 +48,40 @@ namespace StoreDB.Repositories
         /// <returns></returns>
         public StaticHtmlDBViewModel GetSingle(StaticHtmlAction SelectTypes, string guid)
         {
-            return ReturnViewModel(SelectTypes).Where(s => s.StaticID.Equals(guid)).FirstOrDefault();
+            // 取得 靜態網頁主檔 Table
+            List<StaticHtml> HtmlInfoList = _StaticHtml.GetAll().ToList();
+            // 取得 圖片資訊
+            List<PictureInfo> PicInfoList = _PictureInfo.GetAll().ToList();
+            // 取得 靜態分類
+            List<HtmlSubject> SubjectInfoList = _HtmlSubject.GetAll().ToList();
+
+            List<AspNetUsers> AspNetUsersList = _AspNetUsersRep.GetAll().ToList();
+
+            IEnumerable<StaticHtmlDBViewModel> ReturnViewModel = from HtmlInfo in HtmlInfoList
+                                                                     //join PicInfo in PicInfoList
+                                                                     //on HtmlInfo.PicGroupID equals PicInfo.PicGroupID
+                                                                 join SubjectInfo in SubjectInfoList
+                                                                on HtmlInfo.SubjectID equals SubjectInfo.SubjectID
+                                                                 //where SubjectInfo.SubjectID == ""
+                                                                 orderby HtmlInfo.CreateTime
+                                                                 select new
+                                                                 StaticHtmlDBViewModel
+                                                                 {
+                                                                     HtmlContext = HtmlInfo.HtmlContext,
+                                                                     StaticID = HtmlInfo.StaticID.ToString(),
+                                                                     SubjectID = SubjectInfo.SubjectID,
+                                                                     SubjectName = SubjectInfo.SubjectName,
+                                                                     PicGroupID = HtmlInfo.PicGroupID.ToString(),
+                                                                     CreateTime = HtmlInfo.CreateTime,
+                                                                     CreateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.CreateUser)).FirstOrDefault().UserName,
+                                                                     sort = HtmlInfo.sort,
+                                                                     Status = HtmlInfo.Status,
+                                                                     UpdateTime = HtmlInfo.UpdateTime,
+                                                                     UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.UpdateUser)).FirstOrDefault().UserName,
+                                                                     picInfo = PicInfoList.Where(s => s.PicGroupID.Equals(HtmlInfo.PicGroupID) && s.Status == true)
+                                                                 };
+            return ReturnViewModel.Where(s => s.StaticID == guid.ToLower()).FirstOrDefault();
+            /*日後記得將此 string 與 Guid 做明顯區分避免會有資料因大小寫而找不到的問題產生*/
         }
 
         private IEnumerable<StaticHtmlDBViewModel> ReturnViewModel(StaticHtmlAction SelectTypes)
@@ -72,11 +105,7 @@ namespace StoreDB.Repositories
                                                                  select new
                                                                  StaticHtmlDBViewModel
                                                                  {
-                                                                     //FileExtension = PicInfo.FileExtension,
-                                                                     HtmlContext = HtmlInfo.HtmlContext.Substring(0, 15) + "...", /*只固定顯示 15個字 */
-                                                                     //PicID = PicInfo.PicID.ToString(),
-                                                                     //PictureName = PicInfo.PictureName,
-                                                                     //PictureUrl = PicInfo.PictureUrl,
+                                                                     HtmlContext = HtmlInfo.HtmlContext.Length > 25 ? HtmlInfo.HtmlContext.Substring(0, 25) + "..." : HtmlInfo.HtmlContext.ToString(), /*只固定顯示 25個字 */
                                                                      StaticID = HtmlInfo.StaticID.ToString(),
                                                                      SubjectID = SubjectInfo.SubjectID,
                                                                      SubjectName = SubjectInfo.SubjectName,
@@ -97,21 +126,21 @@ namespace StoreDB.Repositories
 
             return ReturnViewModel.OrderByDescending(s => s.CreateTime);
         }
-         
 
         /// <summary>
         /// 更新 StaticHtml
         /// </summary>
         /// <param name="statichtml">The aspuser.</param>
-        public void StaticHtmlUpdate(StaticHtml statichtml) //, params object[] keyValues
+        public void StaticHtmlUpdate(StaticHtml statichtml, string userName) //, params object[] keyValues
         {
+            //1.取得目前使用者 ID
+            AspNetUsers AspNetusers = _AspNetUsersRep.Query(s => s.UserName.Equals(userName)).FirstOrDefault();//登入的使用者帳號
             StaticHtml ReadyUpdate = GetSingle(s => s.StaticID.Equals(statichtml.StaticID));
             ReadyUpdate.HtmlContext = statichtml.HtmlContext;
             //ReadyUpdate.PicID = statichtml.PicID;
             ReadyUpdate.sort = statichtml.sort;
             ReadyUpdate.Status = statichtml.Status;
-            //ReadyUpdate.SubjectID = statichtml.SubjectID;
-            ReadyUpdate.UpdateUser = statichtml.UpdateUser;
+            ReadyUpdate.UpdateUser = AspNetusers.Id;
             ReadyUpdate.UpdateTime = DateTime.Now;
             Update(ReadyUpdate, statichtml.StaticID);
         }

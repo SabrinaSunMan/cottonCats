@@ -1,4 +1,5 @@
 ﻿using StoreDB.Model.Partials;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,8 @@ namespace StoreDB.Model.ViewModel.BackcottonCats
     /// <seealso cref="StoreDB.Model.Partials.BasePartials" />
     public class StaticHtmlDBViewModel : BasePartials
     {
+        private Guid _staticId = new Guid();
+
         /// <summary>
         /// ID.
         /// </summary>
@@ -22,6 +25,8 @@ namespace StoreDB.Model.ViewModel.BackcottonCats
         /// </summary>
         [DisplayName("內容文字")]
         public string HtmlContext { get; set; }
+
+        private Guid _subjectId = new Guid();
 
         /// <summary>
         /// 靜態網頁類別ID. FK From HtmlSubject

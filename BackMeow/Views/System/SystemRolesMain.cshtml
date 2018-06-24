@@ -6,7 +6,7 @@
 }
 
 @using (Html.BeginForm("SystemRolesMain", "System", FormMethod.Post,
-    new { @class = "form-horizontal", role = "form",id= "SystemRolesMainForm" }))
+    new { @class = "form-horizontal", role = "form", id = "SystemRolesMainForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -100,18 +100,17 @@
                 返回
             </button>
         </div>
-
     </div>
 
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    
+
     <script>
         var Passwordsoptin = document.getElementById("Passwords");
         var ConfirmPasswordoptin = document.getElementById("ConfirmPassword");
         var oldPassword = document.getElementById("Old_Password");
-        
+
         $("#Save").click(function () {
             if (Passwordsoptin.value == ConfirmPasswordoptin.value) /*兩者密碼相等*/ {
                 if ((Passwordsoptin.value != Passwordsoptin.defaultValue)) /*欲變更密碼*/ {
@@ -130,38 +129,32 @@
             }
         })
 
-            //$("#Passwords").change(function ()
-            //{
+                    //$("#Passwords").change(function ()
+                    //{
+                    //    alert(this.value);
+                    //    //var Passwordsoptin = document.getElementById("Passwords");
+                    //})
+                    //$('#Save').click(function () {
+                    //
+                    //    if (Passwordsoptin.value != Passwordsoptin.defaultValue) {
+                    //        /**
+                    //         要變更密碼
+                    //         */
+                    //        if (ConfirmPasswordoptin.value == Passwordsoptin.value)
+                    //        {
 
-            //    alert(this.value);
-            //    //var Passwordsoptin = document.getElementById("Passwords");
-            //})
+                    //        }
+                    //        if (oldPassword != "")
+                    //        {
+                    //            showDialog('如欲變更密碼，必須先輸入舊密碼', false);
+                    //        } else
+                    //        {
+                    //        }
+                    //    } else {
+                    //    };
 
-            //$('#Save').click(function () {
-            //
-            //    if (Passwordsoptin.value != Passwordsoptin.defaultValue) {
-            //        /**
-            //         要變更密碼
-            //         */
-            //        if (ConfirmPasswordoptin.value == Passwordsoptin.value)
-            //        {
-
-            //        }
-            //        if (oldPassword != "")
-            //        {
-            //            showDialog('如欲變更密碼，必須先輸入舊密碼', false);
-            //        } else
-            //        {
-
-            //        }
-
-            //    } else {
-
-            //    };
-
-
-            //    if (Passwordsoptin.checked != optin.defaultChecked) alert("#optin has changed");
-            //        alert('readySave!!');
-            //    });
+                    //    if (Passwordsoptin.checked != optin.defaultChecked) alert("#optin has changed");
+                    //        alert('readySave!!');
+                    //    });
     </script>
 }

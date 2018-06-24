@@ -83,7 +83,24 @@ namespace StoreDB.Enum
         [Description("更新失敗")]
         UpdateFail = 6,
 
-        Read = 7
+        Read = 7,
+
+        /// <summary>
+        /// 刪除
+        /// </summary>
+        Delete = 8,
+
+        /// <summary>
+        /// 刪除成功
+        /// </summary>
+        [Description("刪除成功")]
+        DeleteScuess = 5,
+
+        /// <summary>
+        /// 刪除失敗
+        /// </summary>
+        [Description("刪除失敗")]
+        DeleteFail = 6
     }
 
     public enum StaticHtmlAction

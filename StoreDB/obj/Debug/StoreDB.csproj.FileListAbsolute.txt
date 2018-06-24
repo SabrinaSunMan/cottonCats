@@ -43,7 +43,6 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\zh-Hant\EntityFramework.SqlSer
 D:\Work\Case\Sabrina\cottonCats\StoreDB\bin\Debug\zh-CHT\System.Data.SqlServerCe.resources.dll
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.dll
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.pdb
-D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Base.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.GenerateResource.Cache
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back01.resources
@@ -79,3 +78,4 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.CopyComplete
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back06_StaticHtml_PictureInfo.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back07_StaticHtml_PictureInfo.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back08_StaticHtml.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache

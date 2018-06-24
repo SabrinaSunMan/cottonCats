@@ -104,7 +104,7 @@ namespace BackMeow.Models.ViewModel
         /// 網頁內容文字.
         /// </summary>
         [DisplayName("內容文字")]
-        [StringLength(256, ErrorMessage = (" 不得超過長度 {1}"))]
+        //[StringLength(256, ErrorMessage = (" 不得超過長度 {1}"))]
         [DataType(DataType.MultilineText)]
         public string HtmlContext { get; set; }
 
@@ -149,7 +149,7 @@ namespace BackMeow.Models.ViewModel
         /// 圖片資訊ID. FK From StaticHtml.StaticID
         /// </summary>
         [DisplayName("靜態圖片Group_ID")]
-        public Guid PicGroupID { get; set; }
+        public string PicGroupID { get; set; }
 
         public StaticHtmlAction StaticHtmlActionType { get; set; }
     }

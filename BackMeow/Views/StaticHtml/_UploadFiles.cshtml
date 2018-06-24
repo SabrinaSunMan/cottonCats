@@ -7,7 +7,6 @@
 <link href="~/Content/ScrollbarStyle.css" rel="stylesheet" />
 <link href="~/Content/jquery.mCustomScrollbar.css" rel="stylesheet" />
 
-
 <div id="demo">
     <section id="examples" class="snap-scrolling-example">
 
@@ -15,8 +14,7 @@
         <div id="content-1" class="content horizontal-images">
             <ul>
                 @foreach (var item in Model)
-                {
-
+                { 
                     <li class="lightboxcontainer">
                         <a class="example-image-link" href="@item.PictureUrl@item.PictureName@item.FileExtension" data-lightbox="example-set" data-title="">
                             <img class="example-image" src="@item.PictureUrl@item.PictureName@item.FileExtension" alt="" />
@@ -33,8 +31,8 @@
 @*}*@
 
 @*<script src="~/Scripts/lightbox-plus-jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="~/Scripts/jquery-1.10.2.min.js"><\/script>')</script>
-<script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>*@
+    <script>window.jQuery || document.write('<script src="~/Scripts/jquery-1.10.2.min.js"><\/script>')</script>
+    <script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>*@
 @*必須放在上一層*@
 
 <script>
@@ -61,19 +59,9 @@
         });
     })(jQuery);
 
-$(".text").click(function () {
-
-    //var words = this.id.split('_');
-    //var Ids = words[0];
-    //var nowCounts = words[1];
-    alert(this.id);
-    showconfirm(this.id, 'false', 'StaticHtml', 'PictureInfo');
-    //alert($(this).val());
-    //alert(this.id);
-
-    //alert('your count=' + nowCounts + ' ; ID = ' + Ids);
-    /*alert($(this).text());*/ /*文字 - 刪除*/
-})
+    $(".text").click(function () {
+        showconfirm(this.id, 'false', 'StaticHtml', 'PictureInfo');
+    })
 
 //$(".lightboxcontainer")
 //    .on("mouseenter", function () {

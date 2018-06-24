@@ -29,7 +29,7 @@ namespace StoreDB.Repositories
         /// <param name="StaticID">The static identifier.</param>
         /// <param name="nowsort">The nowsort.</param>
         /// <param name="userName">Name of the user.</param>
-        public void PictureInfoInsertInto(IEnumerable<HttpPostedFileBase> upload, Guid StaticID, int nowsort, string userName)
+        public void PictureInfoInsertInto(IEnumerable<HttpPostedFileBase> upload, Guid groupID, int nowsort, string userName)
         {
             //1.取得目前使用者 ID
             AspNetUsers AspNetusers = _AspNetUsersRep.Query(s => s.UserName.Equals(userName)).FirstOrDefault();//登入的使用者帳號
@@ -40,12 +40,12 @@ namespace StoreDB.Repositories
                 {
                     CreateUser = AspNetusers.Id,
                     FileExtension = System.IO.Path.GetExtension(item.FileName).ToUpper(),
-                    PicGroupID = StaticID,
+                    PicGroupID = groupID,
                     PicID = Guid.NewGuid(),
                     PictureName = item.FileName.Substring(0, item.FileName.IndexOf(".")),
                     sort = nowsort,
                     Status = true,
-                    PictureUrl = FileUrl,
+                    PictureUrl = FileUrl + groupID.ToString().ToUpper() + "/",
                     UpdateUser = AspNetusers.Id,
                     CreateTime = DateTime.Now,
                     UpdateTime = DateTime.Now
@@ -59,11 +59,15 @@ namespace StoreDB.Repositories
         /// Pictures the information update.
         /// </summary>
         /// <param name="picInfo">The pic information.</param>
-        public void PictureInfoUpdate(string picInfo)
+        public void PictureInfoUpdate(string picInfo, string userName)
         {
+            //1.取得目前使用者 ID
+            AspNetUsers AspNetusers = _AspNetUsersRep.Query(s => s.UserName.Equals(userName)).FirstOrDefault();//登入的使用者帳號
             Guid newa = Guid.Parse(picInfo);
             PictureInfo ReadyUpdate = _PictureInfo.GetSingle(s => s.PicID.Equals(newa));
             ReadyUpdate.Status = false;
+            ReadyUpdate.UpdateUser = AspNetusers.Id;
+            ReadyUpdate.UpdateTime = DateTime.Now;
             Update(ReadyUpdate, newa);
         }
     }

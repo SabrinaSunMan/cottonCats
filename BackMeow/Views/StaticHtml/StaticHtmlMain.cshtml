@@ -30,11 +30,10 @@
     </div>
     <input type="hidden" name="actions" value="@TempData["Actions"]" />
     @*<input type="text" name="Id" value="@Model.Id" />*@
-    @Html.EditorFor(s => s.StaticID)
-
-    @Html.EditorFor(s => s.StaticHtmlActionType)
-
-    @Html.EditorFor(s => s.SubjectID)
+    @Html.HiddenFor(s => s.StaticID)
+    @Html.HiddenFor(s => s.StaticHtmlActionType)
+    @Html.HiddenFor(s => s.SubjectID)
+    @Html.HiddenFor(s => s.PicGroupID)
     <div class="panel-body">
         @Html.NoteSite()
     </div>
@@ -55,9 +54,11 @@
                 htmlAttributes = new
                 {
                     placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.HtmlContext),
-                    @class = "form-control",
+                    @class = "form-control text-box multi-line",
                     Name = "HtmlContext",
-                    @id = "HtmlContext"
+                    @id = "HtmlContext",
+                    @rows = 15,
+                    cols = 35
                 }
             })
         </div>
@@ -87,22 +88,57 @@
         </div>
     </div>
     <div class="panel-body">
-        <input type="file" name="upload" id="upload" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple />
+        <div class="col-md-2"> 
+        </div>
+        <div class="col-md-2">
+            <input type="file" name="upload" id="upload" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple />
+        </div>
     </div>
-    <div class="panel-body" id="Pic">
+    <div class="panel-body" id="ReloadBlock">
         @*@Html.Partial("_UploadFiles", Model.picInfo)*@
         @{
             Html.RenderPartial("_UploadFiles", Model.picInfo);
         }
     </div>
     <div class="panel-body">
-        <div class="col-md-5">
-            <input type="submit" id="Save" class="btn btn-success" value="儲存" />
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-3">
+            <input type="button" id="Save" class="btn btn-success" value="儲存" />
             <button type="button" class="btn btn-default"
                     onclick="location.href='@Url.Action(Model.StaticHtmlActionType.ToString(), "StaticHtml", new { })'">
                 返回
             </button>
         </div>
     </div>
+}
+@section Scripts {
+    <script>
+        $("#Save").click(function () {
+            //$("#ulList").empty();
+            var fp = $("#upload");
+            var lg = fp[0].files.length; // get length
+            var items = fp[0].files;
+            //var fragment = "";
+            var CheckFile = true;
+            if (lg > 0) {
+                for (var i = 0; i < lg; i++) {
+                    var fileName = items[i].name; // get file name
+                    var fileSize = items[i].size; // get file size
+                    var fileType = items[i].type; // get file type
+                    var new1 = filterStr(fileName);
+                    //fragment += "<li>" + fileName + " (<b>" +
+                    //    fileSize + "</b> bytes) - Type :" + fileType + "特殊符號取代名稱=" + new1 + "</li>";
+                    if (!checkFileName(fileName)) {
+                        CheckFile = false;
+                    }
+                }
+                //$("#ulList").append(fragment);
+            }
+            if (CheckFile) {
+                $("#StaticHtmlMainForm").submit();
+            }
 
+        })
+    </script>
 }

@@ -1,4 +1,6 @@
 ﻿/* name 請必須使用此設定*/
+ 
+ 
 //$('#upload').on('change', function (e) {
 //$("#upload").submit(function (event) {
 //    //取得檔案

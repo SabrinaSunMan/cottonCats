@@ -85,6 +85,13 @@ namespace BackMeow.Service
             return GetHtmlViewModel;
         }
 
+        /// <summary>
+        /// Returns the static HTML detail.
+        /// </summary>
+        /// <param name="selectType">Type of the select.</param>
+        /// <param name="ActionType">Type of the action.</param>
+        /// <param name="guid">The unique identifier.</param>
+        /// <returns></returns>
         public StaticHtmlDetailViewModel ReturnStaticHtmlDetail(StaticHtmlAction selectType, Actions ActionType, string guid)
         {
             StaticHtmlDetailViewModel DetailViewModel = new StaticHtmlDetailViewModel();
@@ -136,13 +143,13 @@ namespace BackMeow.Service
         /// </summary>
         /// <param name="statichtml"></param>
         /// <returns></returns>
-        public string UpdateStaticHtml(StaticHtmlDetailViewModel statichtml)
+        public string UpdateStaticHtml(StaticHtmlDetailViewModel statichtml, string userName)
         {
             try
             {
                 StaticHtml PartStaticHtml = ReturnMappingStaticHtml(statichtml);
                 PartStaticHtml.SubjectID = statichtml.StaticHtmlActionType.ToString();
-                _StaticHtmlRep.StaticHtmlUpdate(PartStaticHtml);
+                _StaticHtmlRep.StaticHtmlUpdate(PartStaticHtml, userName);
                 return EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
             }
             catch
@@ -178,11 +185,11 @@ namespace BackMeow.Service
         /// </summary>
         /// <param name="PicID">The pic identifier.</param>
         /// <returns></returns>
-        public string DeletePictureInfo(string PicID)
+        public string DeletePictureInfo(string PicID, string userName)
         {
             try
             {
-                _PicInfoRep.PictureInfoUpdate(PicID);
+                _PicInfoRep.PictureInfoUpdate(PicID, userName);
                 return EnumHelper.GetEnumDescription(DataAction.Update);
             }
             catch
@@ -196,18 +203,18 @@ namespace BackMeow.Service
         /// </summary>
         /// <param name="HtmlID">The HTML identifier.</param>
         /// <returns></returns>
-        public string DeleteStaticHtml(string HtmlID)
+        public string DeleteStaticHtml(string HtmlID, string userName)
         {
             try
             {
                 Guid newGuid = Guid.Parse(HtmlID);
                 StaticHtml statichtml = _StaticHtmlRep.GetSingle(s => s.StaticID.Equals(newGuid));
-                _StaticHtmlRep.StaticHtmlUpdate(statichtml);
-                return EnumHelper.GetEnumDescription(DataAction.Update);
+                _StaticHtmlRep.StaticHtmlUpdate(statichtml, userName);
+                return EnumHelper.GetEnumDescription(DataAction.DeleteScuess);
             }
             catch
             {
-                return EnumHelper.GetEnumDescription(DataAction.UpdateFail);
+                return EnumHelper.GetEnumDescription(DataAction.DeleteFail);
             }
         }
 
@@ -220,9 +227,8 @@ namespace BackMeow.Service
         {
             Guid newPicID = Guid.Parse(PicID);
             PictureInfo picGroupid = _PicInfoRep.GetSingle(s => s.PicID == newPicID);
-            IEnumerable<PictureInfo> A1 = _PicInfoRep.Query(s => s.PicGroupID.Equals(picGroupid.PicGroupID) && s.Status == true);
-            List<PictureInfo> aa = _PicInfoRep.Query(s => s.PicGroupID.Equals(picGroupid.PicGroupID)).ToList();
-            return A1;
+            IEnumerable<PictureInfo> PictureInfoList = _PicInfoRep.Query(s => s.PicGroupID.Equals(picGroupid.PicGroupID) && s.Status == true);
+            return PictureInfoList;
         }
 
         public void Save()

@@ -478,6 +478,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PublicBase.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\UploadFile.js" />
@@ -537,9 +538,9 @@
     <Content Include="Views\StaticHtml\_StaticList.cshtml" />
     <Content Include="Views\StaticHtml\_StaticHtml.cshtml" />
     <Content Include="Views\StaticHtml\StaticHtmlMain.cshtml" />
-    <Content Include="Views\StaticHtml\_StaticMain.cshtml" />
     <Content Include="Views\Basic\FileUpload.cshtml" />
     <Content Include="Views\StaticHtml\_UploadFiles.cshtml" />
+    <Content Include="Views\StaticHtml\Space.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
