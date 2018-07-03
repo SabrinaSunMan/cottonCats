@@ -268,6 +268,7 @@
     <Compile Include="AutoMapper\AspNetUsersInitialize.cs" />
     <Compile Include="AutoMapper\AspNetUsersProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\BasicController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -288,10 +289,12 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PublicModel.cs" />
+    <Compile Include="Models\ViewModel\ActitiesViewModel.cs" />
     <Compile Include="Models\ViewModel\StaticHtmlViewModel.cs" />
     <Compile Include="Models\ViewModel\SystemRolesViewModel.cs" />
     <Compile Include="Override\CustomSignInManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ActivitiesService.cs" />
     <Compile Include="Service\AspNetUsersService.cs" />
     <Compile Include="Service\MenuSideListService.cs" />
     <Compile Include="Service\StaticHtmlService.cs" />
@@ -541,6 +544,9 @@
     <Content Include="Views\Basic\FileUpload.cshtml" />
     <Content Include="Views\StaticHtml\_UploadFiles.cshtml" />
     <Content Include="Views\StaticHtml\Space.cshtml" />
+    <Content Include="Views\Activity\ActivitiesList.cshtml" />
+    <Content Include="Views\Activity\_ActivitiesList.cshtml" />
+    <Content Include="Views\Activity\ActivitiesMain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

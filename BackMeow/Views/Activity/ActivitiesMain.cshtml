@@ -1,0 +1,152 @@
+﻿@model BackMeow.Models.ViewModel.ActitiesDetailViewModel
+@{
+    ViewBag.Title = "ActivitiesMain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ActivitiesMain</h2>
+@using (Html.BeginForm("ActivitiesMain", "Activity", FormMethod.Post,
+    new
+    {
+        @class = "form-horizontal",
+        role = "form",
+        enctype = "multipart/form-data",
+        id = "ActivitiesMainForm"
+    }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- PANEL DEFAULT -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">活動紀錄 </h3>
+                </div>
+            </div>
+            <!-- END PANEL DEFAULT -->
+        </div>
+    </div>
+    <input type="hidden" name="actions" value="@TempData["Actions"]" />
+    @Html.HiddenFor(s => s.ActityID)
+    @Html.HiddenFor(s => s.PicGroupID)
+    <div class="panel-body">
+        @Html.NoteSite()
+    </div>
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Status).ToString())
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(x => x.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.HtmlContext, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(s => s.HtmlContext, new
+            {
+                htmlAttributes = new
+                {
+                    placeholder = "請輸入 " + @Html.DisplayNameFor(model => model.HtmlContext),
+                    @class = "form-control text-box multi-line",
+                    Name = "HtmlContext",
+                    @id = "HtmlContext",
+                    @rows = 15,
+                    cols = 35
+                }
+            })
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.CreateUser, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.CreateUser)
+            @Html.HiddenFor(model => model.CreateUser)
+        </div>
+        @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.CreateTime)
+            @Html.HiddenFor(model => model.CreateTime)
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.CreateUser, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.CreateUser)
+            @Html.HiddenFor(model => model.CreateUser)
+        </div>
+        @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.CreateTime)
+            @Html.HiddenFor(model => model.CreateTime)
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.UpdateUser, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.UpdateUser)
+            @Html.HiddenFor(model => model.UpdateUser)
+        </div>
+        @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.UpdateTime)
+            @Html.HiddenFor(model => model.UpdateTime)
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-2">
+            <input type="file" name="upload" id="upload" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple />
+        </div>
+    </div>
+    <div class="panel-body" id="ReloadBlock">
+        @*@Html.Partial("_UploadFiles", Model.picInfo)*@
+        @{
+            Html.RenderPartial("_UploadFiles", Model.picInfo);
+        }
+    </div>
+    <div class="panel-body">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-3">
+            <input type="button" id="Save" class="btn btn-success" value="儲存" />
+            <button type="button" class="btn btn-default"
+                    onclick="location.href='@Url.Action("ActivitiesList", "Activity", new { })'">
+                返回
+            </button>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script>
+        $("#Save").click(function () {
+            //$("#ulList").empty();
+            var fp = $("#upload");
+            var lg = fp[0].files.length; // get length
+            var items = fp[0].files;
+            //var fragment = "";
+            var CheckFile = true;
+            if (lg > 0) {
+                for (var i = 0; i < lg; i++) {
+                    var fileName = items[i].name; // get file name
+                    var fileSize = items[i].size; // get file size
+                    var fileType = items[i].type; // get file type
+                    var new1 = filterStr(fileName);
+                    //fragment += "<li>" + fileName + " (<b>" +
+                    //    fileSize + "</b> bytes) - Type :" + fileType + "特殊符號取代名稱=" + new1 + "</li>";
+                    if (!checkFileName(fileName)) {
+                        CheckFile = false;
+                    }
+                }
+                //$("#ulList").append(fragment);
+            }
+            if (CheckFile) {
+                $("#StaticHtmlMainForm").submit();
+            }
+
+        })
+    </script>
+}

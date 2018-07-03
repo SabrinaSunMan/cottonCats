@@ -27,6 +27,8 @@ namespace BackMeow.Service
         //private readonly AspNetUsersRepository _AspNetUsersRep;
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly int pageSize = (int)BackPageListSize.commonSize;
+
         public StaticHtmlService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -34,8 +36,6 @@ namespace BackMeow.Service
             _PicInfoRep = new PictureInfoRepository(unitOfWork);
             //_AspNetUsersRep = new AspNetUsersRepository(unitOfWork);
         }
-
-        private readonly int pageSize = (int)BackPageListSize.commonSize;
 
         /// <summary>
         /// Gets the static HTML ListView model.

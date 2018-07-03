@@ -24,8 +24,12 @@ namespace BackMeow.App_Start
                 cfg.AddProfile<BackEntityProfile>();
                 cfg.AddProfile<AspNetUsersViewModelProfile>();
                 cfg.AddProfile<AspNetUsersProfile>();
+
                 cfg.AddProfile<StaticHtmlProfile>(); //[靜態網站管理].List.Get.D To V
                 cfg.AddProfile<StaticHtmlViewModelProfile>(); //[靜態網站管理].Main.Post.V To D
+
+                cfg.AddProfile<ActitiesProfile>(); //[活動紀錄管理].List.Get.D To V
+                cfg.AddProfile<ActitiesViewModelProfile>(); //[活動紀錄管理].Main.Post.V To D
                 /*etc...*/
             });
             config.AssertConfigurationIsValid();//←證驗應對
@@ -167,6 +171,67 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser))
                 .ForMember(dest => dest.PicGroupID, opt => opt.MapFrom(src => src.PicGroupID));
             ;
+        }
+    }
+
+    /// <summary>
+    /// [活動紀錄管理].List.Get.D To V
+    /// </summary>
+    /// <seealso cref="AutoMapper.Profile" />
+    public class ActitiesProfile : Profile
+    {
+        public override string ProfileName => base.ProfileName;
+
+        //這邊負責確認是否兩個欄位有不同名稱
+        public ActitiesProfile()
+        {
+            CreateMap<Activity, ActitiesDetailViewModel>()
+
+                .ForMember(dest => dest.ActivityID, opt => opt.MapFrom(src => src.ActivityID))
+                .ForMember(dest => dest.Sdate, opt => opt.MapFrom(src => src.StartDate))
+                .ForMember(dest => dest.Edate, opt => opt.MapFrom(src => src.EndDate))
+                .ForMember(dest => dest.TitleName, opt => opt.MapFrom(src => src.TitleName))
+                .ForMember(dest => dest.HtmlContext, opt => opt.MapFrom(src => src.HtmlContext))
+
+                .ForMember(dest => dest.PicGroupID, opt => opt.MapFrom(src => src.PicGroupID))
+                .ForMember(dest => dest.picInfo, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
+                .ForMember(dest => dest.CreateUser, opt => opt.MapFrom(src => src.CreateUser))
+
+                .ForMember(dest => dest.sort, opt => opt.MapFrom(src => src.sort))
+                .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
+                .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser));
+        }
+    }
+
+    /// <summary>
+    /// [活動紀錄管理].Main.Post.V To D
+    /// </summary>
+    /// <seealso cref="AutoMapper.Profile" />
+    public class ActitiesViewModelProfile : Profile
+    {
+        public override string ProfileName => base.ProfileName;
+
+        //這邊負責確認是否兩個欄位有不同名稱
+        public ActitiesViewModelProfile()
+        {
+            CreateMap<ActitiesDetailViewModel, Activity>()
+
+                .ForMember(dest => dest.ActivityID, opt => opt.MapFrom(src => src.ActivityID))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Sdate))
+                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.Edate))
+                .ForMember(dest => dest.TitleName, opt => opt.MapFrom(src => src.TitleName))
+                .ForMember(dest => dest.HtmlContext, opt => opt.MapFrom(src => src.HtmlContext))
+
+                .ForMember(dest => dest.PicGroupID, opt => opt.MapFrom(src => src.PicGroupID))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
+                .ForMember(dest => dest.CreateUser, opt => opt.MapFrom(src => src.CreateUser))
+
+                .ForMember(dest => dest.sort, opt => opt.MapFrom(src => src.sort))
+                .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
+                .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser));
         }
     }
 }

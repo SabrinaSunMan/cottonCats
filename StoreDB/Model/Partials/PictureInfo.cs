@@ -37,7 +37,7 @@ namespace StoreDB.Model.Partials
         /// <summary>
         /// 圖片資訊ID. FK From StaticHtml.StaticID
         /// </summary>
-        [DisplayName("靜圖片Group_ID")]
+        [DisplayName("靜態圖片Group_ID")]
         public Guid PicGroupID { get; set; }
     }
 }

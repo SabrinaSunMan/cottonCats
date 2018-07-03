@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "SideBarContent";
     Layout = "";
-} 
+}
 <div id="sidebar-nav" class="sidebar">
     <div class="sidebar-scroll">
         <ul class="nav">
@@ -11,7 +11,7 @@
                 if (items.tree.Count == 1)
                 {
                     <li>
-                        <a href="@items.ControllerName/@items.ActionName">
+                        <a href="@Url.Action(@items.ActionName,@items.ControllerName)">
                             @*class="active"*@
                             <i class="@items.UrlIcon"></i>
                             <span>@items.TRootName</span>
@@ -40,7 +40,7 @@
                     </li>
 
                 }
-            } 
+            }
         </ul>
     </div>
 </div>

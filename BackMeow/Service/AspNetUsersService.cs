@@ -24,28 +24,27 @@ namespace BackMeow.Service
         //private readonly IRepository<Addresses> _Addresses;
         private readonly AspNetUsersRepository _AspNetUsersRep;
 
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly int pageSize = (int)BackPageListSize.commonSize;
+
         public string UserName { get; set; }
         public string UserEmail { get; set; }
 
-        private readonly IUnitOfWork _unitOfWork;
-        
         public AspNetUsersService(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork; 
+            _unitOfWork = unitOfWork;
             //_NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
             //_Addresses = new Repository<Addresses>(unitOfWork);
             _AspNetUsersRep = new AspNetUsersRepository(unitOfWork);
         }
 
-        private readonly int pageSize = (int)BackPageListSize.commonSize;
-         
         /// <summary>
         /// Gets the system roles ListView model.
         /// </summary>
         /// <param name="selectModel">The select model.</param>
         /// <param name="nowpage">The nowpage.</param>
         /// <returns></returns>
-        public SystemRolesViewModel GetSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel, int nowpage=1)
+        public SystemRolesViewModel GetSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel, int nowpage = 1)
         {
             SystemRolesViewModel returnSystemRolesListViewModel = new SystemRolesViewModel();
             returnSystemRolesListViewModel.Header = selectModel; /*表頭*/
@@ -62,18 +61,18 @@ namespace BackMeow.Service
         /// <returns></returns>
         private IEnumerable<SystemRolesListContentViewModel> GetAllSystemRolesListViewModel(SystemRolesListHeaderViewModel selectModel)
         {
-            IEnumerable<SystemRolesListContentViewModel> result = 
+            IEnumerable<SystemRolesListContentViewModel> result =
                 GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
             s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
             && (!string.IsNullOrWhiteSpace(selectModel.Email) ?
             s.Email.Contains(selectModel.Email) : s.Email == s.Email)).Select(List => new SystemRolesListContentViewModel()
-                {
-                    Id = List.Id,
-                    Email = List.Email,
-                    UserName = List.UserName,
-                    PhoneNumber = List.PhoneNumber,
-                    LockoutEnabled = List.LockoutEnabled
-                }).OrderByDescending(s=>s.UserName).ToList();
+            {
+                Id = List.Id,
+                Email = List.Email,
+                UserName = List.UserName,
+                PhoneNumber = List.PhoneNumber,
+                LockoutEnabled = List.LockoutEnabled
+            }).OrderByDescending(s => s.UserName).ToList();
             //IEnumerable<AspNetUsers> ListViewModel = GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
             //s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
             //&& (!string.IsNullOrWhiteSpace(selectModel.Email) ?
@@ -82,18 +81,18 @@ namespace BackMeow.Service
 
             //config.AssertConfigurationIsValid();//←證驗應對
             //var mapper = config.CreateMapper();
-            //IEnumerable<SystemRolesListContentViewModel> result = 
+            //IEnumerable<SystemRolesListContentViewModel> result =
             //    mapper.Map<SystemRolesListContentViewModel>(ListViewModel);
             return result;
         }
-         
-        public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(Actions ActionType,string guid)
+
+        public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(Actions ActionType, string guid)
         {
             AspNetUsersDetailViewModel DetailViewModel = new AspNetUsersDetailViewModel();
-            AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);  
-            var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper(); 
-            DetailViewModel  = mapper.Map<AspNetUsersDetailViewModel>(AspNetUsersViewModel);
-            //DetailViewModel = _aspnetMapping.MapperAspNetUsersDetailViewModel(AspNetUsersViewModel); 
+            AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);
+            var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
+            DetailViewModel = mapper.Map<AspNetUsersDetailViewModel>(AspNetUsersViewModel);
+            //DetailViewModel = _aspnetMapping.MapperAspNetUsersDetailViewModel(AspNetUsersViewModel);
             return DetailViewModel;
         }
 
@@ -136,15 +135,15 @@ namespace BackMeow.Service
         public AspNetUsers GetAspNetUsersById(string guid)
         {
             return _AspNetUsersRep.GetSingle(s => s.Id == guid);
-        }    
+        }
 
         public void AspNetUsersDetailViewModelUpdate(AspNetUsersDetailViewModel viewModel)
-        { 
+        {
             AspNetUsers AspNetUsers = new AspNetUsers();
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
-            AspNetUsers = mapper.Map<AspNetUsers>(viewModel);  
-            _AspNetUsersRep.AspNetUserUpdate(AspNetUsers, AspNetUsers.Id); 
-        } 
+            AspNetUsers = mapper.Map<AspNetUsers>(viewModel);
+            _AspNetUsersRep.AspNetUserUpdate(AspNetUsers, AspNetUsers.Id);
+        }
 
         public void Save()
         {

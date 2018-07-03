@@ -78,4 +78,6 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csproj.CopyComplete
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back06_StaticHtml_PictureInfo.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back07_StaticHtml_PictureInfo.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back08_StaticHtml.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back09_Activity.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back10_Activity.resources
