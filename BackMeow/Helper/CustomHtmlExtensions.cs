@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace BackMeow.Helper
 {
@@ -20,9 +21,9 @@ namespace BackMeow.Helper
         /// <param name="helper">The helper.</param>
         /// <param name="labelString">The label string.</param>
         /// <returns></returns>
-        public static MvcHtmlString RequiredLabel(this HtmlHelper helper,string labelString)
-        {  
-            return MvcHtmlString.Create($"<Label class='col-md-2 control-label'><label style = 'color:red' >*</label >" + labelString+ "</Label >");
+        public static MvcHtmlString RequiredLabel(this HtmlHelper helper, string labelString)
+        {
+            return MvcHtmlString.Create($"<Label class='col-md-2 control-label'><label style = 'color:red' >*</label >" + labelString + "</Label >");
         }
 
         /// <summary>
@@ -41,23 +42,44 @@ namespace BackMeow.Helper
         //    }
         //}
 
-
         /// <summary>
         /// 搜尋列 int 若是空，不顯示0，而是空白.
         /// </summary>
         /// <param name="helper">The helper.</param>
         /// <param name="TextBoxValue">The text box value.</param>
         /// <returns></returns>
-        public static MvcHtmlString FormatIntTextBox(this HtmlHelper helper, string ColumnId,string TextBoxplaceholder, int TextBoxValue)
+        public static MvcHtmlString FormatIntTextBox(this HtmlHelper helper, string ColumnId, string TextBoxplaceholder, int TextBoxValue)
         {
             string StrTextBox = "";
-            if(TextBoxValue==0)
+            if (TextBoxValue == 0)
             {
-
             }
             return MvcHtmlString.Create($"<input class='form-control' id='select_" + ColumnId + "' name='Header." + ColumnId + "' placeholder='請輸入 '" + TextBoxplaceholder + "' type='text' value='" + StrTextBox + "' >");
             //return MvcHtmlString.Create($"<Label class='col-md-2 control-label'><label style = 'color:red' >*</label >" + labelString + "</Label >");
         }
-         
+
+        /// <summary>
+        /// 下拉式選單.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        /// <param name="linkText">The link text.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <param name="controllerName">Name of the controller.</param>
+        /// <returns></returns>
+        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName)
+        {
+            var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
+            var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
+
+            var builder = new TagBuilder("li")
+            {
+                InnerHtml = htmlHelper.ActionLink(linkText, actionName, controllerName).ToHtmlString()
+            };
+
+            if (controllerName == currentController && actionName == currentAction)
+                builder.AddCssClass("active");
+
+            return new MvcHtmlString(builder.ToString());
+        }
     }
 }

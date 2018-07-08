@@ -151,17 +151,47 @@ namespace BackMeow.Models.ViewModel
         [DisplayName("標題")]
         public string TitleName { get; set; }
 
+        private DateTime _Sdate;
+
         /// <summary>
         /// 上架日期.
         /// </summary>
         [DisplayName("上架日期")]
-        public string Sdate { get; set; }
+        public string Sdate
+        {
+            get
+            {
+                string SdateResult = "";
+                if (_Sdate == DateTime.MinValue)
+                {
+                    SdateResult = DateTime.Now.ToString("yyyy/MM/dd");
+                }
+                else SdateResult = _Sdate.ToString("yyyy/MM/dd");
+                return SdateResult;
+            }
+            set { DateTime.TryParse(value, out _Sdate); }
+        }
+
+        private DateTime _Edate;
 
         /// <summary>
-        /// 下架日期.
+        /// 上架日期.
         /// </summary>
-        [DisplayName("下架日期")]
-        public string Edate { get; set; }
+        [DisplayName("上架日期")]
+        public string Edate
+        {
+            get
+            {
+                string EdateResult = "";
+                if (_Edate == DateTime.MinValue)
+                {
+                    EdateResult = DateTime.Now.ToString("yyyy/MM/dd");
+                }
+                else EdateResult = _Edate.ToString("yyyy/MM/dd");
+                return EdateResult;
+            }
+            set { DateTime.TryParse(value, out _Edate); }
+        }
 
         /// <summary>
         /// 狀態. False = 刪除,True = 啟用中
@@ -171,14 +201,43 @@ namespace BackMeow.Models.ViewModel
 
         public IEnumerable<PictureInfo> picInfo { get; set; }
 
+        private DateTime _CreateTime;
+
         [DisplayName("使用者建立時間")]
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime
+        {
+            get
+            {
+                if (_CreateTime == DateTime.MinValue)
+                {
+                    return DateTime.Now;
+                }
+                else return _CreateTime;
+            }
+            set { _CreateTime = value; }
+        }
 
         [DisplayName("建立者")]
         public string CreateUser { get; set; }
 
+        private DateTime _UpdateTime;
+
+        /// <summary>
+        /// 更新時間.
+        /// </summary>
         [DisplayName("更新時間")]
-        public DateTime UpdateTime { get; set; }
+        public DateTime UpdateTime
+        {
+            get
+            {
+                if (_UpdateTime == DateTime.MinValue)
+                {
+                    return DateTime.Now;
+                }
+                else return _UpdateTime;
+            }
+            set { _UpdateTime = value; }
+        }
 
         [DisplayName("更新者")]
         public string UpdateUser { get; set; }

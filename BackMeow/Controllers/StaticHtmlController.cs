@@ -200,7 +200,7 @@ namespace BackMeow.Controllers
                 if (actions == Actions.Create) //建立資料
                 {
                     satichtmlViewModel.StaticID = Guid.NewGuid().ToString().ToUpper();
-                    satichtmlViewModel.PicGroupID = Guid.NewGuid().ToString();
+                    satichtmlViewModel.PicGroupID = Guid.NewGuid().ToString().ToUpper();
                     TempData["message"] = _StaticHtmlService.CreateStaticHtml(satichtmlViewModel, SignInManagerName);
                 }
                 else //更新資料

@@ -33,6 +33,7 @@ namespace StoreDB.Model
         public virtual DbSet<StaticHtml> StaticHtml { get; set; }
         public virtual DbSet<HtmlSubject> HtmlSubject { get; set; }
         public virtual DbSet<Activity> Activity { get; set; }
+        public virtual DbSet<ZipCode> ZipCode { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

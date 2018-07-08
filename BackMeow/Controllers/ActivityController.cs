@@ -16,11 +16,24 @@ namespace BackMeow.Controllers
     {
         private readonly ActivitiesService _ActivityService;
         private string FileUrl = WebConfigurationManager.AppSettings["UploadFileUrl"];
+        private string _signInManager;
 
         public ActivityController()
         {
             var unitOfWork = new EFUnitOfWork();
             _ActivityService = new ActivitiesService(unitOfWork);
+        }
+
+        public string SignInManagerName
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.User.Identity.Name.ToString();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
         }
 
         // GET: Activity
@@ -56,10 +69,7 @@ namespace BackMeow.Controllers
         {
             TempData["Actions"] = ActionType;
             ActitiesDetailViewModel data = new ActitiesDetailViewModel();
-            if (ActionType == Actions.Update)
-            {
-                data = _ActivityService.ReturnActitiesDetailViewModel(ActionType, guid);
-            }
+            data = _ActivityService.ReturnActitiesDetailViewModel(ActionType, guid);
 
             #region KeepSelectBlock
 
@@ -84,13 +94,13 @@ namespace BackMeow.Controllers
 
         [HttpPost]
         //[ValidateFile] //上傳照片 日後將此功能抽出 ,日後改使用 MVC File upload unobtrusive validation
-        public ActionResult ActivitiesMain(Actions actions, StaticHtmlDetailViewModel satichtmlViewModel,
+        public ActionResult ActivitiesMain(Actions actions, ActitiesDetailViewModel ActitiesViewModel,
             IEnumerable<HttpPostedFileBase> upload)
         {
             #region KeepSelectBlock
 
             TempData["Actions"] = actions;
-            TempData["ActitiesSelect"] = (StaticHtmlViewModel)TempData["ActitiesSelect"];
+            TempData["ActitiesSelect"] = (ActitiesViewModel)TempData["ActitiesSelect"];
 
             #endregion KeepSelectBlock
 
@@ -98,24 +108,24 @@ namespace BackMeow.Controllers
             {
                 if (actions == Actions.Create) //建立資料
                 {
-                    satichtmlViewModel.StaticID = Guid.NewGuid().ToString().ToUpper();
-                    satichtmlViewModel.PicGroupID = Guid.NewGuid().ToString();
-                    TempData["message"] = _ActivityService.Create(satichtmlViewModel, SignInManagerName);
+                    ActitiesViewModel.ActivityID = Guid.NewGuid().ToString().ToUpper();
+                    ActitiesViewModel.PicGroupID = Guid.NewGuid().ToString().ToUpper();
+                    TempData["message"] = _ActivityService.Create(ActitiesViewModel, SignInManagerName);
                 }
                 else //更新資料
                 {
-                    TempData["message"] = _ActivityService.Update(satichtmlViewModel, SignInManagerName);
+                    TempData["message"] = _ActivityService.Update(ActitiesViewModel, SignInManagerName);
                 }
 
                 #region 上傳照片 日後將此功能抽出
 
                 if (upload.Where(s => s != null).Count() > 0)
                 {
-                    bool UploadResult = UploadFile(upload, satichtmlViewModel.PicGroupID.ToString());
+                    bool UploadResult = UploadFile(upload, ActitiesViewModel.PicGroupID.ToString());
                     if (UploadResult)
                     {
                         //存入DB
-                        _ActivityService.CreatePictureInfo(upload, Guid.Parse(satichtmlViewModel.PicGroupID), SignInManagerName);
+                        _ActivityService.CreatePictureInfo(upload, Guid.Parse(ActitiesViewModel.PicGroupID), SignInManagerName);
                     }
                 }
 
@@ -125,8 +135,8 @@ namespace BackMeow.Controllers
             }
 
             // 顯示資料
-            satichtmlViewModel = _ActivityService.ReturnStaticHtmlDetail(satichtmlViewModel.StaticHtmlActionType, actions, satichtmlViewModel.StaticID);
-            return View(satichtmlViewModel);
+            ActitiesViewModel = _ActivityService.ReturnActitiesDetailViewModel(actions, ActitiesViewModel.ActivityID);
+            return View(ActitiesViewModel);
         }
 
         /// <summary>

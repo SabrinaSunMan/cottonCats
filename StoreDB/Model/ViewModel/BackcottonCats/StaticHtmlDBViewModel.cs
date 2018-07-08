@@ -7,13 +7,11 @@ using System.ComponentModel.DataAnnotations;
 namespace StoreDB.Model.ViewModel.BackcottonCats
 {
     /// <summary>
-    /// 統一藉由此ViewModel溝通將 兩張Table串接
+    /// 統一藉由此ViewModel溝通將 三張Table串接
     /// </summary>
     /// <seealso cref="StoreDB.Model.Partials.BasePartials" />
     public class StaticHtmlDBViewModel : BasePartials
     {
-        private Guid _staticId = new Guid();
-
         /// <summary>
         /// ID.
         /// </summary>
@@ -25,8 +23,6 @@ namespace StoreDB.Model.ViewModel.BackcottonCats
         /// </summary>
         [DisplayName("內容文字")]
         public string HtmlContext { get; set; }
-
-        private Guid _subjectId = new Guid();
 
         /// <summary>
         /// 靜態網頁類別ID. FK From HtmlSubject

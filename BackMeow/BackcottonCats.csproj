@@ -275,6 +275,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StaticHtmlController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Controllers\ZipCodeController.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Filters\ModelStateExcludeAttribute.cs" />
     <Compile Include="Filters\ResultFillterAttribute.cs" />
@@ -484,6 +485,7 @@
     <Content Include="Scripts\PublicBase.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\TaiwanZipCode.js" />
     <Content Include="Scripts\UploadFile.js" />
     <Content Include="Upload\StaticHtml\311865.jpg" />
     <Content Include="Upload\StaticHtml\311866.jpg" />
@@ -547,10 +549,13 @@
     <Content Include="Views\Activity\ActivitiesList.cshtml" />
     <Content Include="Views\Activity\_ActivitiesList.cshtml" />
     <Content Include="Views\Activity\ActivitiesMain.cshtml" />
+    <Content Include="Views\Shared\_TaiwanZipCode.cshtml" />
+    <Content Include="Views\Shared\_UploadFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Upload\TempImage\" />
+    <Folder Include="Views\ZipCode\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

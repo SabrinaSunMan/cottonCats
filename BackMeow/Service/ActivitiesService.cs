@@ -4,6 +4,7 @@ using PagedList;
 using StoreDB.Enum;
 using StoreDB.Interface;
 using StoreDB.Model.Partials;
+using StoreDB.Model.ViewModel.BackcottonCats;
 using StoreDB.Repositories;
 using System;
 using System.Collections.Generic;
@@ -69,10 +70,13 @@ namespace BackMeow.Service
             && (!string.IsNullOrWhiteSpace(selectModel.CreateTime) ?
             s.CreateTime.ToString() == selectModel.CreateTime : s.CreateTime == s.CreateTime
             )
-
-            && (s.StartDate >= Convert.ToDateTime(selectModel.StartDate)
-                    && s.EndDate <= Convert.ToDateTime(selectModel.EndDate)
-            )).Select(s => new ActitiesListContentViewModel()
+            && (!string.IsNullOrWhiteSpace(selectModel.CreateTime) ?
+                (s.StartDate >= Convert.ToDateTime(selectModel.StartDate) &&
+                s.EndDate <= Convert.ToDateTime(selectModel.EndDate)) : s.StartDate == s.StartDate)
+            //&& (s.StartDate >= Convert.ToDateTime(selectModel.StartDate)
+            //        && s.EndDate <= Convert.ToDateTime(selectModel.EndDate)
+            //)
+            ).Select(s => new ActitiesListContentViewModel()
             {
                 ActitiesID = s.ActivityID,
                 TitleName = s.TitleName,
@@ -90,8 +94,8 @@ namespace BackMeow.Service
         public ActitiesDetailViewModel ReturnActitiesDetailViewModel(Actions ActionType, string guid)
         {
             ActitiesDetailViewModel DetailViewModel = new ActitiesDetailViewModel();
-            Activity StaticHtmlDBViewModel = _ActityRep.GetSingle(s => s.ActivityID == guid);
-            if (StaticHtmlDBViewModel == null) StaticHtmlDBViewModel = new Activity();
+            ActitiesDBViewModel StaticHtmlDBViewModel = _ActityRep.GetSingle(guid);
+            if (StaticHtmlDBViewModel == null) StaticHtmlDBViewModel = new ActitiesDBViewModel();
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
             DetailViewModel = mapper.Map<ActitiesDetailViewModel>(StaticHtmlDBViewModel);
             return DetailViewModel;
@@ -125,9 +129,9 @@ namespace BackMeow.Service
         {
             try
             {
-                Activity PartStaticHtml = ReturnMappingActity(statichtml);
-                PartStaticHtml.SubjectID = statichtml.StaticHtmlActionType.ToString();
-                _StaticHtmlRep.StaticHtmlUpdate(PartStaticHtml, userName);
+                //Activity PartStaticHtml = ReturnMappingActity(statichtml);
+                //PartStaticHtml.SubjectID = statichtml.StaticHtmlActionType.ToString();
+                //_StaticHtmlRep.StaticHtmlUpdate(PartStaticHtml, userName);
                 return EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
             }
             catch
@@ -153,9 +157,9 @@ namespace BackMeow.Service
             //else PicgroupId = Guid.Parse(PicGroupID);
 
             //2.取得 sort 累加
-            int DbSaveCount = _StaticHtmlRep.TableMaxCountByID(TableName.PictureInfo, PicGroupID);
+            //int DbSaveCount = _StaticHtmlRep.TableMaxCountByID(TableName.PictureInfo, PicGroupID);
 
-            _PicInfoRep.PictureInfoInsertInto(upload, PicGroupID, DbSaveCount, UserName);
+            //_PicInfoRep.PictureInfoInsertInto(upload, PicGroupID, DbSaveCount, UserName);
         }
 
         /// <summary>
@@ -167,7 +171,7 @@ namespace BackMeow.Service
         {
             try
             {
-                _PicInfoRep.PictureInfoUpdate(PicID, userName);
+                //_PicInfoRep.PictureInfoUpdate(PicID, userName);
                 return EnumHelper.GetEnumDescription(DataAction.Update);
             }
             catch
@@ -186,8 +190,8 @@ namespace BackMeow.Service
             try
             {
                 Guid newGuid = Guid.Parse(HtmlID);
-                StaticHtml statichtml = _StaticHtmlRep.GetSingle(s => s.StaticID.Equals(newGuid));
-                _StaticHtmlRep.StaticHtmlUpdate(statichtml, userName);
+                //StaticHtml statichtml = _StaticHtmlRep.GetSingle(s => s.StaticID.Equals(newGuid));
+                //_StaticHtmlRep.StaticHtmlUpdate(statichtml, userName);
                 return EnumHelper.GetEnumDescription(DataAction.DeleteScuess);
             }
             catch
@@ -204,8 +208,8 @@ namespace BackMeow.Service
         public IEnumerable<PictureInfo> GetPictureInfo(string PicID)
         {
             Guid newPicID = Guid.Parse(PicID);
-            PictureInfo picGroupid = _PicInfoRep.GetSingle(s => s.PicID == newPicID);
-            IEnumerable<PictureInfo> PictureInfoList = _PicInfoRep.Query(s => s.PicGroupID.Equals(picGroupid.PicGroupID) && s.Status == true);
+            //PictureInfo picGroupid = _PicInfoRep.GetSingle(s => s.PicID == newPicID);
+            IEnumerable<PictureInfo> PictureInfoList = new List<PictureInfo>();// _PicInfoRep.Query(s => s.PicGroupID.Equals(picGroupid.PicGroupID) && s.Status == true);
             return PictureInfoList;
         }
 

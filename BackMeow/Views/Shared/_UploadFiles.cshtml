@@ -1,0 +1,76 @@
+﻿@model IEnumerable<StoreDB.Model.Partials.PictureInfo>
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+<link href="~/Content/lightbox.css" rel="stylesheet" />
+<link href="~/Content/ScrollbarStyle.css" rel="stylesheet" />
+<link href="~/Content/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+<div id="demo">
+    <section id="examples" class="snap-scrolling-example">
+
+        <!-- content -->
+        <div id="content-1" class="content horizontal-images">
+            <ul>
+                @foreach (var item in Model)
+                { 
+                    <li class="lightboxcontainer">
+                        <a class="example-image-link" href="@item.PictureUrl@item.PictureName@item.FileExtension" data-lightbox="example-set" data-title="">
+                            <img class="example-image" src="@item.PictureUrl@item.PictureName@item.FileExtension" alt="" />
+                        </a>
+                        <div class="middle">
+                            <div class="text" id="@item.PicID">刪除</div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+</div>
+@*}*@
+
+@*<script src="~/Scripts/lightbox-plus-jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="~/Scripts/jquery-1.10.2.min.js"><\/script>')</script>
+    <script src="~/Scripts/jquery.mCustomScrollbar.concat.min.js"></script>*@
+@*必須放在上一層*@
+
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+
+            var amount = Math.max.apply(Math, $("#content-1 li").map(function () { return $(this).outerWidth(true); }).get());
+
+            $("#content-1").mCustomScrollbar({
+                axis: "x",
+                theme: "inset",
+                advanced: {
+                    autoExpandHorizontalScroll: true
+                },
+                scrollButtons: {
+                    enable: true,
+                    scrollType: "stepped"
+                },
+                keyboard: { scrollType: "stepped" },
+                snapAmount: amount,
+                mouseWheel: { scrollAmount: amount }
+            });
+
+        });
+    })(jQuery);
+
+    $(".text").click(function () {
+        showconfirm(this.id, 'false', 'StaticHtml', 'PictureInfo');
+    })
+
+//$(".lightboxcontainer")
+//    .on("mouseenter", function () {
+//        //alert('滑鼠移入');
+//        //$("p:first", this).text("mouse enter");
+//    })
+//    .on("mouseleave", function () {
+//        //alert('out');
+//        //$("p:first", this).text("mouse leave");
+//        //$("p:last", this).text(++n);
+//    });
+</script>

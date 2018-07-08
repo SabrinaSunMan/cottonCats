@@ -185,7 +185,7 @@ namespace BackMeow.App_Start
         //這邊負責確認是否兩個欄位有不同名稱
         public ActitiesProfile()
         {
-            CreateMap<Activity, ActitiesDetailViewModel>()
+            CreateMap<ActitiesDBViewModel, ActitiesDetailViewModel>()
 
                 .ForMember(dest => dest.ActivityID, opt => opt.MapFrom(src => src.ActivityID))
                 .ForMember(dest => dest.Sdate, opt => opt.MapFrom(src => src.StartDate))
@@ -194,7 +194,7 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.HtmlContext, opt => opt.MapFrom(src => src.HtmlContext))
 
                 .ForMember(dest => dest.PicGroupID, opt => opt.MapFrom(src => src.PicGroupID))
-                .ForMember(dest => dest.picInfo, opt => opt.Ignore())
+                .ForMember(dest => dest.picInfo, opt => opt.MapFrom(src => src.picInfo))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
                 .ForMember(dest => dest.CreateUser, opt => opt.MapFrom(src => src.CreateUser))

@@ -168,6 +168,10 @@
     <Compile Include="Migrations\201806270845269_Back10_Activity.Designer.cs">
       <DependentUpon>201806270845269_Back10_Activity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807071020427_Back11_ZipCode.cs" />
+    <Compile Include="Migrations\201807071020427_Back11_ZipCode.Designer.cs">
+      <DependentUpon>201807071020427_Back11_ZipCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Activity.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -188,8 +192,10 @@
     <Compile Include="Model\Partials\StaticHtml.cs" />
     <Compile Include="Model\StoreDBContext.cs" />
     <Compile Include="Model\Partials\Students.cs" />
+    <Compile Include="Model\ViewModel\BackcottonCats\ActitiesDBViewModel.cs" />
     <Compile Include="Model\ViewModel\BackcottonCats\StaticHtmlDBViewModel.cs" />
     <Compile Include="Model\ViewModel\BackcottonCats\MenuSideViewModel.cs" />
+    <Compile Include="Model\Partials\ZipCode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActitiesRepository.cs" />
@@ -200,7 +206,9 @@
     <Compile Include="Repositories\PictureInfoRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\StaticHtmlRepository.cs" />
+    <Compile Include="Interface\IZipCode.cs" />
     <Compile Include="Service\LoggingService.cs" />
+    <Compile Include="Service\ZipCodeService.cs" />
     <Compile Include="Strategy\AspNetUsersStrategy.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
@@ -276,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806270845269_Back10_Activity.resx">
       <DependentUpon>201806270845269_Back10_Activity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807071020427_Back11_ZipCode.resx">
+      <DependentUpon>201807071020427_Back11_ZipCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

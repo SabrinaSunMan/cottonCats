@@ -28,7 +28,7 @@
         </div>
     </div>
     <input type="hidden" name="actions" value="@TempData["Actions"]" />
-    @Html.HiddenFor(s => s.ActityID)
+    @Html.HiddenFor(s => s.ActivityID)
     @Html.HiddenFor(s => s.PicGroupID)
     <div class="panel-body">
         @Html.NoteSite()
@@ -40,6 +40,24 @@
                 @Html.EditorFor(model => model.Status)
                 @Html.ValidationMessageFor(x => x.Status, "", new { @class = "text-danger" })
             </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.DisplayNameFor(mode => mode.TitleName)
+        <div class="col-md-8">
+            <input type="text" class="form-control" value="@Model.TitleName" name="TitleName" placeholder="請輸入 @Html.DisplayNameFor(model => model.TitleName)" />
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Sdate).ToString())
+        <div class="col-md-3">
+            <input type="text" class="form-control datepicker" onkeydown="return false" value="@Model.Sdate" name="Sdate" placeholder="請輸入 @Html.DisplayNameFor(model => model.Sdate)" />
+            @Html.ValidationMessageFor(x => x.Sdate, "", new { @class = "text-danger" })
+        </div>
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Edate).ToString())
+        <div class="col-md-3">
+            <input type="text" class="form-control datepicker" onkeydown="return false" value="@Model.Edate" name="Edate" placeholder="請輸入 @Html.DisplayNameFor(model => model.Edate)" />
+            @Html.ValidationMessageFor(x => x.Edate, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="panel-body">
@@ -62,7 +80,7 @@
     <div class="panel-body">
         @Html.LabelFor(model => model.CreateUser, htmlAttributes: new { @class = "col-md-2 control-label" })
         <div class="col-md-3">
-            @Html.EditorFor(model => model.CreateUser)
+            @Html.DisplayFor(model => model.CreateUser)
             @Html.HiddenFor(model => model.CreateUser)
         </div>
         @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
@@ -104,9 +122,10 @@
     </div>
     <div class="panel-body" id="ReloadBlock">
         @*@Html.Partial("_UploadFiles", Model.picInfo)*@
-        @{
+        @Html.Partial("_UploadFiles", Model.picInfo)
+        @*@{
             Html.RenderPartial("_UploadFiles", Model.picInfo);
-        }
+            }*@
     </div>
     <div class="panel-body">
         <div class="col-md-2">
@@ -144,7 +163,7 @@
                 //$("#ulList").append(fragment);
             }
             if (CheckFile) {
-                $("#StaticHtmlMainForm").submit();
+                $("#ActivitiesMainForm").submit();
             }
 
         })
