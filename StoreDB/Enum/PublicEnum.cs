@@ -31,4 +31,12 @@ namespace StoreDB.Enum
         /// </summary>
         Delete = 3
     }
+
+    public enum LogLevel
+    {
+        /// <summary>
+        /// 嚴重錯誤
+        /// </summary>
+        Error = 0
+    }
 }

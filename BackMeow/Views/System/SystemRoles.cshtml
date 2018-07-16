@@ -68,10 +68,7 @@
         @Html.PagedListPager(Model.Content_List, page => Url.Action("SystemRoles", new { ViewModel = @Model,page }),
             PagedListRenderOptions.ClassicPlusFirstAndLast)
     </div>
-</div>
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+</div> 
 
 @section Scripts {
     <script>
@@ -84,6 +81,9 @@
             $("#Create").click(function () {
                 PackageEvent('', true);
             });
+            //$("#Delete").click(function () {
+            //    showconfirm(this.id, 'false', 'StaticHtml', 'PictureInfo');
+            //});
         });
         function PackageEvent(uid, createOrUpdat)
         {

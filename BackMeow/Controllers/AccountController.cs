@@ -24,23 +24,15 @@ namespace BackMeow.Controllers
             _menuSideservice = new MenuSideListService(unitOfWork);
         }
 
-        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        //{
-        //    var unitOfWork = new EFUnitOfWork();
-        //    UserManager = userManager;
-        //    SignInManager = signInManager;
-        //    _menuSideservice = new MenuSideListService(unitOfWork);
-        //}
-
         public ApplicationSignInManager SignInManager
         {
             get
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -61,7 +53,7 @@ namespace BackMeow.Controllers
         //    public static string ToJsonString(object obj)
         //    {
         //        return JsonConvert.SerializeObject(obj);
-        //    } 
+        //    }
         //    public static T ToObject<T>(string jsonString)
         //    {
         //        return JsonConvert.DeserializeObject<T>(jsonString);
@@ -72,7 +64,7 @@ namespace BackMeow.Controllers
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl,string Msg)
+        public ActionResult Login(string returnUrl, string Msg)
         //public async<IActionResult> Login(string returnUrl)
         {
             ViewBag.ErrorMsg = Msg;
@@ -96,7 +88,7 @@ namespace BackMeow.Controllers
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
             //var result = await SignInManager.PasswordSignInAsync(model.Account, model.Password, model.RememberMe, shouldLockout: false);
             SignInStatus result = new SignInStatus();
-            //1.先判斷email是否有相等 
+            //1.先判斷email是否有相等
             ApplicationUser hasEmail = await UserManager.FindByEmailAsync(model.Account);
             ApplicationUser hasUserName = await UserManager.FindByNameAsync(model.Account);
 
@@ -104,11 +96,11 @@ namespace BackMeow.Controllers
             {
                 //2.判斷userName和pwd
                 result = await SignInManager.PasswordSignInAsync(hasEmail.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            } 
+            }
 
             switch (result)
             {
-                case SignInStatus.Success: 
+                case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
 
                 case SignInStatus.LockedOut:
@@ -161,17 +153,19 @@ namespace BackMeow.Controllers
                 return View(model);
             }
 
-            // 下列程式碼保護兩個因素碼不受暴力密碼破解攻擊。 
-            // 如果使用者輸入不正確的代碼來表示一段指定的時間，則使用者帳戶 
-            // 會有一段指定的時間遭到鎖定。 
+            // 下列程式碼保護兩個因素碼不受暴力密碼破解攻擊。
+            // 如果使用者輸入不正確的代碼來表示一段指定的時間，則使用者帳戶
+            // 會有一段指定的時間遭到鎖定。
             // 您可以在 IdentityConfig 中設定帳戶鎖定設定
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "代碼無效。");
@@ -200,8 +194,8 @@ namespace BackMeow.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // 傳送包含此連結的電子郵件
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -257,7 +251,7 @@ namespace BackMeow.Controllers
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // 傳送包含此連結的電子郵件
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 // await UserManager.SendEmailAsync(user.Id, "重設密碼", "請按 <a href=\"" + callbackUrl + "\">這裏</a> 重設密碼");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -379,10 +373,13 @@ namespace BackMeow.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+
                 case SignInStatus.Failure:
                 default:
                     // 若使用者沒有帳戶，請提示使用者建立帳戶
@@ -428,7 +425,7 @@ namespace BackMeow.Controllers
 
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
-        } 
+        }
 
         //
         // GET: /Account/ExternalLoginFailure
@@ -459,6 +456,7 @@ namespace BackMeow.Controllers
         }
 
         #region Helper
+
         // 新增外部登入時用來當做 XSRF 保護
         private const string XsrfKey = "XsrfId";
 
@@ -515,6 +513,7 @@ namespace BackMeow.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
-        #endregion
+
+        #endregion Helper
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using BackMeow.Service;
+﻿using BackMeow.Service;
 using Microsoft.AspNet.Identity.Owin;
 using StoreDB.Model.Partials;
 using StoreDB.Repositories;
@@ -9,6 +8,10 @@ using System.Web.Mvc;
 
 namespace BackMeow.Filters
 {
+    /// <summary>
+    /// 客製化_驗證該頁面是否可以被訪問
+    /// </summary>
+    /// <seealso cref="System.Web.Mvc.AuthorizeAttribute" />
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly AspNetUsersService _UserService;
@@ -53,7 +56,7 @@ namespace BackMeow.Filters
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
-        { 
+        {
             if (httpContext == null)
                 throw new ArgumentNullException("httpContext");
 
@@ -69,7 +72,7 @@ namespace BackMeow.Filters
 
             _signInManager = httpContext.GetOwinContext().Get<ApplicationSignInManager>();
             //ApplicationSignInManager UserManager = new ApplicationSignInManager(_signInManager);
-            _UserService.UserName = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號 
+            _UserService.UserName = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號
             AspNetUsers AspNetusers = _UserService.GetAspNetUserBySelectPramters();
 
             if (_MenuService.CheckRequestPage(AspNetusers.Id, Controller))
@@ -77,7 +80,7 @@ namespace BackMeow.Filters
                 //return false;
                 return true;
             }
-            else return false; 
-        } 
+            else return false;
+        }
     }
 }

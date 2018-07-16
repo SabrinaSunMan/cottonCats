@@ -1,11 +1,11 @@
-﻿
+﻿using StoreDB.Enum;
 using StoreDB.Interface;
 using StoreDB.Model.Partials;
 using StoreDB.Repositories;
-using System; 
+using System;
 
 namespace StoreDB.Service
-{ 
+{
     public class LoggingService
     {
         private readonly IRepository<NLog_Error> _logRep;
@@ -17,12 +17,20 @@ namespace StoreDB.Service
             _logRep = new Repository<NLog_Error>(unitOfWork);
         }
 
-        public void CreateNLog()
+        public void CreateNLog(string actionName, string controllerName, string Action,
+            string ParameterStr, string userid, LogLevel leve)
         {
-            _logRep.Create(new NLog_Error
-            {  
-                SaveData = "TEST" 
-            });
+            NLog_Error saveData = new NLog_Error()
+            {
+                ActionName = actionName,
+                ControllersName = controllerName,
+                Data_Action = Action,
+                SaveData = ParameterStr,
+                UserId = userid,
+                LogLevel = leve.ToString()
+            };
+            _logRep.Create(saveData);
+            _logRep.Commit();
         }
 
         /// <summary>
@@ -36,9 +44,9 @@ namespace StoreDB.Service
         /// <param name="controllersname">The controllersname.</param>
         /// <param name="actionname">The actionname.</param>
         /// <returns></returns>
-        private NLog_Error ReturnLogInfo(string userid,string result , 
-            string savedata , string loglevel , string data_action , 
-            string controllersname, string actionname )
+        private NLog_Error ReturnLogInfo(string userid, string result,
+            string savedata, string loglevel, string data_action,
+            string controllersname, string actionname)
         {
             NLog_Error package = new NLog_Error()
             {
@@ -74,27 +82,20 @@ namespace StoreDB.Service
         //    theEvent.Properties["ControllersName"] = "";
         //    theEvent.Properties["ActionName"] = "";
 
-        //    //theEvent.Properties["ResultAllStr"] = "123"; //Only For File 
+        //    //theEvent.Properties["ResultAllStr"] = "123"; //Only For File
 
         //    LogWriter.Log(theEvent);
         //    //LogEventInfo theEvent = new LogEventInfo(ResultBool == true ? LogLevel.Info : LogLevel.Error,
         //    //    "", ResultBool.ToString());
-
         //    //theEvent.Properties["result"] = ResultBool;
         //    //theEvent.Properties["savedata"] = SaveString;
         //    //theEvent.Properties["data_Action"] = actions.ToString();
         //    //theEvent.Properties["Orignal_Page"] = pages.ToString();
-
         //    //theEvent.Properties["Statement"] = Statement;
         //    //theEvent.Properties["ControllersName"] = _controllerName;
         //    //theEvent.Properties["ActionName"] = _actionName;
-
-        //    //theEvent.Properties["ResultAllStr"] = LogStr; //Only For File 
-
+        //    //theEvent.Properties["ResultAllStr"] = LogStr; //Only For File
         //    //LogWriter.Log(theEvent);
-
-             
         //}
-            
     }
 }

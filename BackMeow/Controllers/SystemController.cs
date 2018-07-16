@@ -9,6 +9,7 @@ using StoreDB.Enum;
 using StoreDB.Repositories;
 using StoreDB.Service;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -26,7 +27,7 @@ namespace BackMeow.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private MenuSideListService _menuSide;
-        //private ReturnMsg _ReturnMsg; 
+        //private ReturnMsg _ReturnMsg;
 
         public SystemController()
         {
@@ -63,10 +64,11 @@ namespace BackMeow.Controllers
             }
         }
 
-        // GET: System 
+        // GET: System
         #region 後台使用者管理
 
         #region 取得所有後台使用者清單
+
         [HttpGet]
         public ActionResult SystemRoles(SystemRolesViewModel ViewModel, int page = 1)
         {
@@ -90,11 +92,13 @@ namespace BackMeow.Controllers
             TempData["SystemRolesSelect"] = ResultViewModel;
             return View(ResultViewModel);
         }
-        #endregion
+
+        #endregion 取得所有後台使用者清單
         #region 藉由ID取得後台使用者
+
         [HttpGet]
         public ActionResult SystemRolesMain(Actions ActionType, string guid, string selectEmail, string selectUserName, int pages = 1)
-        { 
+        {
             TempData["Actions"] = ActionType;
             AspNetUsersDetailViewModel data = new AspNetUsersDetailViewModel();
             if (ActionType == Actions.Update)
@@ -112,7 +116,7 @@ namespace BackMeow.Controllers
                 },
                 page = pages
             };
-            #endregion
+            #endregion KeepSelectBlock
             return View(data);
         }
 
@@ -134,24 +138,26 @@ namespace BackMeow.Controllers
         [ValidateAntiForgeryToken]
         [ModelStateExclude]
         public async Task<ActionResult> SystemRolesMain(AspNetUsersDetailViewModel AspNetUsersModel, Actions actions)//, Actions actions)
-                                                                                                                     //(FormCollection AspNetUsersModel,string guid) //, 
+                                                                                                                     //(FormCollection AspNetUsersModel,string guid) //,
         {
             bool boolResult = true; // 取決於導向頁面
             string thisUserID; //使用者ID
             SystemRolesViewModel searchBlock = (SystemRolesViewModel)TempData["SystemRolesSelect"];
             if (ModelState.IsValid)
             {
-                if (actions == Actions.Create)//Check for validation errors //&& !string.IsNullOrWhiteSpace(AspNetUsersModel.Id) 
+                var user = new ApplicationUser
+                {
+                    UserName = AspNetUsersModel.UserName,
+                    Email = AspNetUsersModel.Email,
+                    CreateTime = DateTime.Now,
+                    UpdateTime = DateTime.Now,
+                    Status = true
+                };
+
+                if (actions == Actions.Create)
                 {
                     #region
-                    var user = new ApplicationUser
-                    {
-                        UserName = AspNetUsersModel.UserName,
-                        Email = AspNetUsersModel.Email,
-                        CreateTime = DateTime.Now,
-                        UpdateTime = DateTime.Now,
-                        Id = Guid.NewGuid().ToString().ToUpper()
-                    };
+                    user.Id = Guid.NewGuid().ToString().ToUpper();
                     _UserService.UserName = user.UserName;
                     _UserService.UserEmail = user.Email;
 
@@ -160,64 +166,95 @@ namespace BackMeow.Controllers
                         var result = await UserManager.CreateAsync(user, AspNetUsersModel.Password);
                         if (result.Succeeded)
                         {
+                            //-------- 待補：建立使用者應要把權限也寫入!
+                            _UserService.CreateUserMenuTree(user.Id);
                             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                             // 傳送包含此連結的電子郵件
                             string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                             await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
-                            //return RedirectToAction("Index", "Home");
                             TempData["message"] = EnumHelper.GetEnumDescription(DataAction.CreateScuess);
                             thisUserID = user.Id;
                         }
-                        else { AddErrors(result); boolResult = false; }
+                        else
+                        {
+                            AddErrors(result);
+                            boolResult = false;
+                        }
                     }
                     else
                     {
                         CustomerIdentityError(EnumHelper.GetEnumDescription(DataAction.CreateFailReapet));
-                        //_ReturnMsg.enumMsg = BackReturnMsg.Repeat;
-                        //CustomerIdentityError(_ReturnMsg);
                         boolResult = false;
                     }
-                    #endregion
+                    #endregion 藉由ID取得後台使用者
                 }
                 else if (actions == Actions.Update)
                 {
                     #region
-                    if (!string.IsNullOrEmpty(AspNetUsersModel.Old_Password))
-                    { // 變更密碼
-                        var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), AspNetUsersModel.Old_Password, AspNetUsersModel.Password);
-                        if (result.Succeeded)
+                    if (!string.IsNullOrEmpty(AspNetUsersModel.Old_Password) && !string.IsNullOrEmpty(AspNetUsersModel.Password))
+                    {
+                        bool passwordIsEdit = false;
+                        try
                         {
-                            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                            if (user != null)
+                            var checkPassword = UserManager.PasswordHasher.VerifyHashedPassword(AspNetUsersModel.Password, AspNetUsersModel.Old_Password);
+                            if (checkPassword != PasswordVerificationResult.Success)
+                            {
+                                passwordIsEdit = true;
+                            }
+                        }
+                        catch
+                        { passwordIsEdit = true; }
+                        if (passwordIsEdit)
+                        {
+                            user.Id = AspNetUsersModel.Id;
+                            // 變更密碼
+                            var result = await UserManager.ChangePasswordAsync(user.Id, AspNetUsersModel.Old_Password, AspNetUsersModel.Password);
+                            if (result.Succeeded)
                             {
                                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                             }
-                            TempData["message"] = EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
+                            else { AddErrors(result); boolResult = false; }
                         }
-                        else { AddErrors(result); boolResult = false; }
-                    }else
-                    {
-                        CustomerIdentityError(EnumHelper.GetEnumDescription(DataAction.UpdateFail));
+                        else
+                        {
+                            CustomerIdentityError(EnumHelper.GetEnumDescription(DataAction.UpdateFail));
+                        }
                     }
+
                     _UserService.AspNetUsersDetailViewModelUpdate(AspNetUsersModel);
                     //可以批次增加同時輸入很多個Table
                     _UserService.Save();
-                    #endregion
+                    TempData["message"] = EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
+                    #endregion 後台使用者管理
                 }
-                //else /*什麼事情都不做*/
-                //{
-                //}
-                return RedirectToAction("SystemRoles", new
+                else
                 {
-                    ViewModel = searchBlock,
-                    pages = searchBlock.page
-                });
+                    string ErrorMsg = "";
+                    foreach (var items in ModelState.Values)
+                    {
+                        foreach (ModelError Erroritem in items.Errors)
+                        {
+                            ErrorMsg += Erroritem.ErrorMessage + " ";
+                        }
+                    }
+                    CustomerIdentityError(ErrorMsg);
+                    boolResult = false;
+                }
+
+                if (boolResult)
+                {
+                    return RedirectToAction("SystemRoles", new
+                    {
+                        ViewModel = searchBlock,
+                        pages = searchBlock.page
+                    });
+                }
             }
             #region KeepSelectBlock
             TempData["Actions"] = actions;
             TempData["SystemRolesSelect"] = searchBlock;
-            #endregion
+            #endregion KeepSelectBlock
             //return RedirectToAction("SystemRolesMain", new
             //{
             //    ActionType = actions,
@@ -227,8 +264,57 @@ namespace BackMeow.Controllers
             //    pages = searchBlock.page
             //});
             return View(AspNetUsersModel);
-               
         }
+
+        [HttpPost]
+        public JsonResult Delete(string guid, string actionTable)
+        {
+            string GetResult = "";
+            TableName actionTableS = (TableName)Enum.Parse(typeof(TableName), actionTable);
+            if (actionTableS == TableName.AspNetUsers)
+            {
+                TempData["message"] = GetResult = _UserService.DeleteUser(guid);
+                _UserService.Save();
+            }
+            else
+            {
+                //GetResult = _StaticHtmlService.DeletePictureInfo(guid, SignInManagerName);
+            }
+            return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+        #endregion
+
+        #region 會員管理
+        #region 取得所有後台使用者清單
+
+        [HttpGet]
+        public ActionResult Member(MemberViewModel ViewModel, int page = 1)
+        {
+            ViewBag.TESTCityDDL = "91";
+            MemberViewModel ResultViewModel = new MemberViewModel();
+            MemberViewModel searchBlock = (MemberViewModel)TempData["SystemRolesSelect"];
+            //if (searchBlock == null) /*空*/
+            //{
+            //    ResultViewModel = _UserService.GetSystemRolesListViewModel(new SystemRolesListHeaderViewModel(), page);
+            //}
+            //else
+            //{
+            //    ResultViewModel = _UserService.GetSystemRolesListViewModel(searchBlock.Header, page);
+            //}
+            //return View(ResultViewModel);
+            return View(ResultViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Member(SystemRolesViewModel ViewModel)
+        {
+            SystemRolesViewModel ResultViewModel = _UserService.GetSystemRolesListViewModel(ViewModel.Header);
+            TempData["SystemRolesSelect"] = ResultViewModel;
+            return View(ResultViewModel);
+        }
+
         #endregion
         #endregion
 
@@ -255,6 +341,5 @@ namespace BackMeow.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-
     }
 }

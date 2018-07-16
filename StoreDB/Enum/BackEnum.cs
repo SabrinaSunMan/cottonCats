@@ -134,13 +134,19 @@ namespace StoreDB.Enum
     public enum TableName
     {
         /// <summary>
-        /// 更新失敗
+        /// 後台管理者
+        /// </summary>
+        [Description("後台管理者")]
+        AspNetUsers = 2,
+
+        /// <summary>
+        /// 靜態網頁主檔
         /// </summary>
         [Description("靜態網頁主檔")]
         StaticHtml = 0,
 
         /// <summary>
-        /// 更新失敗
+        /// 圖片資訊
         /// </summary>
         [Description("圖片資訊")]
         PictureInfo = 1

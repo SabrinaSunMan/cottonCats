@@ -16,7 +16,7 @@
         <span class="bar">
             @ViewBag.ErrorMsg
         </span>
-        @Html.EditorFor(m=>m.Account)
+        @Html.EditorFor(m => m.Account)
         @*<input type="text" name="Account" id="Account" />*@
         <span class="highlight"></span>
         <span class="bar">
@@ -25,14 +25,13 @@
         @Html.ValidationMessageFor(m => m.Account, "", new { @class = "text-danger" })
     </div>
     <div class="group">
-        @Html.PasswordFor(m=>m.Password)
+        @Html.PasswordFor(m => m.Password)
         @*<input type="password" name="Password" />*@
         <span class="highlight"></span>
         <span class="bar">
         </span>
         @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-
     </div>
 
     <button class="button buttonBlue">
@@ -47,80 +46,79 @@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>*@
+
 <script src="~/Scripts/LoginJs.js"></script>
+
 @*<script>
-    $(document).ready(function () {
-        var test = $("#Account");
-        alert($("#Account").val());
+        $(document).ready(function () {
+            var test = $("#Account");
+            alert($("#Account").val());
 
-    });
-
-</script>*@
+        });
+    </script>*@
 @*<script type='text/javascript'>
 
-    //window.onload = function () {
-    //    alert("3.页面加载完成====》onload");
-    //    aaa();
-    //}
+        //window.onload = function () {
+        //    alert("3.页面加载完成====》onload");
+        //    aaa();
+        //}
 
-    //$(window).load(function () {
-    ////    alert("4.jquery===》window load");
-    //    //    aaa();    
-    //    var test = $("input[type=text]");
-    //    test.keypress(function () {
-    //        alert("keypress");
-    //    });
-    //    test.keydown(function () {
-    //        alert("keydown");
-    //    });
-    //    test.keyup(function () {
-    //        alert("keyup");
-    //    });
-    //    test.change(function () {
-    //        alert("change");
-    //    });
-    //    test.focus();
-    //    test.blur();
-    //})
+        //$(window).load(function () {
+        ////    alert("4.jquery===》window load");
+        //    //    aaa();
+        //    var test = $("input[type=text]");
+        //    test.keypress(function () {
+        //        alert("keypress");
+        //    });
+        //    test.keydown(function () {
+        //        alert("keydown");
+        //    });
+        //    test.keyup(function () {
+        //        alert("keyup");
+        //    });
+        //    test.change(function () {
+        //        alert("change");
+        //    });
+        //    test.focus();
+        //    test.blur();
+        //})
 
-   // $(document).ready(function () {
-    //    alert("1. jquery====》document ready");
-    //    aaa();
-    //});
+       // $(document).ready(function () {
+        //    alert("1. jquery====》document ready");
+        //    aaa();
+        //});
 
-    //$(function () {
-    //    alert("2.jquery====》document onload");
-    //    aaa();
-    //}); 
+        //$(function () {
+        //    alert("2.jquery====》document onload");
+        //    aaa();
+        //});
 
-    
+        //function aaa() {
+        //    //alert("5.静态标签====》onload");
+        //    var printAccount = document.getElementById('Account');
+        //    alert(printAccount.innerHTML);
+        //    $("input[type=text]").each(function () {  // for all input text
+        //        var inputText = $('[name="' + this.name + '"]');
+        //        alert(inputText.val());
+        //        SetClass(inputText);
+        //    });
 
-    //function aaa() { 
-    //    //alert("5.静态标签====》onload");
-    //    var printAccount = document.getElementById('Account');
-    //    alert(printAccount.innerHTML);
-    //    $("input[type=text]").each(function () {  // for all input text
-    //        var inputText = $('[name="' + this.name + '"]');
-    //        alert(inputText.val());
-    //        SetClass(inputText);
-    //    });
+        //    $("input[type=password]").each(function () {  // for all input password
+        //        var pwd = $('[name="' + this.name + '"]');
+        //        alert(pwd.val());
+        //        SetClass(pwd);
+        //    });
 
-    //    $("input[type=password]").each(function () {  // for all input password
-    //        var pwd = $('[name="' + this.name + '"]');
-    //        alert(pwd.val());
-    //        SetClass(pwd);
-    //    });
-
-    //    $('input').keyup(function () {
-    //        SetClass($(this));
-    //    });
-    //}
-    //function SetClass(e) {
-    //    alert(e.val());
-    //    if (e.val()) {
-    //        e.addClass('used');
-    //    } else {
-    //        e.removeClass('used');
-    //    };
-    //}
-</script>*@  
+        //    $('input').keyup(function () {
+        //        SetClass($(this));
+        //    });
+        //}
+        //function SetClass(e) {
+        //    alert(e.val());
+        //    if (e.val()) {
+        //        e.addClass('used');
+        //    } else {
+        //        e.removeClass('used');
+        //    };
+        //}
+    </script>*@  

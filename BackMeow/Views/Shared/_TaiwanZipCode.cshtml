@@ -1,11 +1,19 @@
 ﻿<script src="~/Scripts/TaiwanZipCode.js"></script>
 <script type="text/javascript">
     $(function () {
+        //var options = {
+        //        CityID: '縣市下拉選單 Tag ID',
+        //        CountyID: '鄉鎮市區下拉選單 Tag ID',
+        //        SelectedCity: '已選擇縣市',
+        //        SelectedCounty: '已選擇鄉鎮市區'
+        //    };
+        var Items = $('#TESTCityDDL').val;
         var ActionUrls =
         {
-            GetCityDropDownlist: '@Url.Action("GetCityDropDownlist", "ZipCode", new { Area = "" })',
-            GetCountyDropDownlist: '@Url.Action("GetCountyDropDownlist", "ZipCode", new { Area = "" })'
+          GetCityDropDownlist: '@Url.Action("GetCityDropDownlist", "ZipCode", new { Area = "" })',
+          GetCountyDropDownlist: '@Url.Action("GetCountyDropDownlist", "ZipCode", new { Area = "" })'
         };
         TaiwanZipCode.Initialize(ActionUrls);
+        //TaiwanZipCode.options.CityID = "91";Items;
     });
 </script>

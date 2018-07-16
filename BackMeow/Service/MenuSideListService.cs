@@ -26,11 +26,10 @@ namespace BackMeow.Service
             _unitOfWork = unitOfWork;
         }
 
-
         //該名使用者可以使用的目錄
         public List<MenuTreeRootStratumViewModel> ReturnMenuSideViewModel(string guid)
         {
-            List<MenuTreeRoot> getMenuTreeRoot = _MenuTreeRoot.GetAll().Where(s=>s.TRootOrder!=0).OrderBy(s => s.TRootOrder).ToList();
+            List<MenuTreeRoot> getMenuTreeRoot = _MenuTreeRoot.GetAll().Where(s => s.TRootOrder != 0).OrderBy(s => s.TRootOrder).ToList();
             //List<MenuSideContentViewModel> getMenuSideContent = PackageMenuSideViewModel(guid).ToList();
 
             List<MenuTreeRootStratumViewModel> SideMenuViewModel = new List<MenuTreeRootStratumViewModel>();
@@ -56,16 +55,36 @@ namespace BackMeow.Service
         /// 使用者是否可訪問該頁面權限
         /// </summary>
         /// <param name="guid">The unique identifier.</param>
-        /// <param name="Controller">The controller.</param> 
+        /// <param name="Controller">The controller.</param>
         /// <returns></returns>
         public bool CheckRequestPage(string guid, string Controller) //, string ActionName
         {
             List<MenuSideContentViewModel> userMenu = PackageMenuSideViewModel(guid).ToList();
-            if (userMenu.Where(s =>s.ControllerName.Equals(Controller)).ToList().Count > 0)
+            if (userMenu.Where(s => s.ControllerName.Equals(Controller)).ToList().Count > 0)
             { //目前只有去判斷到Contrller 並未判斷到 ActionName，如果需要得開Table
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 藉由使用者ID 開通權限. 日後可更改權限群組，現階段先以全部開通為基準
+        /// </summary>
+        /// <param name="guid">The unique identifier.</param>
+        public void CreateMenuTree(string guid)
+        {
+            //List<MenuSideList> ReadySave = new List<MenuSideList>();
+            foreach (var SaveItem in _MenuTree.GetAll())
+            {
+                MenuSideList ReadySave = new MenuSideList()
+                {
+                    Id = new Guid(guid),
+                    MenuSideListID = Guid.NewGuid(),
+                    MenuID = SaveItem.MenuID
+                };
+                _MenuSideListRep.Create(ReadySave);
+            }
+            _MenuSideListRep.Commit();
         }
 
         /// <summary>
@@ -86,7 +105,8 @@ namespace BackMeow.Service
                     on menulist.MenuID equals tree.MenuID
                                                        join Roots in menuRoot
                                                    on tree.TRootID equals Roots.TRootID
-                                                       where menulist.Id == new Guid(guid)                                                        orderby Roots.TRootOrder, tree.MenuOrder
+                                                       where menulist.Id == new Guid(guid)
+                                                       orderby Roots.TRootOrder, tree.MenuOrder
                                                        select new
                                                        MenuSideContentViewModel
                                                        {

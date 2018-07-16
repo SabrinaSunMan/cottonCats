@@ -113,7 +113,8 @@ namespace StoreDB.Repositories
                          select new
                          {
                              CityCode = c.CitySort,
-                             CityName = c.City
+                             CityName = c.City //,
+                             //CityID = c.ID
                          })
                         .Distinct().OrderBy(x => x.CityCode);
 

@@ -9,7 +9,7 @@ namespace BackMeow.Models.ViewModel
     /// 包括 表頭以及 PageList
     /// </summary>
     public class SystemRolesViewModel
-    { 
+    {
         public SystemRolesListHeaderViewModel Header { get; set; }
 
         public IPagedList<SystemRolesListContentViewModel> Content_List { get; set; }
@@ -21,7 +21,7 @@ namespace BackMeow.Models.ViewModel
     /// 搜尋 [AspNetUsers] 條件式
     /// </summary>
     public class SystemRolesListHeaderViewModel
-    {  
+    {
         [DisplayName("帳號")]
         public string Email { get; set; }
 
@@ -47,7 +47,6 @@ namespace BackMeow.Models.ViewModel
         public string PhoneNumber { get; set; }
 
         public bool LockoutEnabled { get; set; }
-
     }
 
     /// <summary>
@@ -58,7 +57,7 @@ namespace BackMeow.Models.ViewModel
         [DisplayName("使用者ID")]
         public string Id { get; set; }
 
-        [Required(ErrorMessage =" {0} 為必填")]
+        [Required(ErrorMessage = " {0} 為必填")]
         [StringLength(256)]
         [EmailAddress(ErrorMessage = "非E-Mail格式")]
         public string Email { get; set; }
@@ -83,15 +82,14 @@ namespace BackMeow.Models.ViewModel
         [DisplayName("使用者名稱")]
         public string UserName { get; set; }
 
-        [DataType(DataType.PhoneNumber,ErrorMessage ="電話格式不對，請輸入數字")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "電話格式不對，請輸入數字")]
         [DisplayName("電話號碼")]
         public string PhoneNumber { get; set; }
-           
+
         [DisplayName("使用者建立時間")]
         public DateTime CreateTime { get; set; }
 
         [DisplayName("更新時間")]
         public DateTime UpdateTime { get; set; }
-         
     }
 }

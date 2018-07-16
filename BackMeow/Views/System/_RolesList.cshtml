@@ -20,6 +20,7 @@
 
     @foreach (var item in Model)
     {
+        @Html.HiddenFor(modelItem => item.Id, new { @id = item.Id })
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -38,7 +39,7 @@
                         onclick="PackageEvent('@item.Id',false);">
                     明細
                 </button>
-                <button type="button" class="btn btn-danger">刪除</button>
+                <button type="button" id="Delete" class="btn btn-danger" onclick="showconfirm('@item.Id', 'false', 'System', 'AspNetUsers');">刪除</button>
             </td>
         </tr>
     }

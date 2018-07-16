@@ -82,3 +82,6 @@ D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back09_Acti
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back10_Activity.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back11_ZipCode.resources
 D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.csprojResolveAssemblyReference.cache
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back11_MenuTreeAddStatus.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back13_AddMemberFiled.resources
+D:\Work\Case\Sabrina\cottonCats\StoreDB\obj\Debug\StoreDB.Migrations.Back14_AddAspNetUserFiled.resources

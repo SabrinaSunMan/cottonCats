@@ -265,8 +265,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="AutoMapper\AspNetUsersInitialize.cs" />
-    <Compile Include="AutoMapper\AspNetUsersProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\BasicController.cs" />
@@ -291,6 +289,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PublicModel.cs" />
     <Compile Include="Models\ViewModel\ActitiesViewModel.cs" />
+    <Compile Include="Models\ViewModel\MemberViewModel.cs" />
     <Compile Include="Models\ViewModel\StaticHtmlViewModel.cs" />
     <Compile Include="Models\ViewModel\SystemRolesViewModel.cs" />
     <Compile Include="Override\CustomSignInManager.cs" />
@@ -325,6 +324,7 @@
     <Content Include="Content\css\jquery-ui.theme.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\img\if_cat_track-24_302350.png" />
+    <Content Include="Content\img\user.png" />
     <Content Include="Content\jquery.mCustomScrollbar.css" />
     <Content Include="Content\lightboxImages\close.png" />
     <Content Include="Content\lightboxImages\loading.gif" />
@@ -551,6 +551,7 @@
     <Content Include="Views\Activity\ActivitiesMain.cshtml" />
     <Content Include="Views\Shared\_TaiwanZipCode.cshtml" />
     <Content Include="Views\Shared\_UploadFiles.cshtml" />
+    <Content Include="Views\System\Member.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

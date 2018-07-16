@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+    <title>非喵布可 😺</title>
     @Styles.Render("~/Content/css")
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="~/Content/vendor/bootstrap/css/bootstrap.min.css">
@@ -66,8 +66,9 @@
                                     <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
                                     <li>
                                         <a href="#" class="logout">
-                                        <i class="lnr lnr-exit"></i>
-                                        <span>Logout</span></a>
+                                            <i class="lnr lnr-exit"></i>
+                                            <span>Logout</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </li>*@
@@ -227,6 +228,9 @@
                                 //location.reload();
                                 $("#ReloadBlock").html(responseViewModel);
                             }
+                            //else {
+                            //    location.reload();
+                            //}
                         }
                     }
                 });
@@ -245,9 +249,11 @@
                 success:
                 function (response) {
                     //if (response.result != null) {
-                    showDialog(response.result, true, response.viewModel);
-                    //}
-                    //location.reload();
+                    if (response.result) {
+                        showDialog(response.result, true, response.viewModel);
+                    } else {
+                        location.reload();
+                    }
                 },
                 error: function () { showDialog('未知的錯誤!', false); }
             });

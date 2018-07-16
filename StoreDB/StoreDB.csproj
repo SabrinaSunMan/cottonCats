@@ -172,6 +172,18 @@
     <Compile Include="Migrations\201807071020427_Back11_ZipCode.Designer.cs">
       <DependentUpon>201807071020427_Back11_ZipCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807090319048_Back11_MenuTreeAddStatus.cs" />
+    <Compile Include="Migrations\201807090319048_Back11_MenuTreeAddStatus.Designer.cs">
+      <DependentUpon>201807090319048_Back11_MenuTreeAddStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807150433494_Back13_AddMemberFiled.cs" />
+    <Compile Include="Migrations\201807150433494_Back13_AddMemberFiled.Designer.cs">
+      <DependentUpon>201807150433494_Back13_AddMemberFiled.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807151304434_Back14_AddAspNetUserFiled.cs" />
+    <Compile Include="Migrations\201807151304434_Back14_AddAspNetUserFiled.Designer.cs">
+      <DependentUpon>201807151304434_Back14_AddAspNetUserFiled.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Activity.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -287,6 +299,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807071020427_Back11_ZipCode.resx">
       <DependentUpon>201807071020427_Back11_ZipCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807090319048_Back11_MenuTreeAddStatus.resx">
+      <DependentUpon>201807090319048_Back11_MenuTreeAddStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807150433494_Back13_AddMemberFiled.resx">
+      <DependentUpon>201807150433494_Back13_AddMemberFiled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807151304434_Back14_AddAspNetUserFiled.resx">
+      <DependentUpon>201807151304434_Back14_AddAspNetUserFiled.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -23,6 +23,7 @@ namespace BackMeow.Service
         //private readonly IRepository<NLog_Error> _NLog_ErrorRep;
         //private readonly IRepository<Addresses> _Addresses;
         private readonly AspNetUsersRepository _AspNetUsersRep;
+        private MenuSideListService _menuSideListService;
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly int pageSize = (int)BackPageListSize.commonSize;
@@ -36,6 +37,7 @@ namespace BackMeow.Service
             //_NLog_ErrorRep = new Repository<NLog_Error>(unitOfWork);
             //_Addresses = new Repository<Addresses>(unitOfWork);
             _AspNetUsersRep = new AspNetUsersRepository(unitOfWork);
+            _menuSideListService = new MenuSideListService(unitOfWork);
         }
 
         /// <summary>
@@ -63,26 +65,17 @@ namespace BackMeow.Service
         {
             IEnumerable<SystemRolesListContentViewModel> result =
                 GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
-            s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
-            && (!string.IsNullOrWhiteSpace(selectModel.Email) ?
-            s.Email.Contains(selectModel.Email) : s.Email == s.Email)).Select(List => new SystemRolesListContentViewModel()
-            {
-                Id = List.Id,
-                Email = List.Email,
-                UserName = List.UserName,
-                PhoneNumber = List.PhoneNumber,
-                LockoutEnabled = List.LockoutEnabled
-            }).OrderByDescending(s => s.UserName).ToList();
-            //IEnumerable<AspNetUsers> ListViewModel = GetAllAspNetUsers().Where(s => (!string.IsNullOrEmpty(selectModel.UserName) ?
-            //s.UserName.Contains(selectModel.UserName) : s.UserName == s.UserName)
-            //&& (!string.IsNullOrWhiteSpace(selectModel.Email) ?
-            //s.Email.Contains(selectModel.Email) : s.Email == s.Email));
-            //var config = new MapperConfiguration(cfg => cfg.CreateMap<AspNetUsers, SystemRolesListContentViewModel>());
-
-            //config.AssertConfigurationIsValid();//←證驗應對
-            //var mapper = config.CreateMapper();
-            //IEnumerable<SystemRolesListContentViewModel> result =
-            //    mapper.Map<SystemRolesListContentViewModel>(ListViewModel);
+                                    s.UserName.ToUpper().Contains(selectModel.UserName.ToUpper()) : true)
+                                        && (!string.IsNullOrWhiteSpace(selectModel.Email) ?
+                                    s.Email.ToUpper().Contains(selectModel.Email.ToUpper()) : true)
+                                        && s.Status == true).Select(List => new SystemRolesListContentViewModel()
+                                        {
+                                            Id = List.Id,
+                                            Email = List.Email,
+                                            UserName = List.UserName,
+                                            PhoneNumber = List.PhoneNumber,
+                                            LockoutEnabled = List.LockoutEnabled
+                                        }).OrderByDescending(s => s.UserName).ToList();
             return result;
         }
 
@@ -113,16 +106,6 @@ namespace BackMeow.Service
         /// <returns></returns>
         public AspNetUsers GetAspNetUserBySelectPramters()
         {
-            //AspNetUsers GetAspNetUsers = _AspNetUsersRep.GetAll().Where(s => s.UserName == (string.IsNullOrEmpty(UserName) ? s.UserName : UserName)
-            //|| s.Email == (string.IsNullOrEmpty(UserEmail) ? s.Email : UserEmail)).FirstOrDefault();
-
-            //_AspNetUsersRep.GetAll().Where(s => s.UserName.Equals(UserName) && s.Email.Equals(UserEmail)).FirstOrDefault();
-
-            //TEST
-            //AspNetUsers GetAspNetUsers = _AspNetUsersRep.GetAll().Where(s => s.UserName.Equals(UserName)
-            //|| s.Email.Equals(UserEmail)).FirstOrDefault();
-
-            //TEST01
             AspNetUsers GetAspNetUsers = _AspNetUsersRep.Query(s => s.UserName.Equals(UserName) || s.Email.Equals(UserEmail)).FirstOrDefault();
             return GetAspNetUsers;
         }
@@ -143,6 +126,34 @@ namespace BackMeow.Service
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
             AspNetUsers = mapper.Map<AspNetUsers>(viewModel);
             _AspNetUsersRep.AspNetUserUpdate(AspNetUsers, AspNetUsers.Id);
+        }
+
+        /// <summary>
+        /// 藉由使用者ID 開通權限. 日後可更改權限群組，現階段先以全部開通為基準
+        /// </summary>
+        /// <param name="guid">The unique identifier.</param>
+        public void CreateUserMenuTree(string guid)
+        {
+            _menuSideListService.CreateMenuTree(guid);
+        }
+
+        /// <summary>
+        /// Deletes the User.
+        /// </summary>
+        /// <returns></returns>
+        public string DeleteUser(string guid)
+        {
+            try
+            {
+                AspNetUsers aspUsers = _AspNetUsersRep.GetSingle(s => s.Id.Equals(guid));
+                aspUsers.Status = false;
+                _AspNetUsersRep.AspNetUserUpdate(aspUsers, guid);
+                return EnumHelper.GetEnumDescription(DataAction.DeleteScuess);
+            }
+            catch
+            {
+                return EnumHelper.GetEnumDescription(DataAction.DeleteFail);
+            }
         }
 
         public void Save()
