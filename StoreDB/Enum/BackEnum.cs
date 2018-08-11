@@ -140,6 +140,12 @@ namespace StoreDB.Enum
         AspNetUsers = 2,
 
         /// <summary>
+        /// 會員管理
+        /// </summary>
+        [Description("會員管理")]
+        Memeber = 3,
+
+        /// <summary>
         /// 靜態網頁主檔
         /// </summary>
         [Description("靜態網頁主檔")]

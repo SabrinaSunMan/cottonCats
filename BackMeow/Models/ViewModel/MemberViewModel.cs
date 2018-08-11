@@ -1,20 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PagedList;
+using StoreDB.Enum;
+using StoreDB.Model.Partials;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace BackMeow.Models.ViewModel
 {
+    /// <summary>
+    /// 活動管理 包括 表頭以及 PageList
+    /// </summary>
     public class MemberViewModel
     {
+        public MemberListHeaderViewModel Header { get; set; }
+
+        public IPagedList<MemberListContentViewModel> Content_List { get; set; }
+
+        public int page { get; set; }
+    }
+
+    /// <summary>
+    /// 搜尋 [Member] 條件式
+    /// </summary>
+    public class MemberListHeaderViewModel
+    {
         /// <summary>
-        /// 使用者序號.
+        /// 建立日期.
         /// </summary>
-        [DisplayName("使用者序號")]
-        public Guid MemberID { get; set; }
+        [DisplayName("建立日期")]
+        public string CreateTime { get; set; }
 
         /// <summary>
         /// 使用者名稱.
@@ -34,27 +48,64 @@ namespace BackMeow.Models.ViewModel
         /// </summary>
         [DisplayName("手機號碼")]
         public int PhoneNumber { get; set; }
+    }
 
-        [EmailAddress(ErrorMessage = "非E-Mail格式")]
+    /// <summary>
+    /// 呈現 [Member] 搜尋結果
+    /// </summary>
+    public class MemberListContentViewModel
+    {
+        /// <summary>
+        /// 使用者序號.
+        /// </summary>
+        [DisplayName("使用者序號")]
+        public Guid MemberID { get; set; }
+
+        /// <summary>
+        /// 使用者名稱.
+        /// </summary>
+        [DisplayName("使用者名稱")]
+        [StringLength(10)]
+        public string Name { get; set; }
+
+        private bool _sex = true;
+
+        /// <summary>
+        /// 性別.
+        /// </summary>
+        [DisplayName("性別")]
+        public string Sex
+        {
+            get { return _sex == true ? "男" : "女"; }
+            set { _sex = Convert.ToBoolean(value); }
+        }
+
+        /// <summary>
+        /// 手機號碼.
+        /// </summary>
+        [DisplayName("手機號碼")]
+        public int PhoneNumber { get; set; }
+
         [StringLength(30)]
         public string Email { get; set; }
 
         /// <summary>
-        /// 地址.
+        /// 建立日期.
         /// </summary>
-        [DisplayName("地址")]
-        public string Address { get; set; }
+        private DateTime _createTime;
 
-        /// <summary>
-        /// 郵遞區號.
-        /// </summary>
-        [DisplayName("郵遞區號")]
-        public string PostalCode { get; set; }
+        public string CreateTime
+        {
+            get { return _createTime.ToString("yyyy/MM/dd"); }
+            set { DateTime.TryParse(value, out _createTime); }
+        }
+    }
 
-        /// <summary>
-        /// 生日.
-        /// </summary>
-        [DisplayName("郵遞區號")]
-        public DateTime Birthday { get; set; }
+    /// <summary>
+    /// 呈現 [Member] 檢視頁面 時
+    /// </summary>
+    public class MemberDetailViewModel : Member
+    {
+        public Actions ActionType { get; set; }
     }
 }

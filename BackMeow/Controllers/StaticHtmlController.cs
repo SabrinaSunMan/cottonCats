@@ -1,5 +1,6 @@
 ﻿using BackMeow.Models.ViewModel;
 using BackMeow.Service;
+using Microsoft.AspNet.Identity;
 using StoreDB.Enum;
 using StoreDB.Repositories;
 using StoreDB.Service;
@@ -41,7 +42,7 @@ namespace BackMeow.Controllers
             }
         }
 
-        #region 靜態網站管理 - 關於
+        #region List - 靜態網站管理 - 關於
 
         [HttpGet]
         public ActionResult About(StaticHtmlViewModel ViewModel, int page = 1)
@@ -62,9 +63,9 @@ namespace BackMeow.Controllers
             else return View(ViewModel);
         }
 
-        #endregion 靜態網站管理 - 關於
+        #endregion List - 靜態網站管理 - 關於
 
-        #region 靜態網站管理 - 空間介紹
+        #region List - 靜態網站管理 - 空間介紹
 
         [HttpGet]
         public ActionResult Space(StaticHtmlViewModel ViewModel, int page = 1)
@@ -85,36 +86,29 @@ namespace BackMeow.Controllers
             else return View(ViewModel);
         }
 
-        #endregion 靜態網站管理 - 空間介紹
+        #endregion List - 靜態網站管理 - 空間介紹
 
-        #region 靜態網站管理 - 線上認養合約書
+        #region Main - 靜態網站管理 - 線上認養合約書
 
         [HttpGet]
         public ActionResult Contract(int page = 1)
         {
-            //StaticHtmlViewModel ResultViewModel = HttpGetStaticHtmlViewModel((StaticHtmlViewModel)TempData["StaticHtmlSelect"], StaticHtmlAction.Contract, page);
             return RedirectToAction("StaticHtmlMain", "StaticHtml",
-                        new
-                        {
-                            ActionType = Actions.Update,
-                            guid = "EB26765E-F4C2-42EF-84E5-72925ADDA4D1",
-                            selectType = StaticHtmlAction.Contract
-                        });
-
-            //Actions ActionType, string guid, string select_CreateTime, string select_HtmlContext, string select_sort,
-            //string selectType, int pages = 1
-            //return View(ResultViewModel);
+                       new
+                       {
+                           ActionType = Actions.Update,
+                           guid = "EB26765E-F4C2-42EF-84E5-72925ADDA4D1",
+                           selectType = StaticHtmlAction.Contract
+                       });
         }
 
-        #endregion 靜態網站管理 - 線上認養合約書
+        #endregion Main - 靜態網站管理 - 線上認養合約書
 
-        #region 靜態網站管理 - 義工招募
+        #region Main - 靜態網站管理 - 義工招募
 
         [HttpGet]
         public ActionResult Joinus(StaticHtmlViewModel ViewModel, int page = 1)
         {
-            //StaticHtmlViewModel ResultViewModel = HttpGetStaticHtmlViewModel((StaticHtmlViewModel)TempData["StaticHtmlSelect"], StaticHtmlAction.Joinus, page);
-            //return View(ResultViewModel);
             return RedirectToAction("StaticHtmlMain", "StaticHtml",
                         new
                         {
@@ -124,7 +118,7 @@ namespace BackMeow.Controllers
                         });
         }
 
-        #endregion 靜態網站管理 - 義工招募
+        #endregion Main - 靜態網站管理 - 義工招募
 
         /// <summary>
         /// 靜態網頁管理 取得 ViewModel
@@ -147,8 +141,19 @@ namespace BackMeow.Controllers
             return ResultViewModel;
         }
 
-        #region 藉由ID取得靜態網頁管理明細
+        #region Main - 明細內容動作
 
+        /// <summary>
+        /// 藉由ID取得靜態網頁管理明細.
+        /// </summary>
+        /// <param name="ActionType">Type of the action.</param>
+        /// <param name="guid">The unique identifier.</param>
+        /// <param name="select_CreateTime">The select create time.</param>
+        /// <param name="select_HtmlContext">The select HTML context.</param>
+        /// <param name="select_sort">The select sort.</param>
+        /// <param name="selectType">Type of the select.</param>
+        /// <param name="pages">The pages.</param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult StaticHtmlMain(Actions ActionType, string guid, string select_CreateTime, string select_HtmlContext, string select_sort,
             string selectType, int pages = 1)
@@ -162,6 +167,14 @@ namespace BackMeow.Controllers
             return View(data);
         }
 
+        /// <summary>
+        /// Packages the temporary data.
+        /// </summary>
+        /// <param name="select_CreateTime">The select create time.</param>
+        /// <param name="select_HtmlContext">The select HTML context.</param>
+        /// <param name="select_sort">The select sort.</param>
+        /// <param name="selectType">Type of the select.</param>
+        /// <param name="pages">The pages.</param>
         private void PackageTempData(string select_CreateTime, string select_HtmlContext, string select_sort,
             StaticHtmlAction selectType, int pages = 1)
         {
@@ -179,10 +192,13 @@ namespace BackMeow.Controllers
             };
         }
 
-        #endregion 藉由ID取得靜態網頁管理明細
-
-        #region 靜態網頁管理 存檔
-
+        /// <summary>
+        /// 靜態網頁管理 存檔
+        /// </summary>
+        /// <param name="actions">The actions.</param>
+        /// <param name="satichtmlViewModel">The satichtml view model.</param>
+        /// <param name="upload">The upload.</param>
+        /// <returns></returns>
         [HttpPost]
         //[ValidateFile] //上傳照片 日後將此功能抽出 ,日後改使用 MVC File upload unobtrusive validation
         public ActionResult StaticHtmlMain(Actions actions, StaticHtmlDetailViewModel satichtmlViewModel,
@@ -266,7 +282,7 @@ namespace BackMeow.Controllers
             return TmpResult;
         }
 
-        #endregion 靜態網頁管理 存檔
+        #endregion Main - 明細內容動作
 
         #region 回傳 刪除後Context 日後可抽出
 
@@ -316,5 +332,27 @@ namespace BackMeow.Controllers
         }
 
         #endregion 回傳 刪除後Context 日後可抽出
+
+        /// <summary>
+        /// 客制化錯誤訊息
+        /// </summary>
+        /// <param name="ErrorMsg">The error MSG.</param>
+        private void CustomerIdentityError(string Msg)
+        {
+            //string Result = !string.IsNullOrEmpty(Msg.StrMsg) ? Msg.StrMsg : Msg.enumMsg.ToString();
+            AddErrors(IdentityResult.Failed(Msg));
+        }
+
+        /// <summary>
+        /// Identity 回的結果
+        /// </summary>
+        /// <param name="result">The result.</param>
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
     }
 }

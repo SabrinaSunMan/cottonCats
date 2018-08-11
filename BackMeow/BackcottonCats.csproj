@@ -296,6 +296,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ActivitiesService.cs" />
     <Compile Include="Service\AspNetUsersService.cs" />
+    <Compile Include="Service\MemberService.cs" />
     <Compile Include="Service\MenuSideListService.cs" />
     <Compile Include="Service\StaticHtmlService.cs" />
     <Compile Include="Startup.cs" />
@@ -552,6 +553,7 @@
     <Content Include="Views\Shared\_TaiwanZipCode.cshtml" />
     <Content Include="Views\Shared\_UploadFiles.cshtml" />
     <Content Include="Views\System\Member.cshtml" />
+    <Content Include="Views\System\_MemberList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

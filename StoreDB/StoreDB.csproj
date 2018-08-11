@@ -184,6 +184,10 @@
     <Compile Include="Migrations\201807151304434_Back14_AddAspNetUserFiled.Designer.cs">
       <DependentUpon>201807151304434_Back14_AddAspNetUserFiled.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807210828530_Back15_ModifyMember.cs" />
+    <Compile Include="Migrations\201807210828530_Back15_ModifyMember.Designer.cs">
+      <DependentUpon>201807210828530_Back15_ModifyMember.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Activity.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -215,6 +219,7 @@
     <Compile Include="Interface\IAspNetUsers.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
+    <Compile Include="Repositories\MemeberRepository.cs" />
     <Compile Include="Repositories\PictureInfoRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\StaticHtmlRepository.cs" />
@@ -308,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807151304434_Back14_AddAspNetUserFiled.resx">
       <DependentUpon>201807151304434_Back14_AddAspNetUserFiled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807210828530_Back15_ModifyMember.resx">
+      <DependentUpon>201807210828530_Back15_ModifyMember.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

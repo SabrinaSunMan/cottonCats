@@ -6,7 +6,7 @@ using StoreDB.Model.ViewModel.BackcottonCats;
 namespace BackMeow.App_Start
 {
     public static class AutoMapperConfig
-    {
+    {   // 其目的為了將資料與ViewModel快速Mapping資料，使用ViewModel的原因是不希望有過多的資料暴露在網站上
         //public static void Configure()
         //{
         //    //Mapper.Initialize();
@@ -22,14 +22,18 @@ namespace BackMeow.App_Start
             {
                 // [功能名稱].List/Main.Get/Post. DBModel TO ViewModel (縮寫 D To V 或是 V To D即可)
                 cfg.AddProfile<BackEntityProfile>();
-                cfg.AddProfile<AspNetUsersViewModelProfile>();
-                cfg.AddProfile<AspNetUsersProfile>();
 
-                cfg.AddProfile<StaticHtmlProfile>(); //[靜態網站管理].List.Get.D To V
-                cfg.AddProfile<StaticHtmlViewModelProfile>(); //[靜態網站管理].Main.Post.V To D
+                cfg.AddProfile<AspNetUsersViewModelProfile>();  //[後台管理者管理].List.Get.D To V
+                cfg.AddProfile<AspNetUsersProfile>();           //[後台管理者管理].Main.Post.V To D
 
-                cfg.AddProfile<ActitiesProfile>(); //[活動紀錄管理].List.Get.D To V
-                cfg.AddProfile<ActitiesViewModelProfile>(); //[活動紀錄管理].Main.Post.V To D
+                cfg.AddProfile<StaticHtmlProfile>();            //[靜態網站管理].List.Get.D To V
+                cfg.AddProfile<StaticHtmlViewModelProfile>();   //[靜態網站管理].Main.Post.V To D
+
+                cfg.AddProfile<ActitiesProfile>();              //[活動紀錄管理].List.Get.D To V
+                cfg.AddProfile<ActitiesViewModelProfile>();     //[活動紀錄管理].Main.Post.V To D
+
+                cfg.AddProfile<MemberProfile>();                //[會員管理].List.Get.D To V
+                cfg.AddProfile<MemberViewModelProfile>();       //[會員管理].Main.Post.V To D
                 /*etc...*/
             });
             config.AssertConfigurationIsValid();//←證驗應對
@@ -76,7 +80,8 @@ namespace BackMeow.App_Start
                 //.ForMember(dest => dest.ConfirmPassword, opt => opt.Ignore())
                 .ForMember(dest => dest.ConfirmPassword, opt => opt.MapFrom(src => src.PasswordHash))
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
-                .ForMember(dest => dest.Old_Password, opt => opt.Ignore());
+                .ForMember(dest => dest.Old_Password, opt => opt.Ignore())
+                ;
         }
     }
 
@@ -95,6 +100,7 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.AspNetUserClaims, opt => opt.Ignore())
                 .ForMember(dest => dest.AspNetUserLogins, opt => opt.Ignore())
                 .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
+                .ForMember(dest => dest.CreateUser, opt => opt.Ignore())
 
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.EmailConfirmed, opt => opt.Ignore())
@@ -109,10 +115,17 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.SecurityStamp, opt => opt.Ignore())
 
                 .ForMember(dest => dest.TwoFactorEnabled, opt => opt.Ignore())
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.sort, opt => opt.Ignore())
+
                 .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName));
+                .ForMember(dest => dest.UpdateUser, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                ;
         }
     }
+
+    #region [靜態網站管理]
 
     /// <summary>
     /// [靜態網站管理].List.Get.D To V
@@ -174,6 +187,10 @@ namespace BackMeow.App_Start
         }
     }
 
+    #endregion [靜態網站管理]
+
+    #region 活動紀錄管理
+
     /// <summary>
     /// [活動紀錄管理].List.Get.D To V
     /// </summary>
@@ -234,4 +251,77 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser));
         }
     }
+
+    #endregion 活動紀錄管理
+
+    #region 會員管理
+
+    /// <summary>
+    /// [會員管理].List.Get.D To V
+    /// </summary>
+    /// <seealso cref="AutoMapper.Profile" />
+    public class MemberProfile : Profile
+    {
+        public override string ProfileName => base.ProfileName;
+
+        //這邊負責確認是否兩個欄位有不同名稱
+        public MemberProfile()
+        {
+            CreateMap<Member, MemberDetailViewModel>()
+
+                .ForMember(dest => dest.MemberID, opt => opt.MapFrom(src => src.MemberID))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.Sex, opt => opt.MapFrom(src => src.Sex))
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
+
+                .ForMember(dest => dest.Birthday, opt => opt.MapFrom(src => src.Birthday))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
+                .ForMember(dest => dest.County, opt => opt.MapFrom(src => src.County))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+
+                .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
+                .ForMember(dest => dest.CreateUser, opt => opt.MapFrom(src => src.CreateUser))
+                .ForMember(dest => dest.sort, opt => opt.MapFrom(src => src.sort))
+                .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
+                .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser))
+                .ForMember(dest => dest.ActionType, opt => opt.Ignore());
+        }
+    }
+
+    /// <summary>
+    /// [會員管理].Main.Post.V To D
+    /// </summary>
+    /// <seealso cref="AutoMapper.Profile" />
+    public class MemberViewModelProfile : Profile
+    {
+        public override string ProfileName => base.ProfileName;
+
+        //這邊負責確認是否兩個欄位有不同名稱
+        public MemberViewModelProfile()
+        {
+            CreateMap<MemberDetailViewModel, Member>()
+
+               .ForMember(dest => dest.MemberID, opt => opt.MapFrom(src => src.MemberID))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.Sex, opt => opt.MapFrom(src => src.Sex))
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
+
+                .ForMember(dest => dest.Birthday, opt => opt.MapFrom(src => src.Birthday))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
+                .ForMember(dest => dest.County, opt => opt.MapFrom(src => src.County))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+
+                .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.CreateTime))
+                .ForMember(dest => dest.CreateUser, opt => opt.MapFrom(src => src.CreateUser))
+                .ForMember(dest => dest.sort, opt => opt.MapFrom(src => src.sort))
+                .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
+                .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser));
+        }
+    }
+
+    #endregion 會員管理
 }

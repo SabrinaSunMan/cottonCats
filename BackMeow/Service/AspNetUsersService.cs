@@ -6,11 +6,7 @@ using StoreDB.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using StoreDB.Interface;
-using System;
-using AutoMapper;
 using BackMeow.App_Start;
-using BackMeow.Models;
-using StoreDB.Model;
 
 namespace BackMeow.Service
 {
@@ -23,6 +19,7 @@ namespace BackMeow.Service
         //private readonly IRepository<NLog_Error> _NLog_ErrorRep;
         //private readonly IRepository<Addresses> _Addresses;
         private readonly AspNetUsersRepository _AspNetUsersRep;
+
         private MenuSideListService _menuSideListService;
 
         private readonly IUnitOfWork _unitOfWork;

@@ -26,6 +26,12 @@ namespace StoreDB.Model.Partials
         public string Name { get; set; }
 
         /// <summary>
+        /// 密碼雜湊.
+        /// </summary>
+        [DisplayName("密碼雜湊")]
+        public string PasswordHash { get; set; }
+
+        /// <summary>
         /// 性別.
         /// </summary>
         [DisplayName("性別")]
@@ -47,11 +53,17 @@ namespace StoreDB.Model.Partials
         [DisplayName("地址")]
         public string Address { get; set; }
 
+        private DateTime _birthday;
+
         /// <summary>
         /// 生日.
         /// </summary>
-        [DisplayName("郵遞區號")]
-        public DateTime Birthday { get; set; }
+        [DisplayName("生日")]
+        public string Birthday
+        {
+            get { return _birthday.ToString("yyyy/MM/dd"); }
+            set { DateTime.TryParse(value, out _birthday); }
+        }
 
         /// <summary>
         /// 城市名稱. From ZipCode.

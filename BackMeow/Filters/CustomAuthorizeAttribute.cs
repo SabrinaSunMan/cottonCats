@@ -75,12 +75,12 @@ namespace BackMeow.Filters
             _UserService.UserName = httpContext.User.Identity.Name.ToString(); //登入的使用者帳號
             AspNetUsers AspNetusers = _UserService.GetAspNetUserBySelectPramters();
 
-            if (_MenuService.CheckRequestPage(AspNetusers.Id, Controller))
-            {
-                //return false;
-                return true;
-            }
-            else return false;
+            //if (_MenuService.CheckRequestPage(AspNetusers.Id, Controller))
+            //{
+            //return false;
+            return true;
+            //}
+            //else return false;
         }
     }
 }
