@@ -1,30 +1,56 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-} 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+}
+
+<input type="file" name="file01" id="file01" value="file01" />
+<input type="button" id="test" value="ClickMe" />
+<div id="Hi">
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#test").click(function () {
+
+            @*$.get('@Url.Action("WelcomeMsg","[controller]")', { input: name }, function (data) {*@
+            @*$.post('@Url.Action("TestAlert", "Home")', function (data) {
+                alert(data);
+                $("#Hi").html(data);
+            });*@
+
+            //取得檔案
+            //var fileInput = document.getElementById('file01');
+            //var file = fileInput.files[0];
+            //var formData = new FormData();
+            //formData.append('file', file);
+
+            var files = document.getElementById('file01').files;
+            if (files.length > 0) {
+                    if (window.FormData !== undefined) {
+                        var data = new FormData();
+
+                        //可上傳多檔案
+                        for (var x = 0; x < files.length; x++) {
+                            data.append(files[x].name, files[x]);
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("UploadFile", "Home")',
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            success: function (result) {
+                                console.log(result);
+                            },
+                            error: function (xhr, status) {
+                                console.log("上傳失敗");
+                            }
+                        });
+                    } else {
+                        alert("此瀏覽器不支援HTML5檔案上傳");
+                    }
+                }
+        });
+    });
+</script>

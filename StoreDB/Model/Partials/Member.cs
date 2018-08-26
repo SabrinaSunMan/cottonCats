@@ -76,5 +76,17 @@ namespace StoreDB.Model.Partials
         /// </summary>
         [DisplayName("鄉鎮區域")]
         public string County { get; set; }
+
+        /// <summary>
+        /// 是否填寫合約書.
+        /// </summary>
+        [DisplayName("是否填寫合約書")]
+        public bool ContractCheck { get; set; }
+
+        /// <summary>
+        /// Email 驗證.
+        /// </summary>
+        [DisplayName("Email 驗證")]
+        public bool EmailCheck { get; set; }
     }
 }

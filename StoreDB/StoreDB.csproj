@@ -188,6 +188,10 @@
     <Compile Include="Migrations\201807210828530_Back15_ModifyMember.Designer.cs">
       <DependentUpon>201807210828530_Back15_ModifyMember.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808260731115_Back16_AddMemberContractCheck.cs" />
+    <Compile Include="Migrations\201808260731115_Back16_AddMemberContractCheck.Designer.cs">
+      <DependentUpon>201808260731115_Back16_AddMemberContractCheck.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Partials\Activity.cs" />
     <Compile Include="Model\Partials\Addresses.cs" />
@@ -316,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807210828530_Back15_ModifyMember.resx">
       <DependentUpon>201807210828530_Back15_ModifyMember.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808260731115_Back16_AddMemberContractCheck.resx">
+      <DependentUpon>201808260731115_Back16_AddMemberContractCheck.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

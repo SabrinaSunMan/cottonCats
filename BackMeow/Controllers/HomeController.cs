@@ -25,6 +25,7 @@ namespace BackMeow.Controllers
             _menuSide = new MenuSideListService(unitOfWork);
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
             //FormsIdentity id = (FormsIdentity)User.Identity;
@@ -44,6 +45,33 @@ namespace BackMeow.Controllers
             //throw new Exception("Error!Test");
             //throw new HttpException(404, "页面未找到");
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult TestAlert()
+        {
+            return PartialView("_Hello");
+        }
+
+        [HttpPost]
+        public ActionResult UploadFile()
+        {
+            foreach (string file in Request.Files)
+            {
+                var fileContent = Request.Files[file];
+                if (fileContent != null && fileContent.ContentLength > 0)
+                {
+                    // 取得的檔案是stream
+                    var stream = fileContent.InputStream;
+                    //var fileName = Path.GetFileName(file);
+                    //var path = Path.Combine(Server.MapPath("~/Files/"), fileName);
+                    //using (var fileStream = System.IO.File.Create(path))
+                    //{
+                    //    stream.CopyTo(fileStream);
+                    //}
+                }
+            }
+            return Json("Scuess!");
         }
 
         /// <summary>
