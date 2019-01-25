@@ -1,0 +1,17 @@
+﻿@model DateTime?
+@{//實務研究 : 如何使用Model
+
+    //var value = Model?.ToString("yyyy-MM-dd HH:mm") ?? ""; 與以下是一樣的動作
+
+    var value = Model.HasValue
+    ? Model.Value.ToString("yyyy-MM-dd HH:mm")
+    : "";
+}
+@Html.TextBox("", value, new
+{ /*"" 當ID等於空白時，Binding的ID會自己塞進來，所以這裡別輸入值..*/
+    //不想寫空白的話
+    // Value =  ViewData.TemplateInfo.FormattedModelValue
+    @class = "form-control .datetimepicker",
+    data_datetimepicker = "y",
+    data_date_format = "YYYY-MM-dd HH:mm"
+})

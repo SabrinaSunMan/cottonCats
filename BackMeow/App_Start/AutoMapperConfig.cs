@@ -276,8 +276,7 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
 
                 .ForMember(dest => dest.Birthday, opt => opt.MapFrom(src => src.Birthday))
-                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
-                .ForMember(dest => dest.County, opt => opt.MapFrom(src => src.County))
+                .ForMember(dest => dest.ZipCodeID, opt => opt.MapFrom(src => src.ZipCodeID))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
 
@@ -286,7 +285,13 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.sort, opt => opt.MapFrom(src => src.sort))
                 .ForMember(dest => dest.UpdateTime, opt => opt.MapFrom(src => src.UpdateTime))
                 .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.UpdateUser))
-                .ForMember(dest => dest.ActionType, opt => opt.Ignore());
+                .ForMember(dest => dest.ConfirmPassword, opt => opt.Ignore())
+
+                .ForMember(dest => dest.Password, opt => opt.Ignore())
+                .ForMember(dest => dest.ActionType, opt => opt.Ignore())
+                .ForMember(dest => dest.ChooseCity, opt => opt.Ignore())
+                .ForMember(dest => dest.ChoosePostalCode, opt => opt.Ignore())
+                ;
         }
     }
 
@@ -310,8 +315,7 @@ namespace BackMeow.App_Start
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
 
                 .ForMember(dest => dest.Birthday, opt => opt.MapFrom(src => src.Birthday))
-                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
-                .ForMember(dest => dest.County, opt => opt.MapFrom(src => src.County))
+                .ForMember(dest => dest.ZipCodeID, opt => opt.MapFrom(src => src.ZipCodeID))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
 

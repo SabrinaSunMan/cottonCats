@@ -1,7 +1,6 @@
 ﻿using BackMeow.Filters;
 using BackMeow.Service;
 using Microsoft.AspNet.Identity;
-using StoreDB.Enum;
 using StoreDB.Model.ViewModel.BackcottonCats;
 using StoreDB.Repositories;
 using System.Collections.Generic;

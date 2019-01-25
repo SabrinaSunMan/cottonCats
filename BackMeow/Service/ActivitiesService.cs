@@ -2,6 +2,7 @@
 using BackMeow.Models.ViewModel;
 using PagedList;
 using StoreDB.Enum;
+using StoreDB.Helper;
 using StoreDB.Interface;
 using StoreDB.Model.Partials;
 using StoreDB.Model.ViewModel.BackcottonCats;
@@ -91,7 +92,7 @@ namespace BackMeow.Service
             //return result;
         }
 
-        public ActitiesDetailViewModel ReturnActitiesDetailViewModel(Actions ActionType, string guid)
+        public ActitiesDetailViewModel ReturnActitiesDetailViewModel(DataAction ActionType, string guid)
         {
             ActitiesDetailViewModel DetailViewModel = new ActitiesDetailViewModel();
             ActitiesDBViewModel StaticHtmlDBViewModel = _ActityRep.GetSingle(guid);

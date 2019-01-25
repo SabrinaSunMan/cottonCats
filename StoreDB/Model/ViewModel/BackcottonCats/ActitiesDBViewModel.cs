@@ -16,7 +16,7 @@ namespace StoreDB.Model.ViewModel.BackcottonCats
         /// 活動紀錄管理ID.
         /// </summary>
         [DisplayName("活動紀錄管理ID")]
-        public string ActivityID { get; set; }
+        public Guid ActivityID { get; set; }
 
         /// <summary>
         /// 開始日期.

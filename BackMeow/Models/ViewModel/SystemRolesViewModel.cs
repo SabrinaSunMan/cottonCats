@@ -27,6 +27,8 @@ namespace BackMeow.Models.ViewModel
 
         [DisplayName("使用者名稱")]
         public string UserName { get; set; }
+
+        //public int page { get; set; }
     }
 
     /// <summary>
@@ -54,6 +56,8 @@ namespace BackMeow.Models.ViewModel
     /// </summary>
     public class AspNetUsersDetailViewModel
     {
+        //public SystemRolesListHeaderViewModel QueryValue { get; set; }
+
         [DisplayName("使用者ID")]
         public string Id { get; set; }
 
@@ -86,10 +90,22 @@ namespace BackMeow.Models.ViewModel
         [DisplayName("電話號碼")]
         public string PhoneNumber { get; set; }
 
+        private DateTime _createtime;
+
         [DisplayName("使用者建立時間")]
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime
+        {
+            get { return _createtime.Year == 1 ? DateTime.Now : _createtime; }
+            set { _createtime = value; }
+        }
+
+        private DateTime _updatetime;
 
         [DisplayName("更新時間")]
-        public DateTime UpdateTime { get; set; }
+        public DateTime UpdateTime
+        {
+            get { return _updatetime.Year == 1 ? DateTime.Now : _updatetime; }
+            set { _updatetime = value; }
+        }
     }
 }

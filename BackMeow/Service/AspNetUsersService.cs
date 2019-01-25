@@ -1,12 +1,13 @@
-﻿using BackMeow.Models.ViewModel;
+﻿using BackMeow.App_Start;
+using BackMeow.Models.ViewModel;
 using PagedList;
+using StoreDB.Interface;
 using StoreDB.Model.Partials;
-using StoreDB.Enum;
 using StoreDB.Repositories;
+using StoreDB.Enum;
 using System.Collections.Generic;
 using System.Linq;
-using StoreDB.Interface;
-using BackMeow.App_Start;
+using StoreDB.Helper;
 
 namespace BackMeow.Service
 {
@@ -47,6 +48,7 @@ namespace BackMeow.Service
         {
             SystemRolesViewModel returnSystemRolesListViewModel = new SystemRolesViewModel();
             returnSystemRolesListViewModel.Header = selectModel; /*表頭*/
+            returnSystemRolesListViewModel.page = nowpage;
             IEnumerable<SystemRolesListContentViewModel> GetAllSystemRolesListViewModelResult = GetAllSystemRolesListViewModel(selectModel);
             int currentPage = (nowpage < 1) && GetAllSystemRolesListViewModelResult.Count() >= 1 ? 1 : nowpage;
             returnSystemRolesListViewModel.Content_List = GetAllSystemRolesListViewModelResult.ToPagedList(currentPage, pageSize);/*內容*/
@@ -76,7 +78,7 @@ namespace BackMeow.Service
             return result;
         }
 
-        public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(Actions ActionType, string guid)
+        public AspNetUsersDetailViewModel ReturnAspNetUsersDetail(DataAction ActionType, string guid)
         {
             AspNetUsersDetailViewModel DetailViewModel = new AspNetUsersDetailViewModel();
             AspNetUsers AspNetUsersViewModel = GetAspNetUsersById(guid);
@@ -117,12 +119,12 @@ namespace BackMeow.Service
             return _AspNetUsersRep.GetSingle(s => s.Id == guid);
         }
 
-        public void AspNetUsersDetailViewModelUpdate(AspNetUsersDetailViewModel viewModel)
+        public void AspNetUsersDetailViewModelUpdate(AspNetUsersDetailViewModel viewModel, string CreateUser)
         {
             AspNetUsers AspNetUsers = new AspNetUsers();
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
             AspNetUsers = mapper.Map<AspNetUsers>(viewModel);
-            _AspNetUsersRep.AspNetUserUpdate(AspNetUsers, AspNetUsers.Id);
+            _AspNetUsersRep.AspNetUserUpdate(AspNetUsers, CreateUser);
         }
 
         /// <summary>
@@ -138,13 +140,13 @@ namespace BackMeow.Service
         /// Deletes the User.
         /// </summary>
         /// <returns></returns>
-        public string DeleteUser(string guid)
+        public string DeleteUser(string guid, string UpdateUser)
         {
             try
             {
                 AspNetUsers aspUsers = _AspNetUsersRep.GetSingle(s => s.Id.Equals(guid));
                 aspUsers.Status = false;
-                _AspNetUsersRep.AspNetUserUpdate(aspUsers, guid);
+                _AspNetUsersRep.AspNetUserUpdate(aspUsers, UpdateUser);
                 return EnumHelper.GetEnumDescription(DataAction.DeleteScuess);
             }
             catch

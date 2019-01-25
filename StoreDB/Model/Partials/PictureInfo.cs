@@ -32,6 +32,7 @@ namespace StoreDB.Model.Partials
         /// <summary>
         /// 圖片副檔名.
         /// </summary>
+        [StringLength(5)]
         public string FileExtension { get; set; }
 
         /// <summary>

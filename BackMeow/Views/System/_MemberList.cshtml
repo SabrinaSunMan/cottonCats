@@ -4,44 +4,31 @@
 <table class="table table-bordered table-striped table-hover">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Sex)
-            )
+            @Html.DisplayNameFor(model => model.FirstOrDefault().District)
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        @Html.HiddenFor(modelItem => item.MemberID, new { @id = item.MemberID})
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sex)
-        </td>
-        <td style="width:18%">
-            <button type="button" name="Detail" class="btn btn-primary btn-toastr"
-                    onclick="PackageEvent('@item.MemberID',false);">
-                明細
-            </button>
-            <button type="button" id="Delete" class="btn btn-danger" onclick="showconfirm('@item.MemberID.ToString()', 'false', 'System', 'Memeber');">刪除</button>
-        </td>
-    </tr>
+        @Html.HiddenFor(modelItem => item.MemberID, new { @id = item.MemberID })
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District)
+            </td>
+            <td style="width:18%">
+                <button type="button" name="Detail" class="btn btn-primary btn-toastr"
+                        onclick="PackageEvent('@item.MemberID',false);">
+                    明細
+                </button>
+                <button type="button" id="Delete" class="btn btn-danger" onclick="showconfirm('@item.MemberID.ToString()', 'false', 'System', 'Memeber');">刪除</button>
+            </td>
+        </tr>
     }
 </table>

@@ -46,9 +46,7 @@ namespace StoreDB.Repositories
                     sort = nowsort,
                     Status = true,
                     PictureUrl = FileUrl + groupID.ToString().ToUpper() + "/",
-                    UpdateUser = AspNetusers.Id,
-                    CreateTime = DateTime.Now,
-                    UpdateTime = DateTime.Now
+                    UpdateUser = AspNetusers.Id
                 };
                 nowsort++;
                 _PictureInfo.Create(saveData);
@@ -67,7 +65,6 @@ namespace StoreDB.Repositories
             PictureInfo ReadyUpdate = _PictureInfo.GetSingle(s => s.PicID.Equals(newa));
             ReadyUpdate.Status = false;
             ReadyUpdate.UpdateUser = AspNetusers.Id;
-            ReadyUpdate.UpdateTime = DateTime.Now;
             Update(ReadyUpdate, newa);
         }
     }

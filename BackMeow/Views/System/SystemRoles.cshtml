@@ -3,6 +3,8 @@
 @model BackMeow.Models.ViewModel.SystemRolesViewModel
 
 @{
+    /**/
+
     ViewBag.Title = "SystemRoles";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -21,7 +23,7 @@
                     </button>
                     @*<div class="right">
                             <button type="button" onclick="location.href='location.href='@Url.Action("SystemRolesMain", "System",
-                                           new { ActionType = Actions.Create })'">
+                                           new { ActionType = DataAction.Create })'">
                                 <i class="fa fa-plus-square"></i>新增
                             </button>
                         </div>*@
@@ -40,13 +42,12 @@
                         </div>
                     </div>
                     <div class="panel-body">
-
                     </div>
                 </div>
                 <div class="panel-body">
                     <button type="button" id="Create" class="btn btn-default pull-right">
                         @*onclick="location.href='@Url.Action("SystemRolesMain", "System",
-                            new { ActionType = Actions.Create })'"*@
+                            new { ActionType = DataAction.Create })'"*@
                         <i class="fa fa-plus-square"></i> 新增
                     </button>
                     <button type="submit" class="btn btn-default pull-right">
@@ -68,14 +69,14 @@
         @Html.PagedListPager(Model.Content_List, page => Url.Action("SystemRoles", new { ViewModel = @Model,page }),
             PagedListRenderOptions.ClassicPlusFirstAndLast)
     </div>
-</div> 
+</div>
 
 @section Scripts {
     <script>
-        $(document).ready(function () { 
+        $(document).ready(function () {
             var Message = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)@TempData["message"]))';
             if (Message != '') {
-                showDialog(Message, false); 
+                showDialog(Message, false);
              }
 
             $("#Create").click(function () {
@@ -92,15 +93,16 @@
             var select_name = $("#select_UserName").val();
 
             var url = '@Url.Action("SystemRolesMain", "System")'+'?guid=' + uid +
-                '&selectEmail=' + select_email + '&selectUserName=' + select_name + '&pages=' + @Model.page+ '&ActionType=';
+                '&selectEmail=' + select_email +
+                '&selectUserName=' + select_name +
+                '&pages=' + @Model.page+ '&ActionType=';
             if (!createOrUpdat) // True = Create; False = Update
             {
                 dataType = '@DataAction.Update';
             }
             url += dataType;
-            
+
             window.location.href = url;
         }
-
     </script>
 }

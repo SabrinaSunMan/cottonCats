@@ -1,0 +1,280 @@
+﻿@using StoreDB.Enum;
+@using StoreDB.Helper;
+@model BackMeow.Models.ViewModel.MemberDetailViewModel
+@{
+    ViewBag.Title = "MemberMain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("MemberMain", "System", FormMethod.Post,
+    new { @class = "form-horizontal", role = "form", id = "MemberMainForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- PANEL DEFAULT -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">會員管理 </h3>
+                </div>
+                @*</div>*@
+            </div>
+            <!-- END PANEL DEFAULT -->
+        </div>
+    </div>
+
+    <input type="hidden" name="actions" value="@TempData["Actions"]" />
+    @Html.HiddenFor(s => s.MemberID)
+    <div class="panel-body">
+        @Html.NoteSite()
+    </div>
+    <div class="panel-body">
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+    </div>
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(model => model.Name).ToString())
+        <div class="col-md-3">
+            <input class="form-control" name="Name" placeholder="請輸入 @Html.DisplayNameFor(model => model.Name)"
+                   type="text" value="@Model.Name" />
+            @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    if (Model.MemberID != Guid.Empty)
+    {
+        <div class="panel-body">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-3">
+                <input type="button" value="重設密碼" id="btn_ResetPwd" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel-body">
+            @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Password).ToString())
+            <div class="col-md-3">
+                <input id="Passwords" class="form-control" name="Password" placeholder="請輸入 @Html.DisplayNameFor(model => model.Password)"
+                       type="password" value="@Model.Password" />
+                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="panel-body">
+            @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.ConfirmPassword).ToString())
+            <div class="col-md-3">
+                <input id="ConfirmPassword" class="form-control" name="ConfirmPassword" placeholder="請輸入 @Html.DisplayNameFor(model => model.ConfirmPassword)"
+                       type="password" value="@Model.ConfirmPassword" />
+                @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Sex).ToString())
+        <div class="col-md-3">
+            @Html.RadioButtonFor(p => p.Sex, "true", Model.Sex == true ? new { @checked = "checked" } : null)男
+            @Html.RadioButtonFor(p => p.Sex, "false", Model.Sex == false ? new { @checked = "checked" } : null)女
+        </div>
+    </div>
+
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.PhoneNumber).ToString())
+        <div class="col-md-3">
+            @*@Html.TextBoxFor(model => model.PhoneNumber, htmlAttributes : new { @class= "form-control", @type = "number", placeholder = "請輸入"+@Html.DisplayNameFor(model => model.PhoneNumber) })*@
+            @*@Html.FormatIntTextBox("PhoneNumber",
+                @Html.DisplayNameFor(model => model.PhoneNumber).ToString(),
+                Model.PhoneNumber)*@
+            @Html.OnlyCreateCanEditTextBox("PhoneNumber",
+                            @Html.DisplayNameFor(model => model.PhoneNumber).ToString(),
+                            Model.PhoneNumber,
+                            Model.ActionType.ToString())
+            @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-5">
+            <label id="PhoneNumberCheck"></label>
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.RequiredLabel(@Html.DisplayNameFor(mode => mode.Email).ToString())
+        <div class="col-md-3">
+            @Html.OnlyCreateCanEditTextBox("Email",
+                            @Html.DisplayNameFor(model => model.Email).ToString(),
+                            Model.Email,
+                            Model.ActionType.ToString())
+            @*<input class="form-control" name="Email" placeholder="請輸入 @Html.DisplayNameFor(model => model.Email)"
+                type="text" value="@Model.Email" />*@
+
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-5">
+            <label id="EmailCheck"></label>
+            @Html.CheckLabel(@Html.DisplayTextFor(model => model.EmailCheck).ToString(), Model.ActionType.ToString())
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <div class="col-md-2" style="margin-left:-15px;">
+                <select id="CityDDL" class="form-control" name="ChooseCity"></select>
+            </div>
+            <div class="col-md-3">
+                <select id="CountyDDL" class="form-control" name="ChoosePostalCode"></select>
+            </div>
+            <div class="col-md-4">
+                <input id="Address" class="form-control" name="Address" placeholder="請輸入 @Html.DisplayNameFor(model => model.Address)"
+                       type="text" value="@Model.Address" />
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.OnlyCreateCanEditDatePicker("Birthday",
+                            @Html.DisplayNameFor(model => model.Birthday).ToString(),
+                            Model.Birthday,
+                            Model.ActionType.ToString())
+            @*<input class="form-control datepicker" id="Birthday" name="Birthday" placeholder="請輸入 @Html.DisplayNameFor(model => model.Birthday)"
+                type="text" value="@Model.Birthday" readonly="readonly">*@
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.ContractCheck, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @*@Html.CheckBoxFor(s=>s.ContractCheck,"1",Model.ContractCheck == true? new { @checked = "checked" } : null) 是*@
+            @Html.CheckBoxFor(model => model.ContractCheck)
+        </div>
+    </div>
+    <div class="panel-body">
+        @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.CreateTime)
+            @Html.HiddenFor(model => model.CreateTime)
+        </div>
+        @Html.LabelFor(model => model.UpdateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.UpdateTime)
+            @Html.HiddenFor(model => model.UpdateTime)
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-md-5">
+            <button type="button" id="Save" class="btn btn-success">儲存</button>
+            <button type="button" class="btn btn-default"
+                    onclick="location.href='@Url.Action("Member", "System", new {  })'">
+                返回
+            </button>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Html.Partial("_TaiwanZipCode")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            var options = {
+                CityID: '#CityDDL',
+                CountyID: '#CountyDDL',
+                SelectedCity: '@Model.ChooseCity',
+                SelectedCounty: '@Model.ChoosePostalCode'
+            };
+
+            TaiwanZipCode.Settings(options);
+
+            // E-mail 驗證, 僅限新增模式
+            $("input[name=Email]").keyup(function () {
+                var emails = $.trim(this.value);
+                if ('@Model.ActionType' == '@DataAction.Create') {
+                    CheckEmail(emails);
+                }
+            });
+
+            // 手機號碼驗證, 僅限新增模式
+            $("input[name=PhoneNumber]").keyup(function () {
+                var phone = $.trim(this.value);
+                if ('@Model.ActionType' == '@DataAction.Create') {
+                    CheckPhoneNumber(phone);
+                }
+            });
+
+            // E-mail 驗證
+            function CheckEmail(emails) {
+                console.log('Email');
+                var regex = /^([a-zA-Z0-9_\.\-\+])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                var a = regex.test(emails);
+                if (emails == "" || !a) {
+                    $("#EmailCheck").html('請重新輸入');
+                    return false;
+                }
+                else {
+                    $("#EmailCheck").html('');
+                    $.ajax({
+                        url: 'GetMatchBool',
+                        type: "Get",
+                        data: { Filed: '@Html.NameFor(m => m.Email)', MatchValue: emails },
+                        dataType: "json",
+                        success: function (result) {
+                            if (result.result) {
+                                $("#check_EmailCheck").html('該 E-mail 已註冊，請輸入其他Email');
+                            }
+                        }
+                    });
+                }
+            }
+
+            // 手機號碼驗證
+            function CheckPhoneNumber(phone) {
+                console.log('PhoneNumber');
+                var regex = /^[09]{2}[0-9]{8}$/;
+                var a = regex.test(phone);
+                if (phone == "" || !a) {
+                    $("#PhoneNumberCheck").html('請重新輸入');
+                    return false;
+                }
+                else {
+                    $("#PhoneNumberCheck").html('');
+                    $.ajax({
+                        url: 'GetMatchBool',
+                        type: "Get",
+                        data: { Filed: '@Html.NameFor(m => m.PhoneNumber)', MatchValue: phone },
+                        dataType: "json",
+                        success: function (result) {
+                            console.log('result = ' + result);
+                            if (result.result) {
+                                $("#PhoneNumberCheck").html('該 手機號碼 已註冊，請輸入其他 手機號碼');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        $("#Save").click(function () {
+            @*if ('@TempData["Actions"]' == '@DataAction.Update') {
+                var Passwordsoptin = document.getElementById("Passwords");
+                var ConfirmPasswordoptin = document.getElementById("ConfirmPassword");
+                var oldPassword = document.getElementById("Old_Password");
+                if (Passwordsoptin.value == ConfirmPasswordoptin.value) /*兩者密碼相等*/ {
+                    if ((Passwordsoptin.value != Passwordsoptin.defaultValue)) /*欲變更密碼*/ {
+                        if (oldPassword.value != "") {
+                            $("#SystemRolesMainForm").submit();
+                        } else {
+                            $('span[data-valmsg-for="Old_Password"]').text('變更密碼前請輸入舊有密碼');
+                        }
+                    } else {
+                        if ($('form').valid()) {
+                            $("#SystemRolesMainForm").submit();
+                        }
+                    }
+                } else {
+                    $('span[data-valmsg-for="ConfirmPassword"]').text('密碼與確認密碼不符');
+                }
+            }*@
+
+            if ('@TempData["Actions"]' == '@DataAction.Create' && $('form').valid()) {
+                $("#MemberMainForm").submit();
+            }
+        });
+    </script>
+}

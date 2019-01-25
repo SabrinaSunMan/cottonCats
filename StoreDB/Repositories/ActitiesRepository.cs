@@ -23,9 +23,7 @@ namespace StoreDB.Repositories
         public void ActitiesInsertInto(Activity activity, string userName)
         {
             //1.取得目前使用者 ID
-            AspNetUsers AspNetusers = _AspNetUsersRep.Query(s => s.UserName.Equals(userName)).FirstOrDefault();//登入的使用者帳號
-            activity.UpdateTime = DateTime.Now;
-            activity.CreateTime = DateTime.Now;
+            AspNetUsers AspNetusers = new AspNetUsers();// _AspNetUsersRep.Query(s => s.UserName.Equals(userName)).FirstOrDefault();//登入的使用者帳號
             activity.CreateUser = AspNetusers.Id;
             activity.UpdateUser = AspNetusers.Id;
             _Activity.Create(activity);
@@ -56,14 +54,14 @@ namespace StoreDB.Repositories
                                                                    TitleName = ActivitiestInfo.TitleName,
                                                                    PicGroupID = ActivitiestInfo.PicGroupID,
                                                                    CreateTime = ActivitiestInfo.CreateTime,
-                                                                   CreateUser = AspNetUsersList.Where(s => s.Id.Equals(ActivitiestInfo.CreateUser)).FirstOrDefault().UserName,
+                                                                   //CreateUser = AspNetUsersList.Where(s => s.Id.Equals(ActivitiestInfo.CreateUser)).FirstOrDefault().UserName,
                                                                    sort = ActivitiestInfo.sort,
                                                                    Status = ActivitiestInfo.Status,
                                                                    UpdateTime = ActivitiestInfo.UpdateTime,
-                                                                   UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(ActivitiestInfo.UpdateUser)).FirstOrDefault().UserName,
+                                                                   //UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(ActivitiestInfo.UpdateUser)).FirstOrDefault().UserName,
                                                                    picInfo = PicInfoList.Where(s => s.PicGroupID.Equals(ActivitiestInfo.PicGroupID) && s.Status == true)
                                                                };
-            return ReturnViewModel.Where(s => s.ActivityID == guid.ToLower()).FirstOrDefault();
+            return ReturnViewModel.FirstOrDefault(); //.Where(s => s.ActivityID == guid.ToLower()).FirstOrDefault();
             /*日後記得將此 string 與 Guid 做明顯區分避免會有資料因大小寫而找不到的問題產生*/
         }
     }

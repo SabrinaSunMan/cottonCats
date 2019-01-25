@@ -4,6 +4,7 @@ using StoreDB.Model.Partials;
 using StoreDB.Repositories;
 using System;
 using System.Web;
+using System.Web.Http.Controllers;
 using System.Web.Mvc;
 
 namespace BackMeow.Filters
@@ -27,31 +28,44 @@ namespace BackMeow.Filters
 
         public object Request { get; private set; }
 
-        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
-        {
-            string NotifyUrl = "/Account/Login";
-            //if (AuthorizeCore(filterContext.HttpContext))
-            //{
-            //    HttpCachePolicyBase cachePolicy =
-            //        filterContext.HttpContext.Response.Cache;
-            //    cachePolicy.SetProxyMaxAge(new TimeSpan(0));
-            //    //cachePolicy.AddValidationCallback(CacheValidateHandler, null);
-            //}
+        //protected override void HandleUnauthorizedRequest(HttpActionContext filterContext)
+        //{
+        //    string NotifyUrl = "/Account/Login";
+        //    //if (AuthorizeCore(filterContext.HttpContext))
+        //    //{
+        //    //    HttpCachePolicyBase cachePolicy =
+        //    //        filterContext.HttpContext.Response.Cache;
+        //    //    cachePolicy.SetProxyMaxAge(new TimeSpan(0));
+        //    //    //cachePolicy.AddValidationCallback(CacheValidateHandler, null);
+        //    //}
 
-            /// This code added to support custom Unauthorized pages.
-            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+        //    /// This code added to support custom Unauthorized pages.
+        //    //if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+        //    //{
+        //    //    if (NotifyUrl != null)
+        //    //        filterContext.Result = new RedirectResult(NotifyUrl + "?Msg=很抱歉，您未使用該頁面權限");
+        //    //    else
+        //    //        // Redirect to Login page.
+        //    //        HandleUnauthorizedRequest(filterContext);
+        //    //}
+        //    ///// End of additional code
+        //    //else
+        //    //{
+        //    //    // Redirect to Login page.
+        //    //    HandleUnauthorizedRequest(filterContext);
+        //    //}
+        //}
+        protected virtual void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                if (NotifyUrl != null)
-                    filterContext.Result = new RedirectResult(NotifyUrl + "?Msg=很抱歉，您未使用該頁面權限");
-                else
-                    // Redirect to Login page.
-                    HandleUnauthorizedRequest(filterContext);
+                // user is logged-in, so redirecting to login page won't help, must be premium
+                filterContext.Result = new RedirectResult("MyNewURL");
             }
-            /// End of additional code
             else
             {
-                // Redirect to Login page.
-                HandleUnauthorizedRequest(filterContext);
+                // let the base implementation redirect the user
+                base.HandleUnauthorizedRequest(filterContext);
             }
         }
 

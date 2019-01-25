@@ -1,12 +1,18 @@
-﻿using BackMeow.Models.ViewModel;
+﻿using BackMeow.App_Start;
+using BackMeow.Models.ViewModel;
 using PagedList;
-using StoreDB.Model.Partials;
 using StoreDB.Enum;
-using StoreDB.Repositories;
-using System.Collections.Generic;
-using System.Linq;
+using StoreDB.Helper;
 using StoreDB.Interface;
-using BackMeow.App_Start;
+using StoreDB.Model.Partials;
+using StoreDB.Model.ViewModel;
+using StoreDB.Repositories;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace BackMeow.Service
 {
@@ -16,7 +22,10 @@ namespace BackMeow.Service
     public class MemberService
     {
         private readonly MemeberRepository _MemberRep;
-        private MenuSideListService _menuSideListService;
+        private readonly ZipCodeRepository _ZipCodeRep;
+
+        //private MenuSideListService _menuSideListService;
+        public PublicMethodResult ReturnModel;
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly int pageSize = (int)BackPageListSize.commonSize;
@@ -28,6 +37,8 @@ namespace BackMeow.Service
         {
             _unitOfWork = unitOfWork;
             _MemberRep = new MemeberRepository(unitOfWork);
+            _ZipCodeRep = new ZipCodeRepository(unitOfWork);
+            ReturnModel = new PublicMethodResult();
         }
 
         /// <summary>
@@ -53,20 +64,30 @@ namespace BackMeow.Service
         /// <returns></returns>
         private IEnumerable<MemberListContentViewModel> GetAllMemberListViewModel(MemberListHeaderViewModel selectModel)
         {
+            // 取得子功能
+            IEnumerable<ZipCode> zipcode = _ZipCodeRep.GetAll();
+            IEnumerable<Member> members = _MemberRep.GetAll();
+
             IEnumerable<MemberListContentViewModel> result =
-                _MemberRep.GetAll().Where(s => s.Status == true).Where(s => (!string.IsNullOrEmpty(selectModel.Name) ?
-                                        s.Name.Contains(selectModel.Name) : true)
-                                            && (!string.IsNullOrWhiteSpace(selectModel.PhoneNumber.ToString()) ?
-                                        s.PhoneNumber.ToString().Contains(selectModel.PhoneNumber.ToString()) : true)
-                                            && (!string.IsNullOrWhiteSpace(selectModel.CreateTime.ToString()) ?
-                                        s.CreateTime.ToString().Contains(selectModel.CreateTime.ToString()) : true)
-                                    ).Select(List => new MemberListContentViewModel()
-                                    {
-                                        MemberID = List.MemberID,
-                                        CreateTime = List.CreateTime.ToString(),
-                                        Name = List.Name,
-                                        Sex = List.Sex.ToString()
-                                    }).OrderByDescending(s => s.CreateTime).ToList();
+                members.Join(zipcode,
+                        s => s.ZipCodeID,
+                        z => z.ID,
+                        (s, z) => new { s, z })
+                        .Where(x =>
+                                (!string.IsNullOrEmpty(selectModel.Name) ? x.s.Name.Contains(selectModel.Name) : true)
+                                && (!string.IsNullOrWhiteSpace(selectModel.PhoneNumber.ToString()) ?
+                                x.s.PhoneNumber.ToString().Contains(selectModel.PhoneNumber.ToString()) : true))
+                                .Select(List => new MemberListContentViewModel()
+                                {
+                                    MemberID = List.s.MemberID,
+                                    CreateTime = List.s.CreateTime.ToString(),
+                                    Name = List.s.Name,
+                                    //Sex = List.Sex.ToString(),
+                                    PhoneNumber = List.s.PhoneNumber,
+                                    District = List.z.City + " " + List.z.County
+                                }).OrderByDescending(s => s.CreateTime).ToList();
+
+            List<MemberListContentViewModel> a = result.ToList();
             return result;
         }
 
@@ -76,16 +97,28 @@ namespace BackMeow.Service
         /// <param name="ActionType">Type of the action.</param>
         /// <param name="guid">The unique identifier.</param>
         /// <returns></returns>
-        public MemberDetailViewModel ReturnMemberDetail(Actions ActionType, string guid)
+        public MemberDetailViewModel ReturnMemberDetail(DataAction ActionType, string guid)
         {
             MemberDetailViewModel DetailViewModel = new MemberDetailViewModel();
             Member MemberViewModel = GetMemberById(guid);
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
             DetailViewModel = mapper.Map<MemberDetailViewModel>(MemberViewModel);
 
+            ZipCode zipcode = _ZipCodeRep.GetSingle(s => s.ID == MemberViewModel.ZipCodeID);
             //手動綁入
             DetailViewModel.ActionType = ActionType;
+            DetailViewModel.ChooseCity = zipcode == null ? "" : zipcode.City;
+            DetailViewModel.ChoosePostalCode = zipcode == null ? "" : zipcode.PostalCode.ToString();
             return DetailViewModel;
+        }
+
+        /// <summary>
+        /// 取得所有前台使用者.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Member> GetAllMember()
+        {
+            return _MemberRep.GetAll().OrderByDescending(s => s.Name).ToList();
         }
 
         /// <summary>
@@ -104,19 +137,36 @@ namespace BackMeow.Service
         /// <param name="member">The member.</param>
         /// <param name="userName">Name of the user.</param>
         /// <returns></returns>
-        public string CreateMember(MemberDetailViewModel member, string userName)
+        public PublicMethodResult CreateMember(MemberDetailViewModel member, string CreateUser)
         {
             try
             {
                 Member PartStaticHtml = ReturnMappingMember(member);
-                _MemberRep.MemberInsertInto(PartStaticHtml, userName);
 
-                return EnumHelper.GetEnumDescription(DataAction.CreateScuess);
+                //SETP 1.確認是否有同樣資料，Email、手機號碼皆不可相同
+                var memberInfo = _MemberRep.GetSingle(s => s.Email == PartStaticHtml.Email || s.PhoneNumber == PartStaticHtml.PhoneNumber);
+                if (memberInfo == null)
+                {
+                    _MemberRep.MemberInsertInto(PartStaticHtml, CreateUser);
+
+                    ReturnModel.ResultBool = true;
+                    ReturnModel.ActionResult = DataAction.CreateScuess;
+                    ReturnModel.Result = EnumHelper.GetEnumDescription(DataAction.CreateScuess);
+                }
+                else
+                {
+                    ReturnModel.ResultBool = false;
+                    ReturnModel.ActionResult = DataAction.CreateFailReapet;
+                    ReturnModel.Result = EnumHelper.GetEnumDescription(DataAction.CreateFailReapet);
+                }
             }
-            catch
+            catch (Exception e)
             {
-                return EnumHelper.GetEnumDescription(DataAction.CreateFail);
+                ReturnModel.ResultBool = false;
+                ReturnModel.ActionResult = DataAction.CreateFail;
+                ReturnModel.Result = EnumHelper.GetEnumDescription(DataAction.CreateFail);
             }
+            return ReturnModel;
         }
 
         /// <summary>
@@ -124,18 +174,24 @@ namespace BackMeow.Service
         /// </summary>
         /// <param name="statichtml"></param>
         /// <returns></returns>
-        public string UpdateMember(MemberDetailViewModel member, string userName)
+        public PublicMethodResult UpdateMember(MemberDetailViewModel member, string UpdateUser)
         {
             try
             {
                 Member PartMember = ReturnMappingMember(member);
-                _MemberRep.MemberUpdate(PartMember, userName);
-                return EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
+                _MemberRep.MemberUpdate(PartMember, UpdateUser);
+
+                ReturnModel.ResultBool = true;
+                ReturnModel.ActionResult = DataAction.UpdateScuess;
+                ReturnModel.Result = EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
             }
-            catch
+            catch (Exception e)
             {
-                return EnumHelper.GetEnumDescription(DataAction.UpdateFail);
+                ReturnModel.ResultBool = false;
+                ReturnModel.ActionResult = DataAction.UpdateFail;
+                ReturnModel.Result = EnumHelper.GetEnumDescription(DataAction.UpdateFail);
             }
+            return ReturnModel;
         }
 
         /// <summary>
@@ -148,7 +204,41 @@ namespace BackMeow.Service
             Member dbViewModel = new Member();
             var mapper = AutoMapperConfig.InitializeAutoMapper().CreateMapper();
             dbViewModel = mapper.Map<Member>(viewModel);
+
+            // 手動綁訂, ChoosePostalCode 從 View 回來直接綁中文字，而非原來的 PostalCode
+            int choosePostalCode = Convert.ToInt16(viewModel.ChoosePostalCode);
+            ZipCode zipcode = _ZipCodeRep.GetSingle(s => s.PostalCode == choosePostalCode);
+            dbViewModel.ZipCodeID = zipcode == null ? 0 : zipcode.ID;
             return dbViewModel;
+        }
+
+        /// <summary>
+        /// 藉由 欄位 與值, 判斷是否能找出資料庫匹配的資料.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public bool GetMatchBool(string Filed, string MatchValue)
+        {
+            Member dbViewModel = new Member();
+            var memberInfo = _MemberRep.GetSingleMatch(Filed.Trim(), MatchValue.Trim());
+            return memberInfo;
+            ////object foo = new Member();
+
+            #region 其他寫法
+
+            //var type = foo.GetType();
+            //var method = type.GetMethod(Filed);
+            //var thisParam = Expression.Parameter(type, "this");
+
+            //var aaa = prop.GetGetMethod();
+
+            //var valueParam = Expression.Parameter(typeof(int), "value");
+            //var call = Expression.Call(thisParam, method, valueParam);
+            //var lambda = Expression.Lambda<Func<Member, int, string>>(call, thisParam, valueParam);
+            //var func = lambda.Compile();
+            //var result = func((Member)foo, 42);
+
+            #endregion 其他寫法
         }
 
         public void Save()

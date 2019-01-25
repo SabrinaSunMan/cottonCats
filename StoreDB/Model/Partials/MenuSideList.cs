@@ -8,11 +8,11 @@ namespace StoreDB.Model.Partials
     /// <summary>
     /// 後台_測邊功能列
     /// </summary>
-    public partial class MenuSideList
+    public partial class MenuSideList : BasePartials
     {
         /// <summary>
         /// MenuSideList ID.
-        /// </summary> 
+        /// </summary>
         [Key]
         [DisplayName("使用者功能列ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,14 +20,14 @@ namespace StoreDB.Model.Partials
 
         /// <summary>
         /// 子目錄ID. FK From MenuTree
-        /// </summary> 
+        /// </summary>
         //public virtual ICollection<MenuTree> MenuID { get; set; }
         public Guid MenuID { get; set; }
 
         /// <summary>
         /// 使用者ID. FK From  AspNetUsers
-        /// </summary> 
-        //public virtual ICollection<AspNetUsers> Id { get; set; } 
+        /// </summary>
+        //public virtual ICollection<AspNetUsers> Id { get; set; }
         public Guid Id { get; set; }
     }
 }

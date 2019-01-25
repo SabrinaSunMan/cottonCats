@@ -177,10 +177,19 @@
             $.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
             //套用到表單
 
+            //日曆
             $('.datepicker').datepicker({
                 dateFormat: 'yy/mm/dd',
                 changeMonth: true,
-                changeYear: true }); //Initialise any date pickers
+                changeYear: true
+            }); //Initialise any date pickers
+
+            //日曆加上時間
+            //$('.datetimepicker').datetimepicker({
+            //    dateFormat: 'yy/mm/dd HH:mm',
+            //    changeMonth: true,
+            //    changeYear: true
+            //});
         });
 
         $body = $("body");

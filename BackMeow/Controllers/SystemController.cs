@@ -6,10 +6,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using StoreDB;
 using StoreDB.Enum;
+using StoreDB.Helper;
+using StoreDB.Model.ViewModel;
 using StoreDB.Repositories;
 using StoreDB.Service;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -29,6 +30,7 @@ namespace BackMeow.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private MenuSideListService _menuSide;
+        private PublicService _publicService;
         //private ReturnMsg _ReturnMsg;
 
         public SystemController()
@@ -38,21 +40,10 @@ namespace BackMeow.Controllers
             _MemberService = new MemberService(unitOfWork);
             _logSvc = new LoggingService(unitOfWork);
             _menuSide = new MenuSideListService(unitOfWork);
+            _publicService = new PublicService();
             // _ReturnMsg = new ReturnMsg();
             _actionName = "";// this.ControllerContext.RouteData.Values["action"].ToString();
             _controllerName = "";// this.ControllerContext.RouteData.Values["controller"].ToString();
-        }
-
-        public string SignInManagerName
-        {
-            get
-            {
-                return _signInManagerNames ?? HttpContext.User.Identity.Name.ToString();
-            }
-            private set
-            {
-                _signInManagerNames = value;
-            }
         }
 
         public ApplicationSignInManager SignInManager
@@ -79,7 +70,24 @@ namespace BackMeow.Controllers
             }
         }
 
+        /// <summary>
+        /// 藉由登入名稱取得ID.
+        /// </summary>
+        public string SignInManagerId
+        {
+            get
+            {
+                _UserService.UserName = HttpContext.User.Identity.Name.ToString(); //登入的使用者帳號
+                return _UserService.GetAspNetUserBySelectPramters().Id;
+            }
+            private set
+            {
+                _signInManagerNames = value;
+            }
+        }
+
         // GET: System
+
         #region 後台使用者管理
 
         #region List - 取得所有後台使用者清單
@@ -91,7 +99,7 @@ namespace BackMeow.Controllers
         /// <param name="page">The page.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult SystemRoles(SystemRolesViewModel ViewModel, int page = 1)
+        public ActionResult SystemRoles(int page = 1)
         {
             SystemRolesViewModel ResultViewModel;
             SystemRolesViewModel searchBlock = (SystemRolesViewModel)TempData["SystemRolesSelect"];
@@ -101,8 +109,12 @@ namespace BackMeow.Controllers
             }
             else
             {
-                ResultViewModel = _UserService.GetSystemRolesListViewModel(searchBlock.Header, page);
+                ResultViewModel = _UserService.GetSystemRolesListViewModel(searchBlock.Header,
+                    page > searchBlock.page ?
+                            page : searchBlock.page);
+                SystemRolesKeepSelectBlock(ResultViewModel, DataAction.Read);
             }
+
             return View(ResultViewModel);
         }
 
@@ -112,10 +124,10 @@ namespace BackMeow.Controllers
         /// <param name="ViewModel">The view model.</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SystemRoles(SystemRolesViewModel ViewModel)
+        public ActionResult SystemRoles(SystemRolesViewModel ViewModel, int page = 1)
         {
             SystemRolesViewModel ResultViewModel = _UserService.GetSystemRolesListViewModel(ViewModel.Header);
-            TempData["SystemRolesSelect"] = ResultViewModel;
+            SystemRolesKeepSelectBlock(ResultViewModel, DataAction.Read);
             return View(ResultViewModel);
         }
 
@@ -133,15 +145,17 @@ namespace BackMeow.Controllers
         /// <param name="pages">The pages.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult SystemRolesMain(Actions ActionType, string guid, string selectEmail, string selectUserName, int pages = 1)
+        public ActionResult SystemRolesMain(DataAction ActionType, string guid, string selectEmail, string selectUserName, int pages = 1)
         {
-            TempData["Actions"] = ActionType;
             AspNetUsersDetailViewModel data = new AspNetUsersDetailViewModel();
-            if (ActionType == Actions.Update)
+            if (ActionType == DataAction.Update)
             {
                 data = _UserService.ReturnAspNetUsersDetail(ActionType, guid);
             }
+
             #region KeepSelectBlock
+
+            TempData["Actions"] = ActionType;
             pages = pages == 0 ? 1 : pages;
             TempData["SystemRolesSelect"] = new SystemRolesViewModel()
             {
@@ -152,7 +166,9 @@ namespace BackMeow.Controllers
                 },
                 page = pages
             };
+
             #endregion KeepSelectBlock
+
             return View(data);
         }
 
@@ -165,96 +181,124 @@ namespace BackMeow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ModelStateExclude]
-        public async Task<ActionResult> SystemRolesMain(AspNetUsersDetailViewModel AspNetUsersModel, Actions actions)//, Actions actions)
-                                                                                                                     //(FormCollection AspNetUsersModel,string guid) //,
+        public async Task<ActionResult> SystemRolesMain(AspNetUsersDetailViewModel AspNetUsersModel, DataAction actions)//, DataAction actions)
+                                                                                                                        //(FormCollection AspNetUsersModel,string guid) //,
         {
-            bool boolResult = true; // 取決於導向頁面
-            string thisUserID; //使用者ID
+            bool boolResult = true; // 取決於導向頁面, True = 返回SystemRoles, False = 停在本頁
+            string thisUserID; //暫存 使用者ID
             SystemRolesViewModel searchBlock = (SystemRolesViewModel)TempData["SystemRolesSelect"];
+
+            // KeepSelectBlock
+            SystemRolesKeepSelectBlock(searchBlock, actions);
+
+            // STEP 1. 前端驗證是否通過
             if (ModelState.IsValid)
             {
+                // STEP 2. 建立容器 user
                 var user = new ApplicationUser
                 {
                     UserName = AspNetUsersModel.UserName,
                     Email = AspNetUsersModel.Email,
-                    CreateTime = DateTime.Now,
-                    UpdateTime = DateTime.Now,
+                    PhoneNumber = AspNetUsersModel.PhoneNumber,
+                    UpdateTime = AspNetUsersModel.UpdateTime,
+                    CreateTime = AspNetUsersModel.CreateTime,
+                    UpdateUser = SignInManagerId,
                     Status = true
                 };
 
-                if (actions == Actions.Create)
+                if (actions == DataAction.Create)
                 {
-                    #region
+                    #region STEP 3. 判斷動作, [新增]
+
+                    user.CreateUser = SignInManagerId;
                     user.Id = Guid.NewGuid().ToString().ToUpper();
                     _UserService.UserName = user.UserName;
                     _UserService.UserEmail = user.Email;
 
+                    // STEP 4. 該使用者資訊是否存在資料庫, null才可繼續建立
                     if (_UserService.GetAspNetUserBySelectPramters() == null)
                     {
                         var result = await UserManager.CreateAsync(user, AspNetUsersModel.Password);
                         if (result.Succeeded)
                         {
-                            //-------- 待補：建立使用者應要把權限也寫入!
+                            //建立使用者應要把 MenuTree 權限也寫入!
                             _UserService.CreateUserMenuTree(user.Id);
-                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                            // 傳送包含此連結的電子郵件
-                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                            await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
                             TempData["message"] = EnumHelper.GetEnumDescription(DataAction.CreateScuess);
                             thisUserID = user.Id;
+                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                            // 傳送包含此連結的電子郵件
+                            //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            //await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
                         }
                         else
                         {
+                            // 建立失敗, 回傳錯誤訊息
                             AddErrors(result);
                             boolResult = false;
                         }
                     }
                     else
                     {
+                        // 建立失敗, 回傳錯誤訊息
                         CustomerIdentityError(EnumHelper.GetEnumDescription(DataAction.CreateFailReapet));
                         boolResult = false;
                     }
-                    #endregion Main - 明細內容動作
+
+                    #endregion STEP 3. 判斷動作, [新增]
                 }
-                else if (actions == Actions.Update)
+                else if (actions == DataAction.Update)
                 {
-                    #region
-                    if (!string.IsNullOrEmpty(AspNetUsersModel.Old_Password) && !string.IsNullOrEmpty(AspNetUsersModel.Password))
+                    #region STEP 3. 判斷動作, [更新]
+
+                    if (!string.IsNullOrEmpty(AspNetUsersModel.Old_Password) &&
+                        !string.IsNullOrEmpty(AspNetUsersModel.Password))
                     {
                         bool passwordIsEdit = false;
                         try
                         {
-                            var checkPassword = UserManager.PasswordHasher.VerifyHashedPassword(AspNetUsersModel.Password, AspNetUsersModel.Old_Password);
+                            var checkPassword = UserManager.PasswordHasher.
+                                VerifyHashedPassword(AspNetUsersModel.Password, AspNetUsersModel.Old_Password);
                             if (checkPassword != PasswordVerificationResult.Success)
                             {
                                 passwordIsEdit = true;
                             }
                         }
                         catch
-                        { passwordIsEdit = true; }
+                        {
+                            passwordIsEdit = true;
+                        }
                         if (passwordIsEdit)
                         {
                             user.Id = AspNetUsersModel.Id;
                             // 變更密碼
-                            var result = await UserManager.ChangePasswordAsync(user.Id, AspNetUsersModel.Old_Password, AspNetUsersModel.Password);
+                            var result = await UserManager.
+                                ChangePasswordAsync(user.Id, AspNetUsersModel.Old_Password, AspNetUsersModel.Password);
                             if (result.Succeeded)
                             {
                                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                             }
-                            else { AddErrors(result); boolResult = false; }
+                            else
+                            {
+                                // 建立失敗, 回傳錯誤訊息
+                                AddErrors(result);
+                                boolResult = false;
+                            }
                         }
                         else
                         {
+                            // 建立失敗, 回傳錯誤訊息
                             CustomerIdentityError(EnumHelper.GetEnumDescription(DataAction.UpdateFail));
+                            boolResult = false;
                         }
                     }
 
-                    _UserService.AspNetUsersDetailViewModelUpdate(AspNetUsersModel);
+                    _UserService.AspNetUsersDetailViewModelUpdate(AspNetUsersModel, SignInManagerId);
                     //可以批次增加同時輸入很多個Table
                     _UserService.Save();
                     TempData["message"] = EnumHelper.GetEnumDescription(DataAction.UpdateScuess);
-                    #endregion 後台使用者管理
+
+                    #endregion STEP 3. 判斷動作, [更新]
                 }
                 else
                 {
@@ -279,25 +323,26 @@ namespace BackMeow.Controllers
                     });
                 }
             }
-            #region KeepSelectBlock
-            TempData["Actions"] = actions;
-            TempData["SystemRolesSelect"] = searchBlock;
-            #endregion KeepSelectBlock
-            //return RedirectToAction("SystemRolesMain", new
-            //{
-            //    ActionType = actions,
-            //    guid = AspNetUsersModel.Id,
-            //    selectEmail = searchBlock.Header.Email,
-            //    selectUserName = searchBlock.Header.UserName,
-            //    pages = searchBlock.page
-            //});
             return View(AspNetUsersModel);
         }
 
-        #endregion
-        #endregion
+        /// <summary>
+        /// 保留搜尋頁面資料_管理者SystemRoles
+        /// </summary>
+        /// <param name="searchBlock"></param>
+        /// <param name="actions"></param>
+        private void SystemRolesKeepSelectBlock(SystemRolesViewModel searchBlock, DataAction actions)
+        {
+            TempData["Actions"] = actions;
+            TempData["SystemRolesSelect"] = searchBlock;
+        }
+
+        #endregion Main - 明細內容動作
+
+        #endregion 後台使用者管理
 
         #region 會員管理
+
         #region List - 取得所有會員清單
 
         /// <summary>
@@ -307,18 +352,24 @@ namespace BackMeow.Controllers
         /// <param name="page">The page.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Member(MemberViewModel ViewModel, int page = 1)
+        public ActionResult Member(int page = 1)
         {
             MemberViewModel ResultViewModel;
             MemberViewModel searchBlock = (MemberViewModel)TempData["MemeberSelect"];
+
             if (searchBlock == null) /*空*/
             {
                 ResultViewModel = _MemberService.GetMemberListViewModel(new MemberListHeaderViewModel(), page);
+                MemberGetViewBag("");
             }
             else
             {
-                ResultViewModel = _MemberService.GetMemberListViewModel(searchBlock.Header, page);
+                ResultViewModel = _MemberService.GetMemberListViewModel(searchBlock.Header, page > searchBlock.page ?
+                            page : searchBlock.page);
+                MemberKeepSelectBlock(ResultViewModel, DataAction.Read);
+                MemberGetViewBag(searchBlock.Header.ContractCheck);
             }
+
             return View(ResultViewModel);
         }
 
@@ -331,11 +382,11 @@ namespace BackMeow.Controllers
         public ActionResult Member(MemberViewModel ViewModel)
         {
             MemberViewModel ResultViewModel = _MemberService.GetMemberListViewModel(ViewModel.Header);
-            TempData["MemeberSelect"] = ResultViewModel;
+            MemberGetViewBag(ViewModel.Header.ContractCheck);
             return View(ResultViewModel);
         }
 
-        #endregion
+        #endregion List - 取得所有會員清單
 
         #region Main - 明細內容動作
 
@@ -350,27 +401,42 @@ namespace BackMeow.Controllers
         /// <param name="pages">The pages.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult MemberMain(Actions ActionType, string guid, string selectName, string selectCreateTime, string selectPhoneNumber, int pages = 1)
+        public ActionResult MemberMain(DataAction ActionType,
+            string guid,
+            string selectName,
+            string selectContractCheck,
+            string selectPhoneNumber,
+            string selectCity,
+            string selectCountry,
+            int pages = 1)
         {
             TempData["Actions"] = ActionType;
             MemberDetailViewModel data = new MemberDetailViewModel();
-            if (ActionType == Actions.Update)
+            if (ActionType == DataAction.Update)
             {
                 data = _MemberService.ReturnMemberDetail(ActionType, guid);
             }
+            data.Sex = false;
+
             #region KeepSelectBlock
+
             pages = pages == 0 ? 1 : pages;
             TempData["MemeberSelect"] = new MemberViewModel()
             {
                 Header = new MemberListHeaderViewModel()
                 {
-                    CreateTime = selectCreateTime,
                     Name = selectName,
-                    PhoneNumber = Convert.ToInt16(selectPhoneNumber)
+                    ContractCheck = selectContractCheck,
+                    PhoneNumber = selectPhoneNumber == "" ? 0 : Convert.ToInt16(selectPhoneNumber),
+                    CityDDL = selectCity,
+                    CountyDDL = selectCountry
                 },
                 page = pages
             };
+            MemberGetViewBag(selectContractCheck);
+
             #endregion KeepSelectBlock
+
             return View(data);
         }
 
@@ -381,37 +447,64 @@ namespace BackMeow.Controllers
         /// <param name="memberViewModel">The member view model.</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult MemberMain(Actions actions, MemberDetailViewModel memberViewModel)
+        public ActionResult MemberMain(DataAction actions, MemberDetailViewModel memberViewModel)
         {
-            #region KeepSelectBlock
-
-            TempData["Actions"] = actions;
-            TempData["MemeberSelect"] = (MemberViewModel)TempData["MemeberSelect"];
-
-            #endregion KeepSelectBlock
-
+            MemberViewModel searchBlock = (MemberViewModel)TempData["MemeberSelect"];
+            // KeepSelectBlock
+            MemberKeepSelectBlock(searchBlock, actions);
+            PublicMethodResult ResultViewModel = new PublicMethodResult();
             if (ModelState.IsValid)
             {
-                if (actions == Actions.Create) //建立資料
+                if (actions == DataAction.Create) //建立資料
                 {
                     memberViewModel.MemberID = Guid.NewGuid(); // 日後可統一 Guid 或是 String 型態
-                    TempData["message"] = _MemberService.CreateMember(memberViewModel, SignInManagerName);
+                    ResultViewModel = _MemberService.CreateMember(memberViewModel, SignInManagerId);
                 }
                 else //更新資料
                 {
-                    TempData["message"] = _MemberService.UpdateMember(memberViewModel, SignInManagerName);
+                    ResultViewModel = _MemberService.UpdateMember(memberViewModel, SignInManagerId);
                 }
-
                 _MemberService.Save();
             }
 
+            TempData["message"] = ResultViewModel.Result;
+            if (ResultViewModel.ResultBool) // 取決於導向頁面, True = 返回SystemRoles, False = 停在本頁
+            {
+                return RedirectToAction("Member", new
+                {
+                    ViewModel = searchBlock,
+                    pages = searchBlock.page
+                });
+            }
             // 顯示資料
-            memberViewModel = _MemberService.ReturnMemberDetail(actions, memberViewModel.MemberID.ToString().ToUpper());
+            //memberViewModel = _MemberService.ReturnMemberDetail(actions, memberViewModel.MemberID.ToString().ToUpper());
+
             return View(memberViewModel);
         }
 
-        #endregion
-        #endregion
+        /// <summary>
+        /// 保留搜尋頁面資料_管理者SystemRoles.
+        /// </summary>
+        /// <param name="searchBlock"></param>
+        /// <param name="actions"></param>
+        private void MemberKeepSelectBlock(MemberViewModel searchBlock, DataAction actions)
+        {
+            TempData["Actions"] = actions;
+            TempData["MemeberSelect"] = searchBlock;
+        }
+
+        /// <summary>
+        /// 包裝 DropDownList : ContractCheck 是否填寫同意書.
+        /// </summary>
+        /// <param name="defaultvalue"></param>
+        private void MemberGetViewBag(string DefaultValue)
+        {
+            ViewBag.ContractCheckList = _publicService.GetContractCheckList(DefaultValue).Result;
+        }
+
+        #endregion Main - 明細內容動作
+
+        #endregion 會員管理
 
         [HttpPost]
         public JsonResult Delete(string guid, string actionTable)
@@ -420,7 +513,8 @@ namespace BackMeow.Controllers
             TableName actionTableS = (TableName)Enum.Parse(typeof(TableName), actionTable);
             if (actionTableS == TableName.AspNetUsers)
             {
-                TempData["message"] = GetResult = _UserService.DeleteUser(guid);
+                // 這裡的刪除僅限於將 [Status] 更改成 false, 故 MenuTree 並不會連動
+                TempData["message"] = GetResult = _UserService.DeleteUser(guid, SignInManagerId);
                 _UserService.Save();
             }
             else
@@ -428,6 +522,18 @@ namespace BackMeow.Controllers
                 //GetResult = _StaticHtmlService.DeletePictureInfo(guid, SignInManagerName);
             }
             return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 藉由 欄位 與值, 判斷是否能找出資料庫匹配的資料.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetMatchBool(string Filed, string MatchValue)
+        {
+            bool result = _MemberService.GetMatchBool(Filed, MatchValue);
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

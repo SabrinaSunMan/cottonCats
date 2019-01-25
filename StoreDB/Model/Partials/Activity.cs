@@ -14,7 +14,7 @@ namespace StoreDB.Model.Partials
         /// </summary>
         [DisplayName("活動紀錄管理ID")]
         [Key]
-        public string ActivityID { get; set; }
+        public Guid ActivityID { get; set; }
 
         /// <summary>
         /// 開始日期.

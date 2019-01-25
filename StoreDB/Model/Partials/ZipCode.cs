@@ -11,9 +11,9 @@ namespace StoreDB.Model.Partials
     public partial class ZipCode
     {
         /// <summary>
-        /// 靜態網頁類別ID.
+        /// ID.
         /// </summary>
-        [DisplayName("區域地址ID")]
+        [DisplayName("ID")]
         [Key]
         public int ID { get; set; }
 
@@ -21,12 +21,14 @@ namespace StoreDB.Model.Partials
         /// 城市名稱.
         /// </summary>
         [DisplayName("城市")]
+        [StringLength(4)]
         public string City { get; set; }
 
         /// <summary>
         /// 鄉鎮區域.
         /// </summary>
         [DisplayName("鄉鎮區域")]
+        [StringLength(4)]
         public string County { get; set; }
 
         /// <summary>

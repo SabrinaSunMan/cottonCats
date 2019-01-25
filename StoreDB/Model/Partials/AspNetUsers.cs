@@ -21,6 +21,7 @@ namespace StoreDB.Model.Partials
         /// <summary>
         /// 管理者 使用者ID.
         /// </summary>
+        // 因為預設與 AspNetUserClaims、AspNetUserLogins相關, 維持string不予更動該欄位型態
         [DisplayName("使用者ID")]
         public string Id { get; set; }
 
@@ -43,6 +44,7 @@ namespace StoreDB.Model.Partials
         /// 電話號碼.
         /// </summary>
         [DisplayName("電話號碼")]
+        [StringLength(10)]
         public string PhoneNumber { get; set; }
 
         public bool PhoneNumberConfirmed { get; set; }

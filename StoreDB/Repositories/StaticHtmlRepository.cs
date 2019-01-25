@@ -73,11 +73,11 @@ namespace StoreDB.Repositories
                                                                      SubjectName = SubjectInfo.SubjectName,
                                                                      PicGroupID = HtmlInfo.PicGroupID.ToString(),
                                                                      CreateTime = HtmlInfo.CreateTime,
-                                                                     CreateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.CreateUser)).FirstOrDefault().UserName,
+                                                                     // CreateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.CreateUser)).FirstOrDefault().UserName,
                                                                      sort = HtmlInfo.sort,
                                                                      Status = HtmlInfo.Status,
                                                                      UpdateTime = HtmlInfo.UpdateTime,
-                                                                     UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.UpdateUser)).FirstOrDefault().UserName,
+                                                                     // UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.UpdateUser)).FirstOrDefault().UserName,
                                                                      picInfo = PicInfoList.Where(s => s.PicGroupID.Equals(HtmlInfo.PicGroupID) && s.Status == true)
                                                                  };
             return ReturnViewModel.Where(s => s.StaticID == guid.ToLower()).FirstOrDefault();
@@ -111,11 +111,11 @@ namespace StoreDB.Repositories
                                                                      SubjectName = SubjectInfo.SubjectName,
                                                                      PicGroupID = HtmlInfo.PicGroupID.ToString(),
                                                                      CreateTime = HtmlInfo.CreateTime,
-                                                                     CreateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.CreateUser)).FirstOrDefault().UserName,
+                                                                     //CreateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.CreateUser)).FirstOrDefault(),//.UserName,
                                                                      sort = HtmlInfo.sort,
                                                                      Status = HtmlInfo.Status,
                                                                      UpdateTime = HtmlInfo.UpdateTime,
-                                                                     UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.UpdateUser)).FirstOrDefault().UserName,
+                                                                     //UpdateUser = AspNetUsersList.Where(s => s.Id.Equals(HtmlInfo.UpdateUser)).FirstOrDefault(),//.UserName,
                                                                      picInfo = PicInfoList.Where(s => s.PicGroupID.Equals(HtmlInfo.PicGroupID) && s.Status == true)
                                                                  };
 
@@ -141,7 +141,6 @@ namespace StoreDB.Repositories
             ReadyUpdate.sort = statichtml.sort;
             ReadyUpdate.Status = statichtml.Status;
             ReadyUpdate.UpdateUser = AspNetusers.Id;
-            ReadyUpdate.UpdateTime = DateTime.Now;
             Update(ReadyUpdate, statichtml.StaticID);
         }
 
@@ -149,8 +148,6 @@ namespace StoreDB.Repositories
         {
             //1.取得目前使用者 ID
             AspNetUsers AspNetusers = _AspNetUsersRep.Query(s => s.UserName.Equals(userName)).FirstOrDefault();//登入的使用者帳號
-            statichtml.UpdateTime = DateTime.Now;
-            statichtml.CreateTime = DateTime.Now;
             statichtml.CreateUser = AspNetusers.Id;
             statichtml.UpdateUser = AspNetusers.Id;
             _StaticHtml.Create(statichtml);

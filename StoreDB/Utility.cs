@@ -8,10 +8,10 @@ namespace StoreDB
         /// <summary>
         /// 對於資料使用的動作 String to Enum
         /// </summary>
-        public Actions StringToEnumActions(string getActions)
+        public DataAction StringToEnumActions(string getActions)
         {
-            Actions ActionsValue = (Actions)System.Enum.Parse(typeof(Actions), getActions);
+            DataAction ActionsValue = (DataAction)System.Enum.Parse(typeof(DataAction), getActions);
             return ActionsValue;
-        } 
+        }
     }
 }

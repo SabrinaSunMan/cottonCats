@@ -1,12 +1,11 @@
-﻿using System;
+﻿using BackMeow.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using BackMeow.Models;
 
 namespace BackMeow.Controllers
 {
@@ -32,9 +31,9 @@ namespace BackMeow.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -333,7 +332,8 @@ namespace BackMeow.Controllers
             base.Dispose(disposing);
         }
 
-#region Helper
+        #region Helper
+
         // 新增外部登入時用來當做 XSRF 保護
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +384,6 @@ namespace BackMeow.Controllers
             Error
         }
 
-#endregion
+        #endregion Helper
     }
 }

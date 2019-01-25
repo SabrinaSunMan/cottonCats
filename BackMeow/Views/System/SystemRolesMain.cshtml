@@ -1,4 +1,5 @@
 ﻿@using StoreDB.Enum;
+@using StoreDB.Helper;
 @model BackMeow.Models.ViewModel.AspNetUsersDetailViewModel
 
 @{
@@ -109,8 +110,8 @@
         <div class="panel-body">
             <div class="col-md-5">
                 <button type="button" id="Save" class="btn btn-success">儲存</button>
-                <button type="button" class="btn btn-default"
-                        onclick="location.href='@Url.Action("SystemRoles", "System", new {  })'">
+                <button type="button" id="Back" class="btn btn-default"
+                        onclick="location.href='@Url.Action("SystemRoles", "System", new { })'">
                     返回
                 </button>
             </div>
@@ -122,58 +123,57 @@
 
     <script>
         $("#Save").click(function () {
-            if ('@TempData["Actions"]'== '@Actions.Update') {
+            if ('@TempData["Actions"]' == '@DataAction.Update') {
                 var Passwordsoptin = document.getElementById("Passwords");
                 var ConfirmPasswordoptin = document.getElementById("ConfirmPassword");
                 var oldPassword = document.getElementById("Old_Password");
                 if (Passwordsoptin.value == ConfirmPasswordoptin.value) /*兩者密碼相等*/ {
                     if ((Passwordsoptin.value != Passwordsoptin.defaultValue)) /*欲變更密碼*/ {
                         if (oldPassword.value != "") {
-                $("#SystemRolesMainForm").submit();
+                            $("#SystemRolesMainForm").submit();
+                        } else {
+                            $('span[data-valmsg-for="Old_Password"]').text('變更密碼前請輸入舊有密碼');
+                        }
                     } else {
-                        $('span[data-valmsg-for="Old_Password"]').text('變更密碼前請輸入舊有密碼');
+                        if ($('form').valid()) {
+                            $("#SystemRolesMainForm").submit();
+                        }
                     }
                 } else {
-                    if ($('form').valid()) {
-                        $("#SystemRolesMainForm").submit();
-                    }
+                    $('span[data-valmsg-for="ConfirmPassword"]').text('密碼與確認密碼不符');
                 }
-            } else {
-                $('span[data-valmsg-for="ConfirmPassword"]').text('密碼與確認密碼不符');
             }
-            }
-            if ('@TempData["Actions"]'== '@Actions.Create') {
+            if ('@TempData["Actions"]' == '@DataAction.Create') {
                 $("#SystemRolesMainForm").submit();
             }
+        });
 
-        })
+        //$("#Passwords").change(function ()
+        //{
+        //    alert(this.value);
+        //    //var Passwordsoptin = document.getElementById("Passwords");
+        //})
+        //$('#Save').click(function () {
+        //
+        //    if (Passwordsoptin.value != Passwordsoptin.defaultValue) {
+        //        /**
+        //         要變更密碼
+        //         */
+        //        if (ConfirmPasswordoptin.value == Passwordsoptin.value)
+        //        {
 
-                        //$("#Passwords").change(function ()
-                        //{
-                        //    alert(this.value);
-                        //    //var Passwordsoptin = document.getElementById("Passwords");
-                        //})
-                        //$('#Save').click(function () {
-                        //
-                        //    if (Passwordsoptin.value != Passwordsoptin.defaultValue) {
-                        //        /**
-                        //         要變更密碼
-                        //         */
-                        //        if (ConfirmPasswordoptin.value == Passwordsoptin.value)
-                        //        {
+        //        }
+        //        if (oldPassword != "")
+        //        {
+        //            showDialog('如欲變更密碼，必須先輸入舊密碼', false);
+        //        } else
+        //        {
+        //        }
+        //    } else {
+        //    };
 
-                        //        }
-                        //        if (oldPassword != "")
-                        //        {
-                        //            showDialog('如欲變更密碼，必須先輸入舊密碼', false);
-                        //        } else
-                        //        {
-                        //        }
-                        //    } else {
-                        //    };
-
-                        //    if (Passwordsoptin.checked != optin.defaultChecked) alert("#optin has changed");
-                        //        alert('readySave!!');
-                        //    });
+        //    if (Passwordsoptin.checked != optin.defaultChecked) alert("#optin has changed");
+        //        alert('readySave!!');
+        //    });
     </script>
 }

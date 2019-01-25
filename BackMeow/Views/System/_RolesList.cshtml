@@ -12,9 +12,7 @@
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().LockoutEnabled)
-        </th>
+
         <th></th>
     </tr>
 
@@ -31,9 +29,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockoutEnabled)
-            </td>
+
             <td style="width:18%">
                 <button type="button" name="Detail" class="btn btn-primary btn-toastr"
                         onclick="PackageEvent('@item.Id',false);">

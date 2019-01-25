@@ -9,6 +9,7 @@ namespace StoreDB.Interface
     public interface IRepository<T> where T : class
     {
         #region Unit of Work
+
         /// <summary>
         /// unit of work
         /// </summary>
@@ -20,16 +21,26 @@ namespace StoreDB.Interface
         /// <param name="filter"></param>
         /// <returns></returns>
         T GetSingle(Expression<Func<T, bool>> filter);
-          
+
+        /// <summary>
+        /// 欄位 與 值 是否匹配.
+        /// </summary>
+        /// <param name="FiledName">Name of the filed.</param>
+        /// <param name="MatchValue">The match value.</param>
+        /// <returns></returns>
+        bool GetSingleMatch(string FiledName, string MatchValue);
+
         /// <summary>
         /// GetAll.
         /// </summary>
         IEnumerable<T> GetAll();
+
         /// <summary>
         /// 搜尋
         /// </summary>
         /// <returns></returns>
-        IQueryable<T> Query(Expression<Func<T, bool>> filter); 
+        IQueryable<T> Query(Expression<Func<T, bool>> filter);
+
         /// <summary>
         /// 新增
         /// </summary>
@@ -43,11 +54,10 @@ namespace StoreDB.Interface
         void Delete(T entity);
 
         /// <summary>
-        /// 更新
+        /// 更新(停用)
         /// </summary>
         /// <param name="entity"></param>
         //void Update(T entity, params object[] keyValues);
-         
 
         /// <summary>
         /// save change
@@ -61,8 +71,11 @@ namespace StoreDB.Interface
         /// <param name="pages"></param>
         /// <returns></returns>
         //IPagedList<T> ReturnPageList(IEnumerable<T> toList, int currentPage, int PageSize);
-        #endregion
-        #region none unit of work    
+
+        #endregion Unit of Work
+
+        #region none unit of work
+
         ///// <summary>
         ///// 取得單一 entity
         ///// </summary>
@@ -92,7 +105,7 @@ namespace StoreDB.Interface
         ///// </summary>
         ///// <param name="entity"></param>
         //void Update(T entity);
-        #endregion
 
+        #endregion none unit of work
     }
 }

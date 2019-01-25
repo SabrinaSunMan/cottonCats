@@ -1,5 +1,6 @@
 ﻿@using PagedList.Mvc;
 @using StoreDB.Enum;
+
 @model BackMeow.Models.ViewModel.MemberViewModel
 @{
     ViewBag.Title = "Member";
@@ -9,19 +10,6 @@
 <h2>會員管理</h2>
 @using (Html.BeginForm("Member", "System", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    @*<input type="text" value="@ViewBag.TESTCityDDL" id="TESTCityDDL">
-        <div class="control-group">
-            <label class="control-label" for="CityDDL">縣市</label>
-            <div class="controls">
-                <select id="CityDDL"></select>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="CountyDDL">鄉鎮市區</label>
-            <div class="controls">
-                <select id="CountyDDL"></select>
-            </div>
-        </div>*@
 
     @Html.HiddenFor(model => model.page)
     <div class="row">
@@ -32,11 +20,11 @@
                     <h5 class="widget-title"></h5>
                     <button type="button" class="btn-toggle-collapse">
                         <i class="lnr lnr-chevron-up"></i>
-                        活動紀錄管理 查詢區
+                        會員管理 查詢區
                     </button>
                     @*<div class="right">
                             <button type="button" onclick="location.href='location.href='@Url.Action("SystemRolesMain", "System",
-                                           new { ActionType = Actions.Create })'">
+                                           new { ActionType = DataAction.Create })'">
                                 <i class="fa fa-plus-square"></i>新增
                             </button>
                         </div>*@
@@ -48,28 +36,36 @@
                             <input class="form-control" id="select_Name" name="Header.Name" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.Name)"
                                    type="text" value="@Model.Header.Name">
                         </div>
-                        @Html.LabelFor(model => model.Header.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
-                        <div class="col-md-3">
-                            <input class="form-control" id="select_CreateTime" name="Header.CreateTime" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.CreateTime)"
-                                   type="text" value="@Model.Header.CreateTime">
+                        @Html.LabelFor(model => model.Header.ContractCheck, htmlAttributes: new { @class = "col-md-2 control-label" })
+                        <div class="col-md-5">
+                            @Html.DropDownList("select_ContractCheck", (IEnumerable<SelectListItem>)ViewBag.ContractCheckList, new { @class = "form-control", @Id = "select_ContractCheck" })
                         </div>
+                        @*@Html.LabelFor(model => model.Header.CreateTime, htmlAttributes: new { @class = "col-md-2 control-label" })
+                            <div class="col-md-3">
+                                <input class="form-control datepicker" readonly="readonly" id="select_CreateTime" name="Header.CreateTime" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.CreateTime)"
+                                       type="text" value="@Model.Header.CreateTime">
+                            </div>*@
                     </div>
                     <div class="panel-body">
                         @Html.LabelFor(model => model.Header.PhoneNumber, htmlAttributes: new { @class = "col-md-2 control-label" })
                         <div class="col-md-3">
                             <input class="form-control" id="select_PhoneNumber" name="Header.PhoneNumber" placeholder="請輸入 @Html.DisplayNameFor(model => model.Header.PhoneNumber)"
-                                   type="text" value="@Model.Header.PhoneNumber">
+                                   type="text">
                         </div>
-                        @*@Html.LabelFor(model => model.Header.Sex, htmlAttributes: new { @class = "col-md-1 control-label" })
-                            <div class="col-md-3">
-                                @Html.DropDownList(model=>model.)
-                            </div>*@
+                        @Html.LabelFor(model => model.Header.CityDDL, htmlAttributes: new { @class = "col-md-2 control-label" })
+                        <div class="col-md-2">
+                            <select id="CityDDL" class="form-control" name="select_City"></select>
+                        </div>
+                        @Html.LabelFor(model => model.Header.CountyDDL, htmlAttributes: new { @class = "col-md-1 control-label" })
+                        <div class="col-md-2">
+                            <select id="CountyDDL" class="form-control" name="select_County"></select>
+                        </div>
                     </div>
                 </div>
                 <div class="panel-body">
                     <button type="button" id="Create" class="btn btn-default pull-right">
                         @*onclick="location.href='@Url.Action("SystemRolesMain", "System",
-                            new { ActionType = Actions.Create })'"*@
+                            new { ActionType = DataAction.Create })'"*@
                         <i class="fa fa-plus-square"></i> 新增
                     </button>
                     <button type="submit" class="btn btn-default pull-right">
@@ -91,32 +87,52 @@
         @Html.PagedListPager(Model.Content_List, page => Url.Action("SystemRoles", new { ViewModel = @Model, page }),
                                                                                                                                                                                                                     PagedListRenderOptions.ClassicPlusFirstAndLast)
     </div>
+    <div class="col-md-12">
+        QueryBlock
+    </div>
 </div>
 @section Scripts {
-    @*@Html.Partial("_TaiwanZipCode")*@
+    @Html.Partial("_TaiwanZipCode")
     <script>
         $(document).ready(function () {
+
             var Message = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)@TempData["message"]))';
             if (Message != '') {
                 showDialog(Message, false);
-             }
+            }
+
+            var options = {
+                CityID: '#CityDDL',
+                CountyID: '#CountyDDL'
+            };
+            TaiwanZipCode.Settings(options);
 
             $("#Create").click(function () {
                 PackageEvent('', true);
             });
+
             //$("#Delete").click(function () {
             //    showconfirm(this.id, 'false', 'StaticHtml', 'PictureInfo');
             //});
         });
         function PackageEvent(uid, createOrUpdat)
         {
+            console.log('d');
             var dataType = '@DataAction.Create';
             var select_name = $("#select_Name").val();
-            var select_createtime = $("#select_CreateTime").val();
             var select_phonenumber = $("#select_PhoneNumber").val();
 
-            var url = '@Url.Action("SystemRolesMain", "System")'+'?guid=' + uid +
-                '&selectName=' + select_name + '&selectCreateTime=' + select_createtime + '&selectPhoneNumber=' + select_phonenumber+'&pages=' + @Model.page+ '&ActionType=';
+            var select_ContractCheck = $("#select_ContractCheck").val();
+            var select_City = $("#CityDDL").val();
+            var select_Country = $("#CountyDDL").val();
+
+            var url = '@Url.Action("MemberMain", "System")' + '?guid=' + uid
+                + '&selectName=' + select_name
+                + '&selectContractCheck=' + select_ContractCheck
+                + '&selectPhoneNumber=' + select_phonenumber
+                + '&selectCity=' + select_City
+                + '&selectCountry=' + select_Country
+                + '&pages=' + @Model.page+ '&ActionType=';
             if (!createOrUpdat) // True = Create; False = Update
             {
                 dataType = '@DataAction.Update';

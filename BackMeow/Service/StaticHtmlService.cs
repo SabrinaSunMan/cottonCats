@@ -13,6 +13,7 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web.Configuration;
+using StoreDB.Helper;
 
 namespace BackMeow.Service
 {
@@ -92,7 +93,7 @@ namespace BackMeow.Service
         /// <param name="ActionType">Type of the action.</param>
         /// <param name="guid">The unique identifier.</param>
         /// <returns></returns>
-        public StaticHtmlDetailViewModel ReturnStaticHtmlDetail(StaticHtmlAction selectType, Actions ActionType, string guid)
+        public StaticHtmlDetailViewModel ReturnStaticHtmlDetail(StaticHtmlAction selectType, DataAction ActionType, string guid)
         {
             StaticHtmlDetailViewModel DetailViewModel = new StaticHtmlDetailViewModel();
             StaticHtmlDBViewModel StaticHtmlDBViewModel = _StaticHtmlRep.GetSingle(selectType, guid);

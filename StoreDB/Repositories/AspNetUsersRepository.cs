@@ -1,5 +1,4 @@
 ﻿using StoreDB.Interface;
-using System;
 using StoreDB.Model.Partials;
 
 namespace StoreDB.Repositories
@@ -15,18 +14,17 @@ namespace StoreDB.Repositories
         }
 
         /// <summary>
-        /// 更新 AspNetUsers
+        /// 更新 AspNetUsers.
         /// </summary>
         /// <param name="aspuser">The aspuser.</param>
-        /// <param name="keyValues">The key values.</param>
-        public void AspNetUserUpdate(AspNetUsers aspuser, params object[] keyValues)
+        /// <param name="CreateUser">The create user.</param>
+        public void AspNetUserUpdate(AspNetUsers aspuser, string CreateUser)
         {
             AspNetUsers ReadyUpdate = GetSingle(s => s.Id.Equals(aspuser.Id));
             ReadyUpdate.Email = aspuser.Email;
             ReadyUpdate.UserName = aspuser.UserName;
             ReadyUpdate.PhoneNumber = aspuser.PhoneNumber;
-            ReadyUpdate.UpdateTime = DateTime.Now;
-            Update(ReadyUpdate, aspuser.Id);
+            Update(ReadyUpdate, CreateUser);
         }
     }
 }

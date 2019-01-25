@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace StoreDB.Model.Partials
 {
@@ -9,13 +10,13 @@ namespace StoreDB.Model.Partials
     {
         /// <summary>
         /// 管理者群組 ID.
-        /// </summary> 
+        /// </summary>
         [Key]
-        public string GroupID { get; set; }
+        public Guid GroupID { get; set; }
 
         /// <summary>
         /// 管理者群組 名稱.
-        /// </summary> 
+        /// </summary>
         [StringLength(10)]
         public string GroupName { get; set; }
     }

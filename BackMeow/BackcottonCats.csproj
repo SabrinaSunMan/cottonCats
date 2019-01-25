@@ -298,6 +298,7 @@
     <Compile Include="Service\AspNetUsersService.cs" />
     <Compile Include="Service\MemberService.cs" />
     <Compile Include="Service\MenuSideListService.cs" />
+    <Compile Include="Service\PublicService.cs" />
     <Compile Include="Service\StaticHtmlService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

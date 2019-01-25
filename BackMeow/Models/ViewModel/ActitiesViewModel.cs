@@ -69,7 +69,7 @@ namespace BackMeow.Models.ViewModel
         /// ID.
         /// </summary>
         [DisplayName("ID")]
-        public string ActitiesID { get; set; }
+        public Guid ActitiesID { get; set; }
 
         [DisplayName("標題")]
         public string TitleName { get; set; }

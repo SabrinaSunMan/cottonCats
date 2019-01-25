@@ -28,8 +28,11 @@ namespace StoreDB.Model.Partials
         /// <summary>
         /// 密碼雜湊.
         /// </summary>
-        [DisplayName("密碼雜湊")]
-        public string PasswordHash { get; set; }
+        //[Required]
+        [StringLength(100, ErrorMessage = "{0} 的長度至少必須為 {2} 個字元。", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "密碼")]
+        public string Password { get; set; }
 
         /// <summary>
         /// 性別.
@@ -41,7 +44,8 @@ namespace StoreDB.Model.Partials
         /// 手機號碼.
         /// </summary>
         [DisplayName("手機號碼")]
-        public int PhoneNumber { get; set; }
+        [StringLength(10)]
+        public string PhoneNumber { get; set; }
 
         [EmailAddress(ErrorMessage = "非E-Mail格式")]
         [StringLength(30)]
@@ -59,23 +63,23 @@ namespace StoreDB.Model.Partials
         /// 生日.
         /// </summary>
         [DisplayName("生日")]
+        [StringLength(10)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public string Birthday
         {
-            get { return _birthday.ToString("yyyy/MM/dd"); }
+            get
+            {
+                return _birthday.Year == 1 ? DateTime.Now.AddYears(-18).ToString("yyyy/MM/dd") : _birthday.ToString("yyyy/MM/dd");
+            }
+            //return _birthday.ToString("yyyy/MM/dd"); }
             set { DateTime.TryParse(value, out _birthday); }
         }
 
         /// <summary>
-        /// 城市名稱. From ZipCode.
+        /// ZipCodeID. FK From ZipCode.ID
         /// </summary>
-        [DisplayName("城市")]
-        public string City { get; set; }
-
-        /// <summary>
-        /// 鄉鎮區域. From ZipCode.
-        /// </summary>
-        [DisplayName("鄉鎮區域")]
-        public string County { get; set; }
+        [DisplayName("縣市區域")]
+        public int ZipCodeID { get; set; }
 
         /// <summary>
         /// 是否填寫合約書.

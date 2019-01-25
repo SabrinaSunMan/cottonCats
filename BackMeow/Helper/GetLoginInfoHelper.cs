@@ -5,8 +5,7 @@ using System.Web;
 
 namespace BackMeow.Helper
 {
-    public static class GetLoginInfoHelper
-    {
-        
-    }
+    //public static class GetLoginInfoHelper
+    //{
+    //}
 }

@@ -64,10 +64,10 @@ namespace BackMeow.Controllers
         #region 藉由ID取得活動項目
 
         [HttpGet]
-        public ActionResult ActivitiesMain(Actions ActionType, string guid, string selectCreateTime,
+        public ActionResult ActivitiesMain(DataAction ActionType, string guid, string selectCreateTime,
             string selectTitleName, string selectHtmlContext, string selectStartDate, string selectEndDate, int pages = 1)
         {
-            TempData["Actions"] = ActionType;
+            TempData["DataAction"] = ActionType;
             ActitiesDetailViewModel data = new ActitiesDetailViewModel();
             data = _ActivityService.ReturnActitiesDetailViewModel(ActionType, guid);
 
@@ -94,27 +94,27 @@ namespace BackMeow.Controllers
 
         [HttpPost]
         //[ValidateFile] //上傳照片 日後將此功能抽出 ,日後改使用 MVC File upload unobtrusive validation
-        public ActionResult ActivitiesMain(Actions actions, ActitiesDetailViewModel ActitiesViewModel,
+        public ActionResult ActivitiesMain(DataAction actions, ActitiesDetailViewModel ActitiesViewModel,
             IEnumerable<HttpPostedFileBase> upload)
         {
             #region KeepSelectBlock
 
-            TempData["Actions"] = actions;
+            TempData["DataAction"] = actions;
             TempData["ActitiesSelect"] = (ActitiesViewModel)TempData["ActitiesSelect"];
 
             #endregion KeepSelectBlock
 
             if (ModelState.IsValid)
             {
-                if (actions == Actions.Create) //建立資料
+                if (actions == DataAction.Create) //建立資料
                 {
                     ActitiesViewModel.ActivityID = Guid.NewGuid().ToString().ToUpper();
                     ActitiesViewModel.PicGroupID = Guid.NewGuid().ToString().ToUpper();
-                    TempData["message"] = _ActivityService.Create(ActitiesViewModel, SignInManagerName);
+                    //TempData["message"] = _ActivityService.Create(ActitiesViewModel, SignInManagerName);
                 }
                 else //更新資料
                 {
-                    TempData["message"] = _ActivityService.Update(ActitiesViewModel, SignInManagerName);
+                    //TempData["message"] = _ActivityService.Update(ActitiesViewModel, SignInManagerName);
                 }
 
                 #region 上傳照片 日後將此功能抽出

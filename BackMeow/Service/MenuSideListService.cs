@@ -76,11 +76,13 @@ namespace BackMeow.Service
             //List<MenuSideList> ReadySave = new List<MenuSideList>();
             foreach (var SaveItem in _MenuTree.GetAll())
             {
+                Guid sss = new Guid(guid);
                 MenuSideList ReadySave = new MenuSideList()
                 {
                     Id = new Guid(guid),
                     MenuSideListID = Guid.NewGuid(),
-                    MenuID = SaveItem.MenuID
+                    MenuID = SaveItem.MenuID,
+                    Status = true
                 };
                 _MenuSideListRep.Create(ReadySave);
             }

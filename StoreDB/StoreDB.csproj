@@ -117,8 +117,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum\BackEnum.cs" />
-    <Compile Include="Enum\EnumHelper.cs" />
     <Compile Include="Enum\PublicEnum.cs" />
+    <Compile Include="Helper\EnumHelper.cs" />
+    <Compile Include="Helper\HtmlExtensions.cs" />
+    <Compile Include="Helper\LogHelper.cs" />
+    <Compile Include="Interface\IPublicMethod.cs" />
     <Compile Include="Interface\IUnitOfWork.cs" />
     <Compile Include="Migrations\201801310920108_Base.cs" />
     <Compile Include="Migrations\201801310920108_Base.Designer.cs">
@@ -216,6 +219,7 @@
     <Compile Include="Model\ViewModel\BackcottonCats\StaticHtmlDBViewModel.cs" />
     <Compile Include="Model\ViewModel\BackcottonCats\MenuSideViewModel.cs" />
     <Compile Include="Model\Partials\ZipCode.cs" />
+    <Compile Include="Model\ViewModel\PublicMethodResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActitiesRepository.cs" />
@@ -225,9 +229,11 @@
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\MemeberRepository.cs" />
     <Compile Include="Repositories\PictureInfoRepository.cs" />
+    <Compile Include="Repositories\PublicMethodRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\StaticHtmlRepository.cs" />
     <Compile Include="Interface\IZipCode.cs" />
+    <Compile Include="Repositories\ZipCodeRepository.cs" />
     <Compile Include="Service\LoggingService.cs" />
     <Compile Include="Service\ZipCodeService.cs" />
     <Compile Include="Strategy\AspNetUsersStrategy.cs" />

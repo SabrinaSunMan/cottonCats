@@ -96,7 +96,7 @@ namespace BackMeow.Controllers
             return RedirectToAction("StaticHtmlMain", "StaticHtml",
                        new
                        {
-                           ActionType = Actions.Update,
+                           ActionType = DataAction.Update,
                            guid = "EB26765E-F4C2-42EF-84E5-72925ADDA4D1",
                            selectType = StaticHtmlAction.Contract
                        });
@@ -112,7 +112,7 @@ namespace BackMeow.Controllers
             return RedirectToAction("StaticHtmlMain", "StaticHtml",
                         new
                         {
-                            ActionType = Actions.Update,
+                            ActionType = DataAction.Update,
                             guid = "E39F8AB4-6496-412B-BBE8-09673B3D798B",
                             selectType = StaticHtmlAction.Joinus
                         });
@@ -155,10 +155,10 @@ namespace BackMeow.Controllers
         /// <param name="pages">The pages.</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult StaticHtmlMain(Actions ActionType, string guid, string select_CreateTime, string select_HtmlContext, string select_sort,
+        public ActionResult StaticHtmlMain(DataAction ActionType, string guid, string select_CreateTime, string select_HtmlContext, string select_sort,
             string selectType, int pages = 1)
         {
-            TempData["Actions"] = ActionType;
+            TempData["DataAction"] = ActionType;
             StaticHtmlAction select = (StaticHtmlAction)Enum.Parse(typeof(StaticHtmlAction), selectType);
             StaticHtmlDetailViewModel data = new StaticHtmlDetailViewModel();
             data = _StaticHtmlService.ReturnStaticHtmlDetail(select, ActionType, guid);
@@ -201,19 +201,19 @@ namespace BackMeow.Controllers
         /// <returns></returns>
         [HttpPost]
         //[ValidateFile] //上傳照片 日後將此功能抽出 ,日後改使用 MVC File upload unobtrusive validation
-        public ActionResult StaticHtmlMain(Actions actions, StaticHtmlDetailViewModel satichtmlViewModel,
+        public ActionResult StaticHtmlMain(DataAction actions, StaticHtmlDetailViewModel satichtmlViewModel,
             IEnumerable<HttpPostedFileBase> upload)
         {
             #region KeepSelectBlock
 
-            TempData["Actions"] = actions;
+            TempData["DataAction"] = actions;
             TempData["StaticHtmlSelect"] = (StaticHtmlViewModel)TempData["StaticHtmlSelect"];
 
             #endregion KeepSelectBlock
 
             if (ModelState.IsValid)
             {
-                if (actions == Actions.Create) //建立資料
+                if (actions == DataAction.Create) //建立資料
                 {
                     satichtmlViewModel.StaticID = Guid.NewGuid().ToString().ToUpper();
                     satichtmlViewModel.PicGroupID = Guid.NewGuid().ToString().ToUpper();

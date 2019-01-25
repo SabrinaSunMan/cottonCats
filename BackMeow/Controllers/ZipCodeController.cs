@@ -1,9 +1,5 @@
 ﻿using StoreDB.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BackMeow.Controllers
@@ -17,6 +13,8 @@ namespace BackMeow.Controllers
             var unitOfWork = new EFUnitOfWork();
             _ZipCodeService = new ZipCodeService(unitOfWork);
         }
+
+        // 日後改成 bootstrap https://www.w3schools.com/bootstrap/bootstrap_dropdowns.asp
 
         /// <summary>
         /// Gets the city drop downlist.
